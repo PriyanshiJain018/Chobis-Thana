@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test - GitHub Pages</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background: #f0f0f0;
+        }
+        .test-button {
+            background: #007bff;
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 10px;
+        }
+        .test-button:hover {
+            background: #0056b3;
+        }
+        .result {
+            margin: 20px 0;
+            padding: 15px;
+            background: white;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body>
+    <h1>GitHub Pages Functionality Test</h1>
+    
+    <div class="result">
+        <h3>Test Results:</h3>
+        <div id="results"></div>
+    </div>
+    
+    <button class="test-button" onclick="testBasicClick()">Test Basic Click</button>
+    <button class="test-button" onclick="testJavaScript()">Test JavaScript</button>
+    <button class="test-button" onclick="testConsole()">Test Console (Check F12)</button>
+    
+    <div class="result">
+        <h3>If this test works but your main app doesn't:</h3>
+        <ul>
+            <li>✅ GitHub Pages is working fine</li>
+            <li>❌ Issue is in your main app files</li>
+            <li>Check console for JavaScript errors</li>
+            <li>Verify all files are uploaded correctly</li>
+            <li>Disable service worker temporarily</li>
+        </ul>
+    </div>
+
+    <script>
+        function testBasicClick() {
+            document.getElementById('results').innerHTML += '<p>✅ Basic click works!</p>';
+        }
+        
+        function testJavaScript() {
+            const time = new Date().toLocaleTimeString();
+            document.getElementById('results').innerHTML += `<p>✅ JavaScript works! Time: ${time}</p>`;
+        }
+        
+        function testConsole() {
+            console.log('✅ Console logging works!');
+            console.log('Current URL:', window.location.href);
+            console.log('User Agent:', navigator.userAgent);
+            document.getElementById('results').innerHTML += '<p>✅ Console test - Check F12 Developer Tools</p>';
+        }
+        
+        // Test on page load
+        window.onload = function() {
+            document.getElementById('results').innerHTML = '<p>✅ Page loaded successfully!</p>';
+        };
+    </script>
+</body>
+</html>
