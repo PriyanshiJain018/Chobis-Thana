@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#1e40af">
+    <title>गुणस्थान - 24 ठाणा | Complete Edition</title>
+    
+
+<link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body>
+    <div class="app-header">
+        <h1 class="app-title">गुणस्थान सोपान - चौबीस ठाणा</h1>
+        <div class="app-subtitle">Complete Spiritual Journey Mapping</div>
+    </div>
+    
+    <div class="tab-container">
+        <button class="tab active" onclick="showTab('overview')">Overview</button>
+        <button class="tab" onclick="showTab('matrix')">Matrix</button>
+        <button class="tab" onclick="showTab('transitions')">Transitions</button>
+        <button class="tab" onclick="showTab('definitions')">Definitions</button>
+    </div>
+    
+    <div class="content">
+        <div id="overview-content" class="tab-content">
+            <div class="info-section">
+                <div class="info-title">एक विनम्र निवेदन</div>
+                <div class="info-description">
+                    यह ऐप मात्र एक प्रयास है —
+                    चौबीस ठाणा को थोड़ा सरल, दृश्य और इंटरऐक्टिव रूप में प्रस्तुत करने का।
+                    
+                    💡 इसका उद्देश्य आपकी जिज्ञासा बढ़ाना है, समाधान देना नहीं ।
+                    
+                    👉 मूल अध्ययन सदैव आगम ग्रंथों, गुरुओं की वाणी और आत्म-चिंतन से ही करें।
+                    यह ऐप ना तो प्रवचन का विकल्प है, ना ही आध्यात्मिक निष्कर्ष का स्रोत।
+                </div>
+            </div>
+            <div id="gunasthan-list"></div>
+        </div>
+        
+        <div id="matrix-content" class="tab-content hidden">
+            <div class="info-section">
+                <div class="info-title">24 Thana Matrix</div>
+                <div class="info-description">
+                    Comprehensive mapping of 24 spiritual attributes across all 14 Gunasthanas. 
+                    Click any cell to see detailed breakdown of present and absent characteristics.
+                    Click on individual terms to see their definitions.
+                </div>
+            </div>
+            <div class="matrix-container">
+                <div style="margin-bottom: 20px; display: flex; flex-wrap: wrap; gap: 12px; align-items: center;">
+                    <label style="font-weight: 600; color: #374151;">Matrix View:</label>
+                    <select id="matrix-selector" onchange="changeMatrix()" style="padding: 8px 12px; border: 2px solid #d1d5db; border-radius: 8px; background: white; font-size: 14px;">
+                        <option value="default">Thana-Gunasthan (24×14)</option>
+                        <option value="gati">Gati Matrix (4×24)</option>
+                        <option value="indriya">Indriya Matrix (5×24)</option>
+                    </select>
+                </div>
+                <div id="matrix-table"></div>
+            </div>
+        </div>
+        
+        <div id="transitions-content" class="tab-content hidden">
+            <div class="info-section">
+                <div class="info-title">Spiritual Progression Paths</div>
+                <div class="info-description">
+                    Explore possible transitions between Gunasthanas. Each stage has specific paths forward or backward
+                    based on spiritual progress and karmic conditions. 
+                    विभिन्न गुणस्थान में आरोहण तथा अवरोहण  के नियम 
+                </div>
+            </div>
+            <div id="transitions-list"></div>
+        </div>
+        
+        <div id="definitions-content" class="tab-content hidden">
+            <div class="info-section">
+                <div class="info-title">Comprehensive Definitions</div>
+                <div class="info-description">
+                    Detailed explanations of all Jain philosophical terms and concepts used in the application.
+                    Search or browse by category to understand the meanings and significance.
+                </div>
+            </div>
+            <div style="display: flex; gap: 8px; margin-bottom: 16px;">
+                <input type="text" id="definition-search" class="search-box" placeholder="Search definitions (Hindi/English/Sanskrit)..." 
+                       oninput="searchDefinitions(this.value)" 
+                       onkeypress="if(event.key==='Enter') searchDefinitions(this.value)"
+                       style="flex: 1; margin-bottom: 0;">
+                <button id="voice-search-btn" onclick="startVoiceSearch()" 
+                        style="background: #10b981; color: white; border: none; padding: 14px 16px; border-radius: 12px; cursor: pointer; font-weight: 600; transition: all 0.3s ease;">
+                    🎤
+                </button>
+                <button onclick="searchDefinitions(document.getElementById('definition-search').value)" 
+                        style="background: #3b82f6; color: white; border: none; padding: 14px 20px; border-radius: 12px; cursor: pointer; font-weight: 600; white-space: nowrap;">
+                    🔍
+                </button>
+                <button onclick="clearDefinitionSearch()" 
+                        style="background: #6b7280; color: white; border: none; padding: 14px 16px; border-radius: 12px; cursor: pointer; font-weight: 600;">
+                    ❌
+                </button>
+            </div>
+            <div id="voice-status" style="display: none; text-align: center; margin-bottom: 12px; padding: 8px; background: #fef3c7; border: 1px solid #f59e0b; border-radius: 8px; color: #78350f; font-size: 14px;">
+                🎤 Listening... Speak now!
+            </div>
+            <div id="definitions-list"></div>
+        </div>
+    </div>
+    
+    <div id="tooltip-modal" class="tooltip-modal hidden" onclick="closeTooltip(event)">
+        <div class="tooltip-content" onclick="event.stopPropagation()">
+            <div class="tooltip-header">
+                <div class="tooltip-title-section">
+                    <h3 id="tooltip-title" class="tooltip-title"></h3>
+                    <div id="tooltip-subtitle" class="tooltip-subtitle"></div>
+                    <div id="tooltip-gunasthan" class="tooltip-gunasthan-info"></div>
+                </div>
+                <button class="close-button" onclick="closeTooltip()">×</button>
+            </div>
+            
+            <div class="tooltip-stats">
+                <div class="stat-item">
+                    <span class="stat-value" id="stat-present">0</span>
+                    <span class="stat-label">Present</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-value" id="stat-absent">0</span>
+                    <span class="stat-label">Absent</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-value" id="stat-total">0</span>
+                    <span class="stat-label">Total</span>
+                </div>
+            </div>
+            
+            <div id="tooltip-body"></div>
+        </div>
+    </div>
+    
+    
+    
+<script src="assets/js/data/selectedMatrix.js"></script>
+<script src="assets/js/data/transitionRules.js"></script>
+<script src="assets/js/data/gunasthansData.js"></script>
+<script src="assets/js/data/definitionsDatabase.js"></script>
+<script src="assets/js/data/completeMatrixData.js"></script>
+<script src="assets/js/data/matrixDetailedData.js"></script>
+<script src="assets/js/data/additionalMatrices.js"></script>
+<script src="assets/js/services/voice.js"></script>
+<script src="assets/js/app.js"></script>
+<script>if ("serviceWorker" in navigator) { navigator.serviceWorker.register("./sw.js"); }</script>
+</body>
+</html>
