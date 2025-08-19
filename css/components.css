@@ -1,0 +1,366 @@
+/* Components CSS - Reusable UI Components */
+
+/* Gunasthan Cards */
+.gunasthan-card {
+    background: white;
+    border-radius: 16px;
+    padding: 20px;
+    margin-bottom: 12px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 1px solid transparent;
+}
+
+.gunasthan-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+    border-color: #e0e7ff;
+}
+
+.gunasthan-card:active {
+    transform: scale(0.98);
+}
+
+.gunasthan-number {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+    color: white;
+    font-weight: bold;
+    font-size: 18px;
+    margin-right: 16px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+
+.gunasthan-name {
+    font-size: 18px;
+    font-weight: 600;
+    color: #1f2937;
+    margin-bottom: 4px;
+}
+
+.gunasthan-sanskrit {
+    font-size: 14px;
+    color: #6b7280;
+    margin-bottom: 8px;
+}
+
+.gunasthan-description {
+    font-size: 13px;
+    color: #4b5563;
+    line-height: 1.5;
+    margin-top: 8px;
+}
+
+/* Enhanced Modal/Tooltip */
+.tooltip-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0,0,0,0.6);
+    display: flex;
+    align-items: flex-end;
+    z-index: 1000;
+    animation: fadeIn 0.2s ease;
+}
+
+.tooltip-content {
+    background: white;
+    width: 100%;
+    max-height: 85vh;
+    border-radius: 24px 24px 0 0;
+    padding: 8px 20px 20px;
+    overflow-y: auto;
+    animation: slideUp 0.3s ease;
+    box-shadow: 0 -4px 24px rgba(0,0,0,0.15);
+}
+
+@keyframes slideUp {
+    from { transform: translateY(100%); }
+    to { transform: translateY(0); }
+}
+
+.tooltip-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 20px;
+    padding-top: 12px;
+    position: sticky;
+    top: 0;
+    background: white;
+    z-index: 10;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.tooltip-title-section {
+    flex: 1;
+}
+
+.tooltip-title {
+    font-size: 20px;
+    font-weight: 700;
+    color: #1f2937;
+    margin-bottom: 4px;
+}
+
+.tooltip-subtitle {
+    font-size: 14px;
+    color: #6b7280;
+}
+
+.tooltip-gunasthan-info {
+    font-size: 13px;
+    color: #3b82f6;
+    margin-top: 4px;
+    font-weight: 500;
+}
+
+.close-button {
+    width: 36px;
+    height: 36px;
+    border: none;
+    background: #f3f4f6;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 24px;
+    color: #6b7280;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.close-button:hover {
+    background: #e5e7eb;
+    color: #374151;
+}
+
+.tooltip-stats {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 20px;
+    padding: 16px;
+    background: linear-gradient(135deg, #eff6ff 0%, #f0f9ff 100%);
+    border-radius: 12px;
+    border: 1px solid #dbeafe;
+}
+
+.stat-item {
+    flex: 1;
+    text-align: center;
+}
+
+.stat-value {
+    font-size: 24px;
+    font-weight: 700;
+    color: #1e40af;
+    display: block;
+}
+
+.stat-label {
+    font-size: 12px;
+    color: #6b7280;
+    margin-top: 2px;
+}
+
+.tooltip-section {
+    margin-bottom: 20px;
+    padding: 16px;
+    background: #f9fafb;
+    border-radius: 12px;
+    border: 1px solid #e5e7eb;
+}
+
+.tooltip-section.present {
+    background: #f0fdf4;
+    border-color: #86efac;
+}
+
+.tooltip-section.absent {
+    background: #fef2f2;
+    border-color: #fca5a5;
+}
+
+.section-title {
+    font-weight: 600;
+    font-size: 14px;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.section-title.present {
+    color: #16a34a;
+}
+
+.section-title.absent {
+    color: #dc2626;
+}
+
+.section-icon {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+}
+
+.section-icon.present {
+    background: #22c55e;
+    color: white;
+}
+
+.section-icon.absent {
+    background: #ef4444;
+    color: white;
+}
+
+.section-items {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 8px;
+}
+
+.item-tag {
+    display: inline-block;
+    padding: 4px 10px;
+    background: white;
+    border-radius: 6px;
+    font-size: 12px;
+    border: 1px solid #e5e7eb;
+    color: #374151;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.item-tag:hover {
+    background: #3b82f6;
+    color: white;
+    border-color: #3b82f6;
+}
+
+.tooltip-notes {
+    margin-top: 16px;
+    padding: 12px;
+    background: #fef3c7;
+    border: 1px solid #fde68a;
+    border-radius: 8px;
+    font-size: 13px;
+    color: #78350f;
+    font-style: italic;
+    line-height: 1.5;
+}
+
+.progress-info {
+    margin-top: 20px;
+    padding: 16px;
+    background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
+    border-radius: 12px;
+    text-align: center;
+}
+
+.progress-percentage {
+    font-size: 32px;
+    font-weight: 700;
+    color: #1f2937;
+    margin-bottom: 8px;
+}
+
+.progress-bar-large {
+    width: 100%;
+    height: 12px;
+    background: white;
+    border-radius: 6px;
+    overflow: hidden;
+    margin-top: 12px;
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.progress-fill-large {
+    height: 100%;
+    transition: width 0.5s ease;
+    border-radius: 6px;
+    background: linear-gradient(90deg, #3b82f6, #7c3aed);
+}
+
+/* Transition Cards */
+.transition-card {
+    background: linear-gradient(135deg, #eff6ff 0%, #e0e7ff 100%);
+    border: 1px solid #c7d2fe;
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 12px;
+    position: relative;
+    overflow: hidden;
+}
+
+.transition-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 8px;
+}
+
+.transition-arrow {
+    font-size: 24px;
+    color: #3b82f6;
+}
+
+.transition-targets {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 12px;
+}
+
+.transition-target {
+    background: white;
+    padding: 8px 16px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: 1px solid #e0e7ff;
+}
+
+.transition-target:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+    background: #3b82f6;
+    color: white;
+}
+
+/* Mobile Optimizations for Components */
+@media (max-width: 640px) {
+    .gunasthan-card {
+        padding: 16px;
+    }
+    
+    .gunasthan-number {
+        width: 36px;
+        height: 36px;
+        font-size: 16px;
+    }
+    
+    .gunasthan-name {
+        font-size: 16px;
+    }
+    
+    .tooltip-content {
+        max-height: 90vh;
+    }
+}
