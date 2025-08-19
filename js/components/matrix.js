@@ -29,7 +29,7 @@ export function loadMatrix() {
                 const color = getProgressColor(percentage);
                 
                 html += `
-                    <td onclick="showDetailedTooltip(${g}, ${index})">
+                    <td data-click="showDetailedTooltip" data-gunasthan="${g}" data-thana="${index}">
                         <div class="cell-fraction">${count}/${total}</div>
                         <div class="progress-bar">
                             <div class="progress-fill" style="width: ${percentage}%; background: ${color}"></div>
@@ -137,7 +137,7 @@ export function showDetailedTooltip(gunasthanId, thanaIndex) {
                 </div>
                 <div class="section-items">
                     ${cellData.present.map(item => 
-                        `<span class="item-tag" onclick="findDefinitionByThana('${t.nameHi}', '${item}')">${item}</span>`
+                        `<span class="item-tag" data-click="findDefinitionByThana" data-thana-name="${t.nameHi}" data-concept-name="${item}">${item}</span>`
                     ).join('')}
                 </div>
             </div>
@@ -154,7 +154,7 @@ export function showDetailedTooltip(gunasthanId, thanaIndex) {
                 </div>
                 <div class="section-items">
                     ${cellData.absent.map(item => 
-                        `<span class="item-tag" onclick="findDefinitionByThana('${t.nameHi}', '${item}')">${item}</span>`
+                        `<span class="item-tag" data-click="findDefinitionByThana" data-thana-name="${t.nameHi}" data-concept-name="${item}">${item}</span>`
                     ).join('')}
                 </div>
             </div>
@@ -226,7 +226,7 @@ export function showNewDetailedTooltip(matrixType, thanaIndex, colIndex) {
                     </div>
                     <div class="section-items">
                         ${cellData.present.map(item => 
-                            `<span class="item-tag" onclick="findDefinitionByThana('${thana.nameHi}', '${item}')">${item}</span>`
+                            `<span class="item-tag" data-click="findDefinitionByThana" data-thana-name="${thana.nameHi}" data-concept-name="${item}">${item}</span>`
                         ).join('')}
                     </div>
                 </div>
@@ -243,7 +243,7 @@ export function showNewDetailedTooltip(matrixType, thanaIndex, colIndex) {
                     </div>
                     <div class="section-items">
                         ${cellData.absent.map(item => 
-                            `<span class="item-tag" onclick="findDefinitionByThana('${thana.nameHi}', '${item}')">${item}</span>`
+                            `<span class="item-tag" data-click="findDefinitionByThana" data-thana-name="${thana.nameHi}" data-concept-name="${item}">${item}</span>`
                         ).join('')}
                     </div>
                 </div>
