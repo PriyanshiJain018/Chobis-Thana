@@ -1,144 +1,281 @@
-// Search Component
-import { searchDefinitions } from './definitions.js';
-import { searchInTransitions } from './transitions.js';
-import { thanasData } from '../data/definitions.js';
-import { matrixData } from '../data/matrix.js';
-import { showMessage } from '../utils/helpers.js';
+// Search Component - Universal search functionality
 
-export function initSearch() {
-    // Add search functionality if needed
-    // This can be expanded based on requirements
-}
+import { gunasthansData } from '../data/gunasthans.js';
+import { thanasData, matrixData } from '../data/matrix.js';
+import { showMessage, clearSearchHighlights } from '../utils/helpers.js';
 
-// Main search function that routes to appropriate search handlers
-export function performSearch(searchTerm, activeTab) {
-    if (!searchTerm || searchTerm.trim() === '') {
+// Universal Search Functionality
+export function handleUniversalSearch(searchTerm) {
+    const activeTab = document.querySelector('.tab.active').textContent.toLowerCase();
+    updateSearchContext(activeTab);
+    
+    if (!searchTerm.trim()) {
         clearSearch();
         return;
     }
     
-    const term = searchTerm.trim();
-    
     switch(activeTab) {
         case 'overview':
-            searchInOverview(term);
+            searchInOverview(searchTerm);
             break;
         case 'matrix':
-            searchInMatrix(term);
+            if (window.searchInMatrix) {
+                window.searchInMatrix(searchTerm);
+            }
             break;
         case 'transitions':
-            searchInTransitions(term);
+            if (window.searchInTransitions) {
+                window.searchInTransitions(searchTerm);
+            }
             break;
         case 'definitions':
-            searchDefinitions(term);
+            if (window.searchDefinitions) {
+                window.searchDefinitions(searchTerm);
+            }
             break;
         default:
             break;
     }
 }
 
-// Search in overview (gunasthanas)
-function searchInOverview(searchTerm) {
+// Update search context
+export function updateSearchContext(activeTab) {
+    const contextElement = document.getElementById('search-context');
+    const contexts = {
+        'overview': 'Overview Mode',
+        'matrix': 'Matrix Mode', 
+        'transitions': 'Transitions Mode',
+        'definitions': 'Definitions Mode'
+    };
+    
+    if (contextElement) {
+        contextElement.textContent = contexts[activeTab] || 'Search Mode';
+    }
+}
+
+// Clear search
+export function clearSearch() {
+    // Clear any search highlights or filters
+    clearSearchHighlights();
+    
+    // Reset any filtered content
+    const activeTab = document.querySelector('.tab.active').textContent.toLowerCase();
+    if (activeTab === 'overview' && !document.getElementById('gunasthan-list').innerHTML.includes('Enter a search term')) {
+        if (window.loadOverview) {
+            window.loadOverview();
+        }
+    }
+}
+
+// Search in overview
+export function searchInOverview(searchTerm) {
     const term = searchTerm.toLowerCase();
     let found = false;
+    let resultsHtml = '<div style="margin-bottom: 20px; padding: 16px; background: #f0f9ff; border-radius: 12px; border: 1px solid #3b82f6;"><h3 style="color: #1e40af; margin-bottom: 8px;">🔍 Search Results in Overview</h3><p style="color: #1e40af; margin: 0;">Found Gunasthanas matching: <strong>' + searchTerm + '</strong></p></div>';
     
-    document.querySelectorAll('.gunasthan-card').forEach(card => {
-        const name = card.querySelector('.gunasthan-name');
-        const sanskrit = card.querySelector('.gunasthan-sanskrit');
-        const english = card.querySelector('.gunasthan-english');
-        const description = card.querySelector('.gunasthan-description');
-        
-        let matchFound = false;
-        
-        if (name && name.textContent.includes(searchTerm)) matchFound = true;
-        if (sanskrit && sanskrit.textContent.toLowerCase().includes(term)) matchFound = true;
-        if (english && english.textContent.toLowerCase().includes(term)) matchFound = true;
-        if (description && description.textContent.toLowerCase().includes(term)) matchFound = true;
-        
-        if (matchFound) {
+    Object.keys(gunasthansData).forEach(id => {
+        const g = gunasthansData[id];
+        if (g.nameHi.includes(searchTerm) || 
+            g.nameEn.toLowerCase().includes(term) ||
+            g.english.toLowerCase().includes(term) ||
+            g.description.toLowerCase().includes(term)) {
             found = true;
-            card.style.background = '#f0f9ff';
-            card.style.border = '2px solid #3b82f6';
-            card.classList.add('search-highlight');
             
-            // Scroll to first match
-            if (document.querySelectorAll('.search-highlight').length === 1) {
-                card.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            }
-        } else {
-            card.style.background = '';
-            card.style.border = '';
-            card.classList.remove('search-highlight');
+            resultsHtml += `
+                <div class="gunasthan-card search-highlight" style="border: 2px solid #3b82f6; background: #f0f9ff;">
+                    <div style="display: flex; align-items: center; margin-bottom: 12px;">
+                        <span class="gunasthan-number" style="background: ${g.color}">${id}</span>
+                        <div style="flex: 1;">
+                            <div class="gunasthan-name">${g.nameHi}</div>
+                            <div class="gunasthan-sanskrit">${g.nameEn} - ${g.english}</div>
+                        </div>
+                    </div>
+                    <div class="gunasthan-description">${g.description}</div>
+                    <div style="margin-top: 12px; text-align: center;">
+                        <button onclick="showGunasthanDetail(${id})" style="background: #3b82f6; color: white; border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer; font-weight: 600;">View Details</button>
+                    </div>
+                </div>
+            `;
         }
     });
     
-    if (found) {
-        showMessage('info', `🔍 Highlighted gunasthanas matching: ${searchTerm}`);
-    } else {
-        showMessage('warning', `No gunasthanas found matching: ${searchTerm}`);
+    if (!found) {
+        resultsHtml += '<div style="text-align: center; padding: 40px; color: #6b7280;">No Gunasthanas found matching your search.</div>';
     }
+    
+    document.getElementById('gunasthan-list').innerHTML = resultsHtml;
 }
 
-// Search in matrix (thanas)
-function searchInMatrix(searchTerm) {
+// Search thanas specifically
+export function searchThanas(searchTerm) {
+    const results = document.getElementById('search-results');
+    
+    if (!searchTerm) {
+        results.innerHTML = '<div class="loading">Enter a search term to find Thanas...</div>';
+        return;
+    }
+    
     const term = searchTerm.toLowerCase();
+    let html = '';
     let found = false;
     
-    document.querySelectorAll('.matrix-table tr').forEach(row => {
-        const thanaHeader = row.querySelector('.thana-header');
-        if (thanaHeader) {
-            const text = thanaHeader.textContent;
-            if (text.includes(searchTerm) || text.toLowerCase().includes(term)) {
-                found = true;
-                row.style.background = '#f0f9ff';
-                row.style.border = '2px solid #3b82f6';
-                row.classList.add('search-highlight');
-                
-                // Scroll to first match
-                if (document.querySelectorAll('.search-highlight').length === 1) {
-                    row.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    thanasData.forEach((thana, index) => {
+        if (thana.nameHi.includes(searchTerm) || 
+            thana.nameEn.toLowerCase().includes(term) ||
+            thana.english.toLowerCase().includes(term)) {
+            found = true;
+            
+            // Calculate summary across all gunasthans
+            let minCount = Infinity, maxCount = 0;
+            let minGunasthan = null, maxGunasthan = null;
+            
+            for (let g = 1; g <= 14; g++) {
+                const count = matrixData[g][index];
+                if (count < minCount) {
+                    minCount = count;
+                    minGunasthan = g;
                 }
-            } else {
-                row.style.background = '';
-                row.style.border = '';
-                row.classList.remove('search-highlight');
+                if (count > maxCount) {
+                    maxCount = count;
+                    maxGunasthan = g;
+                }
             }
+            
+            html += `
+                <div class="gunasthan-card">
+                    <div style="display: flex; align-items: center; margin-bottom: 12px;">
+                        <span style="font-size: 24px; margin-right: 12px;">${thana.icon}</span>
+                        <div>
+                            <div style="font-size: 18px; font-weight: 600;">${thana.nameHi}</div>
+                            <div style="color: #6b7280;">${thana.nameEn} - ${thana.english}</div>
+                        </div>
+                    </div>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 12px;">
+                        <div style="background: #f0fdf4; padding: 12px; border-radius: 8px; border: 1px solid #86efac;">
+                            <div style="font-size: 12px; color: #16a34a;">Maximum in</div>
+                            <div style="font-weight: 600;">G${maxGunasthan}: ${maxCount}/${thana.total}</div>
+                        </div>
+                        <div style="background: #fef2f2; padding: 12px; border-radius: 8px; border: 1px solid #fca5a5;">
+                            <div style="font-size: 12px; color: #dc2626;">Minimum in</div>
+                            <div style="font-weight: 600;">G${minGunasthan}: ${minCount}/${thana.total}</div>
+                        </div>
+                    </div>
+                    <div style="margin-top: 12px;">
+                        <div style="font-size: 14px; color: #6b7280; margin-bottom: 8px;">Subtypes (${thana.subtypes.length}):</div>
+                        <div style="display: flex; flex-wrap: wrap; gap: 6px;">
+                            ${thana.subtypes.slice(0, 5).map(s => `<span class="item-tag" onclick="findAndShowDefinition('${s}')">${s}</span>`).join('')}
+                            ${thana.subtypes.length > 5 ? `<span class="item-tag">+${thana.subtypes.length - 5} more</span>` : ''}
+                        </div>
+                    </div>
+                </div>
+            `;
         }
     });
     
-    if (found) {
-        showMessage('info', `🔍 Highlighted thanas matching: ${searchTerm}`);
-    } else {
-        showMessage('warning', `No thanas found matching: ${searchTerm}`);
+    if (!found) {
+        html = '<div class="loading">No results found. Try searching in Hindi or English...</div>';
     }
+    
+    results.innerHTML = html;
 }
 
-// Clear search highlights
-function clearSearch() {
-    document.querySelectorAll('.search-highlight').forEach(el => {
-        el.classList.remove('search-highlight');
-        el.style.background = '';
-        el.style.border = '';
+// Advanced search functionality
+export function performAdvancedSearch(query, filters = {}) {
+    const results = {
+        gunasthans: [],
+        thanas: [],
+        definitions: [],
+        transitions: []
+    };
+    
+    const term = query.toLowerCase();
+    
+    // Search Gunasthans
+    Object.keys(gunasthansData).forEach(id => {
+        const g = gunasthansData[id];
+        if (g.nameHi.includes(query) || 
+            g.nameEn.toLowerCase().includes(term) ||
+            g.english.toLowerCase().includes(term) ||
+            g.description.toLowerCase().includes(term)) {
+            results.gunasthans.push({
+                id: id,
+                data: g,
+                type: 'gunasthan'
+            });
+        }
     });
+    
+    // Search Thanas
+    thanasData.forEach((thana, index) => {
+        if (thana.nameHi.includes(query) || 
+            thana.nameEn.toLowerCase().includes(term) ||
+            thana.english.toLowerCase().includes(term)) {
+            results.thanas.push({
+                index: index,
+                data: thana,
+                type: 'thana'
+            });
+        }
+    });
+    
+    return results;
 }
 
-// Quick search function for external use
-export function quickSearch(searchTerm) {
-    // Determine current active tab
-    const activeTab = document.querySelector('.tab.active');
-    const tabName = activeTab ? activeTab.textContent.toLowerCase() : 'overview';
+// Get search suggestions
+export function getSearchSuggestions(query) {
+    const suggestions = [];
+    const term = query.toLowerCase();
     
-    performSearch(searchTerm, tabName);
+    if (query.length < 2) return suggestions;
+    
+    // Gunasthan suggestions
+    Object.keys(gunasthansData).forEach(id => {
+        const g = gunasthansData[id];
+        if (g.nameHi.toLowerCase().includes(term) || 
+            g.nameEn.toLowerCase().includes(term)) {
+            suggestions.push({
+                text: `${g.nameHi} (${g.nameEn})`,
+                type: 'gunasthan',
+                id: id
+            });
+        }
+    });
+    
+    // Thana suggestions
+    thanasData.forEach((thana, index) => {
+        if (thana.nameHi.toLowerCase().includes(term) || 
+            thana.nameEn.toLowerCase().includes(term)) {
+            suggestions.push({
+                text: `${thana.nameHi} (${thana.nameEn})`,
+                type: 'thana',
+                index: index
+            });
+        }
+    });
+    
+    return suggestions.slice(0, 8); // Limit to 8 suggestions
 }
 
-// Find definition by thana name (for matrix tooltips)
-export function findDefinitionByThana(thanaName, conceptName) {
-    // Switch to definitions tab
-    window.showTab('definitions');
+// Search with filters
+export function searchWithFilters(query, filters) {
+    const results = performAdvancedSearch(query, filters);
     
-    // Wait for tab switch
-    setTimeout(() => {
-        searchDefinitions(thanaName);
-        showMessage('info', `🔍 Showing definitions for ${thanaName} category (related to: ${conceptName})`);
-    }, 300);
+    // Apply filters
+    if (filters.type) {
+        Object.keys(results).forEach(key => {
+            if (key !== filters.type) {
+                results[key] = [];
+            }
+        });
+    }
+    
+    if (filters.gunasthanRange) {
+        const [min, max] = filters.gunasthanRange;
+        results.gunasthans = results.gunasthans.filter(item => {
+            const id = parseInt(item.id);
+            return id >= min && id <= max;
+        });
+    }
+    
+    return results;
 }
