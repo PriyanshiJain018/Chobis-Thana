@@ -42,8 +42,9 @@ import {
 let currentTab = 'overview';
 let isInitialized = false;
 
-// Tab switching functionality - DEFINE EARLY
-function showTab(tabName) {
+// IMMEDIATELY EXPOSE CRITICAL FUNCTIONS TO WINDOW
+// This must happen before any HTML with onclick handlers is created
+window.showTab = function(tabName) {
     // Hide all tab contents
     document.querySelectorAll('.tab-content').forEach(content => {
         content.classList.add('hidden');
@@ -70,35 +71,37 @@ function showTab(tabName) {
     
     // Update current tab
     currentTab = tabName;
-    updateSearchContext(tabName);
+    if (window.updateSearchContext) {
+        window.updateSearchContext(tabName);
+    }
     
     // Load content based on tab
     switch(tabName) {
         case 'overview':
             if (!document.getElementById('gunasthan-list').innerHTML) {
-                loadOverview();
+                window.loadOverview();
             }
             break;
         case 'matrix':
             if (!document.getElementById('matrix-table').innerHTML) {
-                loadMatrix();
+                window.loadMatrix();
             }
             break;
         case 'transitions':
             if (!document.getElementById('transitions-list').innerHTML) {
-                loadTransitions();
+                window.loadTransitions();
             }
             break;
         case 'definitions':
             if (!document.getElementById('definitions-list').innerHTML) {
-                loadDefinitions();
+                window.loadDefinitions();
             }
             break;
     }
-}
+};
 
-// Load Overview with PDF Source Disclaimer - DEFINE EARLY
-function loadOverview() {
+// Load Overview with PDF Source Disclaimer
+window.loadOverview = function() {
     const container = document.getElementById('gunasthan-list');
     
     let html = `
@@ -120,7 +123,7 @@ function loadOverview() {
         <div style="margin-bottom: 24px;">
             <h3 style="color: #1e293b; margin-bottom: 16px;">🏛️ The 14 Gunasthans - Stages of Spiritual Development</h3>
             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 16px; margin-bottom: 24px;">
-                <div data-click="showMatrixTab" style="background: white; border: 2px solid #e2e8f0; border-radius: 12px; padding: 16px; cursor: pointer; transition: all 0.3s ease; text-align: center;"
+                <div onclick="showMatrixTab()" style="background: white; border: 2px solid #e2e8f0; border-radius: 12px; padding: 16px; cursor: pointer; transition: all 0.3s ease; text-align: center;"
                     onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 24px rgba(0,0,0,0.12)'; this.style.borderColor='#3b82f6'"
                     onmouseout="this.style.transform='translateY(0px)'; this.style.boxShadow='none'; this.style.borderColor='#e2e8f0'">
                     <div style="font-size: 32px; margin-bottom: 8px;">📊</div>
@@ -128,7 +131,7 @@ function loadOverview() {
                     <div style="font-size: 12px; color: #64748b;">24 ठाणा Analysis</div>
                 </div>
                 
-                <div data-click="showTransitionsTab" style="background: white; border: 2px solid #e2e8f0; border-radius: 12px; padding: 16px; cursor: pointer; transition: all 0.3s ease; text-align: center;"
+                <div onclick="showTransitionsTab()" style="background: white; border: 2px solid #e2e8f0; border-radius: 12px; padding: 16px; cursor: pointer; transition: all 0.3s ease; text-align: center;"
                     onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 24px rgba(0,0,0,0.12)'; this.style.borderColor='#10b981'"
                     onmouseout="this.style.transform='translateY(0px)'; this.style.boxShadow='none'; this.style.borderColor='#e2e8f0'">
                     <div style="font-size: 32px; margin-bottom: 8px;">🔄</div>
@@ -136,7 +139,7 @@ function loadOverview() {
                     <div style="font-size: 12px; color: #64748b;">गुणस्थान आरोहण-अवरोहण</div>
                 </div>
                 
-                <div data-click="showDefinitionsTab" style="background: white; border: 2px solid #e2e8f0; border-radius: 12px; padding: 16px; cursor: pointer; transition: all 0.3s ease; text-align: center;"
+                <div onclick="showDefinitionsTab()" style="background: white; border: 2px solid #e2e8f0; border-radius: 12px; padding: 16px; cursor: pointer; transition: all 0.3s ease; text-align: center;"
                     onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 24px rgba(0,0,0,0.12)'; this.style.borderColor='#f59e0b'"
                     onmouseout="this.style.transform='translateY(0px)'; this.style.boxShadow='none'; this.style.borderColor='#e2e8f0'">
                     <div style="font-size: 32px; margin-bottom: 8px;">📖</div>
@@ -148,23 +151,23 @@ function loadOverview() {
     `;
     
     container.innerHTML = html;
-}
+};
 
-// Helper functions for tab navigation from overview cards - DEFINE EARLY
-function showMatrixTab() {
-    showTab('matrix');
-}
+// Helper functions for tab navigation from overview cards
+window.showMatrixTab = function() {
+    window.showTab('matrix');
+};
 
-function showTransitionsTab() {
-    showTab('transitions');
-}
+window.showTransitionsTab = function() {
+    window.showTab('transitions');
+};
 
-function showDefinitionsTab() {
-    showTab('definitions');
-}
+window.showDefinitionsTab = function() {
+    window.showTab('definitions');
+};
 
-// Show detailed source information - DEFINE EARLY  
-function showSourceInfo() {
+// Show detailed source information
+window.showSourceInfo = function() {
     const modal = document.createElement('div');
     modal.style.cssText = `
         position: fixed; top: 0; left: 0; right: 0; bottom: 0;
@@ -213,10 +216,10 @@ function showSourceInfo() {
     `;
     
     document.body.appendChild(modal);
-}
+};
 
-// Show gunasthan detail - DEFINE EARLY
-function showGunasthanDetail(gunasthanId) {
+// Show gunasthan detail
+window.showGunasthanDetail = function(gunasthanId) {
     const g = gunasthansData[gunasthanId];
     const rule = transitionRules[gunasthanId];
     
@@ -232,42 +235,34 @@ function showGunasthanDetail(gunasthanId) {
     }
     
     alert(message);
-}
+};
 
-// Helper function for search on enter - DEFINE EARLY
-function searchOnEnter(event) {
+// Helper function for search on enter
+window.searchOnEnter = function(event) {
     if (event.key === 'Enter') {
-        searchDefinitions(event.target.value);
+        window.searchDefinitions(event.target.value);
     }
-}
+};
 
-// Helper function to search from input button - DEFINE EARLY
-function searchDefinitionsFromInput() {
+// Helper function to search from input button
+window.searchDefinitionsFromInput = function() {
     const searchValue = document.getElementById('definition-search').value;
-    searchDefinitions(searchValue);
-}
+    window.searchDefinitions(searchValue);
+};
 
-// Helper function to close tooltip modal - DEFINE EARLY
-function closeTooltipModal(event) {
-    closeTooltip(event);
-}
+// Helper function to close tooltip modal
+window.closeTooltipModal = function(event) {
+    window.closeTooltip(event);
+};
 
-// Helper function to stop propagation - DEFINE EARLY
-function stopPropagation(event) {
+// Helper function to stop propagation
+window.stopPropagation = function(event) {
     event.stopPropagation();
-}
+};
 
-// IMMEDIATE FUNCTION EXPOSURE - MUST BE FIRST
-// This ensures functions are available for any onclick handlers before DOM parsing
+// EXPOSE ALL IMPORTED FUNCTIONS TO GLOBAL SCOPE
+// This ensures all functions are available for onclick handlers
 const exposeFunctionsGlobally = () => {
-    // Core navigation functions - these are called by old onclick handlers
-    window.showTab = showTab;  // CRITICAL: This must be available immediately
-    
-    // Tab functions
-    window.loadOverview = loadOverview;
-    window.showSourceInfo = showSourceInfo;
-    window.showGunasthanDetail = showGunasthanDetail;
-
     // Matrix functions
     window.loadMatrix = loadMatrix;
     window.changeMatrix = changeMatrix;
@@ -310,15 +305,6 @@ const exposeFunctionsGlobally = () => {
     window.showMessage = showMessage;
     window.getProgressColor = getProgressColor;
     
-    // Helper functions for event handling
-    window.searchOnEnter = searchOnEnter;
-    window.searchDefinitionsFromInput = searchDefinitionsFromInput;
-    window.closeTooltipModal = closeTooltipModal;
-    window.stopPropagation = stopPropagation;
-    window.showMatrixTab = showMatrixTab;
-    window.showTransitionsTab = showTransitionsTab;
-    window.showDefinitionsTab = showDefinitionsTab;
-    
     console.log('✅ All functions exposed globally');
 };
 
@@ -332,7 +318,7 @@ function initializeApp() {
     console.log('🚀 Initializing Gunasthan App...');
     
     // Load initial content
-    loadOverview();
+    window.loadOverview();
     
     // Initialize voice search if supported
     initVoiceSearch();
@@ -355,7 +341,7 @@ function setupEventListeners() {
         
         // Handle tab clicks
         if (tabName) {
-            showTab(tabName);
+            window.showTab(tabName);
             return;
         }
         
@@ -367,34 +353,34 @@ function setupEventListeners() {
             // Special cases for functions that need parameters
             switch(clickHandler) {
                 case 'closeTooltipModal':
-                    closeTooltip(e);
+                    window.closeTooltip(e);
                     break;
                 case 'stopPropagation':
                     e.stopPropagation();
                     break;
                 case 'searchDefinitionsFromInput':
                     const searchValue = document.getElementById('definition-search').value;
-                    searchDefinitions(searchValue);
+                    window.searchDefinitions(searchValue);
                     break;
                 case 'showDetailedTooltip':
                     const gunasthan = e.target.closest('[data-gunasthan]').getAttribute('data-gunasthan');
                     const thana = e.target.closest('[data-thana]').getAttribute('data-thana');
-                    showDetailedTooltip(parseInt(gunasthan), parseInt(thana));
+                    window.showDetailedTooltip(parseInt(gunasthan), parseInt(thana));
                     break;
                 case 'showNewDetailedTooltip':
                     const matrixType = e.target.closest('[data-matrix-type]').getAttribute('data-matrix-type');
                     const thanaIndex = e.target.closest('[data-thana-index]').getAttribute('data-thana-index');
                     const colIndex = e.target.closest('[data-col-index]').getAttribute('data-col-index');
-                    showNewDetailedTooltip(matrixType, parseInt(thanaIndex), parseInt(colIndex));
+                    window.showNewDetailedTooltip(matrixType, parseInt(thanaIndex), parseInt(colIndex));
                     break;
                 case 'findDefinitionByThana':
                     const thanaName = e.target.getAttribute('data-thana-name');
                     const conceptName = e.target.getAttribute('data-concept-name');
-                    findDefinitionByThana(thanaName, conceptName);
+                    window.findDefinitionByThana(thanaName, conceptName);
                     break;
                 case 'scrollToGunasthan':
                     const gunasthanId = e.target.closest('[data-gunasthan-id]').getAttribute('data-gunasthan-id');
-                    scrollToGunasthan(parseInt(gunasthanId));
+                    window.scrollToGunasthan(parseInt(gunasthanId));
                     break;
                 default:
                     window[clickHandler]();
@@ -403,7 +389,7 @@ function setupEventListeners() {
         
         // Handle modal background clicks
         if (e.target.id === 'tooltip-modal') {
-            closeTooltip(e);
+            window.closeTooltip(e);
         }
     });
     
@@ -428,20 +414,20 @@ function setupEventListeners() {
         const keypressHandler = e.target.getAttribute('data-keypress');
         if (keypressHandler) {
             if (keypressHandler === 'searchOnEnter' && e.key === 'Enter') {
-                searchDefinitions(e.target.value);
+                window.searchDefinitions(e.target.value);
             }
         }
         
         // Global escape key handler
         if (e.key === 'Escape') {
-            closeTooltip();
+            window.closeTooltip();
         }
     });
     
     // Handle keydown for escape
     document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape') {
-            closeTooltip();
+            window.closeTooltip();
         }
     });
 }
@@ -452,8 +438,8 @@ document.addEventListener('DOMContentLoaded', initializeApp);
 // Export for potential module usage
 export { 
     initializeApp, 
-    showTab, 
-    loadOverview, 
-    showGunasthanDetail,
+    showTab: window.showTab, 
+    loadOverview: window.loadOverview, 
+    showGunasthanDetail: window.showGunasthanDetail,
     currentTab
 };
