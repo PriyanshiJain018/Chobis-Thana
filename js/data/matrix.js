@@ -429,4 +429,3 @@ export const matrixDetailedData = {
                 }
             }
         };
-export { matrixData, additionalMatrices, transitionRules, matrixDetailedData };
