@@ -1,1 +1,0 @@
-let selectedMatrix = 'default';
