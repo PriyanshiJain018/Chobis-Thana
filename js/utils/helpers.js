@@ -1,12 +1,21 @@
-// Utility Helper Functions
+// Utility helper functions
 
-// Show toast message
+// Helper function to get progress color based on percentage
+export function getProgressColor(percentage) {
+    if (percentage === 0) return '#9CA3AF';
+    if (percentage < 25) return '#10B981';
+    if (percentage < 50) return '#F59E0B';
+    if (percentage < 75) return '#F97316';
+    return '#EF4444';
+}
+
+// Helper function to show messages/toasts
 export function showMessage(type, message) {
+    // Create a simple toast message
     const toast = document.createElement('div');
-    toast.className = 'toast-message';
     toast.style.cssText = `
         position: fixed;
-        top: 20px;
+        top: 100px;
         right: 20px;
         background: ${type === 'success' ? '#10b981' : type === 'warning' ? '#f59e0b' : '#3b82f6'};
         color: white;
@@ -33,19 +42,72 @@ export function showMessage(type, message) {
     }, 4000);
 }
 
-// Format numbers with proper locale
+// Helper function to scroll to a gunasthan
+export function scrollToGunasthan(gunasthanId) {
+    // This will be implemented in the main app
+    if (window.showTab) {
+        window.showTab('overview');
+        setTimeout(() => {
+            const cards = document.querySelectorAll('.gunasthan-card');
+            if (cards[gunasthanId - 1]) {
+                cards[gunasthanId - 1].scrollIntoView({ behavior: 'smooth', block: 'center' });
+                cards[gunasthanId - 1].style.animation = 'pulse 1s ease-in-out';
+                setTimeout(() => {
+                    cards[gunasthanId - 1].style.animation = '';
+                }, 1000);
+            }
+        }, 100);
+    }
+}
+
+// Helper function to clear search highlights
+export function clearSearchHighlights() {
+    document.querySelectorAll('.search-highlight').forEach(el => {
+        el.classList.remove('search-highlight');
+        el.style.background = '';
+        el.style.border = '';
+        el.style.boxShadow = '';
+        el.style.animation = '';
+    });
+}
+
+// Helper function to highlight search results
+export function highlightSearchResult(element, type = 'info') {
+    const colors = {
+        success: { bg: '#f0fdf4', border: '#22c55e', shadow: 'rgba(34, 197, 94, 0.5)' },
+        warning: { bg: '#fef3c7', border: '#f59e0b', shadow: 'rgba(245, 158, 11, 0.5)' },
+        info: { bg: '#f0f9ff', border: '#3b82f6', shadow: 'rgba(59, 130, 246, 0.5)' }
+    };
+    
+    const color = colors[type] || colors.info;
+    
+    element.style.background = color.bg;
+    element.style.border = `3px solid ${color.border}`;
+    element.style.boxShadow = `0 0 20px ${color.shadow}`;
+    element.style.animation = 'pulse 3s ease-in-out';
+    element.classList.add('search-highlight');
+    
+    // Remove highlight after 5 seconds
+    setTimeout(() => {
+        element.style.background = '';
+        element.style.border = '';
+        element.style.boxShadow = '';
+        element.style.animation = '';
+        element.classList.remove('search-highlight');
+    }, 5000);
+}
+
+// Helper function to format numbers for display
 export function formatNumber(num) {
-    if (typeof num !== 'number') return num;
-    return num.toLocaleString('hi-IN');
+    if (num >= 1000000) {
+        return (num / 1000000).toFixed(1) + 'M';
+    } else if (num >= 1000) {
+        return (num / 1000).toFixed(1) + 'K';
+    }
+    return num.toString();
 }
 
-// Calculate percentage safely
-export function calculatePercentage(value, total) {
-    if (!total || total === 0) return 0;
-    return Math.round((value / total) * 100);
-}
-
-// Debounce function for search
+// Helper function to debounce function calls
 export function debounce(func, wait) {
     let timeout;
     return function executedFunction(...args) {
@@ -58,97 +120,38 @@ export function debounce(func, wait) {
     };
 }
 
-// Sanitize HTML to prevent XSS
-export function sanitizeHtml(str) {
-    const temp = document.createElement('div');
-    temp.textContent = str;
-    return temp.innerHTML;
+// Helper function to check if string contains search term (case insensitive)
+export function containsSearchTerm(text, searchTerm) {
+    if (!text || !searchTerm) return false;
+    return text.toLowerCase().includes(searchTerm.toLowerCase());
 }
 
-// Check if device is mobile
-export function isMobile() {
-    return window.innerWidth <= 768;
+// Helper function to create loading spinner
+export function createLoadingSpinner() {
+    return '<div class="loading"><div class="loading-spinner"></div><p>Loading...</p></div>';
 }
 
-// Smooth scroll to element
-export function scrollToElement(selector, offset = 0) {
-    const element = document.querySelector(selector);
-    if (element) {
-        const top = element.offsetTop - offset;
-        window.scrollTo({
-            top: top,
-            behavior: 'smooth'
-        });
-    }
+// Helper function to animate element entrance
+export function animateElementEntrance(element, delay = 0) {
+    element.style.opacity = '0';
+    element.style.transform = 'translateY(20px)';
+    
+    setTimeout(() => {
+        element.style.transition = 'all 0.3s ease';
+        element.style.opacity = '1';
+        element.style.transform = 'translateY(0)';
+    }, delay);
 }
 
-// Copy text to clipboard
+// Helper function to copy text to clipboard
 export async function copyToClipboard(text) {
     try {
         await navigator.clipboard.writeText(text);
         showMessage('success', 'Copied to clipboard!');
         return true;
     } catch (err) {
-        console.error('Failed to copy: ', err);
-        showMessage('warning', 'Failed to copy to clipboard');
+        console.error('Failed to copy text: ', err);
+        showMessage('warning', 'Failed to copy text');
         return false;
     }
 }
-
-// Generate unique ID
-export function generateId() {
-    return Math.random().toString(36).substr(2, 9);
-}
-
-// Deep clone object
-export function deepClone(obj) {
-    return JSON.parse(JSON.stringify(obj));
-}
-
-// Check if object is empty
-export function isEmpty(obj) {
-    return obj && Object.keys(obj).length === 0 && obj.constructor === Object;
-}
-
-// Add CSS animation styles if not already present
-export function addAnimationStyles() {
-    if (document.getElementById('helper-animations')) return;
-    
-    const style = document.createElement('style');
-    style.id = 'helper-animations';
-    style.textContent = `
-        @keyframes slideIn {
-            from { transform: translateX(100%); opacity: 0; }
-            to { transform: translateX(0); opacity: 1; }
-        }
-        
-        @keyframes fadeOut {
-            from { opacity: 1; }
-            to { opacity: 0; }
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-        
-        @keyframes slideUp {
-            from { transform: translateY(100%); }
-            to { transform: translateY(0); }
-        }
-        
-        .search-highlight {
-            animation: fadeIn 0.3s ease;
-        }
-    `;
-    
-    document.head.appendChild(style);
-}
-
-// Initialize helper utilities
-export function initHelpers() {
-    addAnimationStyles();
-}
-
-// Call init on import
-initHelpers();
