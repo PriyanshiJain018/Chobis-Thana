@@ -110,7 +110,7 @@ export const definitionsDatabase = {
                 }
             }
         }
-    }
+    },
     "इन्द्रिय-मार्गणा": {
             title: "इन्द्रिय मार्गणा",
             titleEn: "Indriya Margana", 
