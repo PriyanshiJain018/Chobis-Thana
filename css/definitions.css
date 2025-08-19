@@ -1,0 +1,159 @@
+/* Definitions CSS - Definition-specific Styles */
+
+/* Definitions Container */
+.definitions-container {
+    max-width: 100%;
+}
+
+/* Category Sections */
+.category-section {
+    margin-bottom: 24px;
+}
+
+.category-header {
+    background: linear-gradient(135deg, #1e40af 0%, #7c3aed 100%);
+    color: white;
+    padding: 16px;
+    border-radius: 12px;
+    margin-bottom: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.category-header:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+}
+
+.category-title {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 4px;
+}
+
+.category-subtitle {
+    font-size: 14px;
+    opacity: 0.9;
+}
+
+/* Definition Cards */
+.definition-card {
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    border: 1px solid #e5e7eb;
+    transition: all 0.3s ease;
+}
+
+.definition-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+    border-color: #d1d5db;
+}
+
+.definition-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 12px;
+}
+
+.definition-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: #1f2937;
+    margin-bottom: 4px;
+}
+
+.definition-subtitle {
+    font-size: 14px;
+    color: #6b7280;
+}
+
+.definition-content {
+    color: #4b5563;
+    line-height: 1.6;
+    font-size: 14px;
+}
+
+/* Know More Button */
+.know-more-btn {
+    background: #f3f4f6;
+    border: 1px solid #e5e7eb;
+    border-radius: 6px;
+    padding: 6px 12px;
+    font-size: 12px;
+    color: #6b7280;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.know-more-btn:hover {
+    background: #e5e7eb;
+    color: #374151;
+}
+
+/* Additional Notes */
+.additional-notes {
+    margin-top: 12px;
+    padding: 12px;
+    background: #fef3c7;
+    border: 1px solid #fde68a;
+    border-radius: 8px;
+    font-size: 13px;
+    color: #78350f;
+    line-height: 1.5;
+}
+
+/* Sub-definitions */
+.sub-definitions {
+    margin-top: 16px;
+    padding-left: 16px;
+    border-left: 3px solid #e5e7eb;
+}
+
+.sub-definition {
+    margin-bottom: 12px;
+    padding: 12px;
+    background: #f9fafb;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.sub-definition:hover {
+    background: #f3f4f6;
+}
+
+.sub-definition-title {
+    font-weight: 600;
+    color: #374151;
+    margin-bottom: 6px;
+    font-size: 14px;
+}
+
+.sub-definition-content {
+    color: #6b7280;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+/* Collapsible Content */
+.collapsible-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+}
+
+.collapsible-content.expanded {
+    max-height: 5000px;
+}
+
+/* Mobile Optimizations for Definitions */
+@media (max-width: 640px) {
+    .definition-card {
+        padding: 16px;
+    }
+}
