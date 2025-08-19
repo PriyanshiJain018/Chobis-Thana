@@ -1,4 +1,4 @@
-/* Components CSS - Reusable UI Components */
+/* Components CSS - Cards, Modals, Tooltips, Buttons */
 
 /* Gunasthan Cards */
 .gunasthan-card {
@@ -56,7 +56,7 @@
     margin-top: 8px;
 }
 
-/* Enhanced Modal/Tooltip */
+/* Tooltip Modal */
 .tooltip-modal {
     position: fixed;
     top: 0;
@@ -344,7 +344,40 @@
     color: white;
 }
 
-/* Mobile Optimizations for Components */
+/* Progress Bars */
+.progress-bar {
+    width: 100%;
+    height: 4px;
+    background: #e5e7eb;
+    border-radius: 2px;
+    margin: 4px auto 0;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    transition: width 0.3s ease;
+    border-radius: 2px;
+}
+
+/* Buttons */
+.know-more-btn {
+    background: #f3f4f6;
+    border: 1px solid #e5e7eb;
+    border-radius: 6px;
+    padding: 6px 12px;
+    font-size: 12px;
+    color: #6b7280;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.know-more-btn:hover {
+    background: #e5e7eb;
+    color: #374151;
+}
+
+/* Mobile Optimizations */
 @media (max-width: 640px) {
     .gunasthan-card {
         padding: 16px;
