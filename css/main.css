@@ -1,6 +1,5 @@
-/* Main CSS - Core Styles, Layout, Typography, and Global Elements */
+/* Main CSS - Basic Layout, Typography, Headers, Tabs */
 
-/* Global Reset and Base Styles */
 * {
     margin: 0;
     padding: 0;
@@ -40,7 +39,7 @@ body {
     margin-top: 4px;
 }
 
-/* Tab Container */
+/* Tab Navigation */
 .tab-container {
     display: flex;
     background: white;
@@ -88,6 +87,11 @@ body {
     animation: slideIn 0.3s ease;
 }
 
+@keyframes slideIn {
+    from { transform: translateX(-100%); }
+    to { transform: translateX(0); }
+}
+
 /* Content Area */
 .content {
     padding: 16px;
@@ -95,24 +99,16 @@ body {
     animation: fadeIn 0.3s ease;
 }
 
-/* Utility Classes */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
 .hidden {
     display: none !important;
 }
 
-.text-center {
-    text-align: center;
-}
-
-.mt-4 {
-    margin-top: 16px;
-}
-
-.mb-4 {
-    margin-bottom: 16px;
-}
-
-/* Info Section */
+/* Info Sections */
 .info-section {
     background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
     border: 1px solid #86efac;
@@ -134,6 +130,27 @@ body {
     line-height: 1.5;
 }
 
+/* Loading Spinner */
+.loading {
+    text-align: center;
+    padding: 40px;
+    color: #6b7280;
+}
+
+.loading-spinner {
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    border: 3px solid #e5e7eb;
+    border-top-color: #3b82f6;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
 /* Search Box */
 .search-box {
     width: 100%;
@@ -152,42 +169,20 @@ body {
     box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
 }
 
-#universal-search:focus {
-    outline: none;
-}
-
-/* Loading States */
-.loading {
+/* Utility Classes */
+.text-center {
     text-align: center;
-    padding: 40px;
-    color: #6b7280;
 }
 
-.loading-spinner {
-    display: inline-block;
-    width: 40px;
-    height: 40px;
-    border: 3px solid #e5e7eb;
-    border-top-color: #3b82f6;
-    border-radius: 50%;
-    animation: spin 1s linear infinite;
+.mt-4 {
+    margin-top: 16px;
+}
+
+.mb-4 {
+    margin-bottom: 16px;
 }
 
 /* Animations */
-@keyframes slideIn {
-    from { transform: translateX(-100%); }
-    to { transform: translateX(0); }
-}
-
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes spin {
-    to { transform: rotate(360deg); }
-}
-
 @keyframes pulse {
     0% { transform: scale(1); }
     50% { transform: scale(1.05); box-shadow: 0 0 20px rgba(59, 130, 246, 0.5); }
@@ -232,7 +227,11 @@ body {
         min-width: 70px;
     }
     
-    .tooltip-content {
-        max-height: 90vh;
+    .content {
+        padding: 12px;
+    }
+    
+    .info-section {
+        padding: 12px;
     }
 }
