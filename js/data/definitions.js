@@ -1780,5 +1780,5 @@ export const definitionsDatabase = {
                 }
             }
         }
-    }
+    };
    
