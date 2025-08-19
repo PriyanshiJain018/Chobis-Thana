@@ -65,36 +65,97 @@ function initializeApp() {
 
 // Set up event listeners
 function setupEventListeners() {
-    // Tab switching
+    // Event delegation for all click events
     document.addEventListener('click', (e) => {
-        if (e.target.classList.contains('tab')) {
-            const tabName = e.target.textContent.toLowerCase();
+        const clickHandler = e.target.getAttribute('data-click');
+        const tabName = e.target.getAttribute('data-tab');
+        
+        // Handle tab clicks
+        if (tabName) {
             showTab(tabName);
+            return;
+        }
+        
+        // Handle other click events
+        if (clickHandler && window[clickHandler]) {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            // Special cases for functions that need parameters
+            switch(clickHandler) {
+                case 'closeTooltipModal':
+                    closeTooltip(e);
+                    break;
+                case 'stopPropagation':
+                    e.stopPropagation();
+                    break;
+                case 'searchDefinitionsFromInput':
+                    const searchValue = document.getElementById('definition-search').value;
+                    searchDefinitions(searchValue);
+                    break;
+                case 'showDetailedTooltip':
+                    const gunasthan = e.target.closest('[data-gunasthan]').getAttribute('data-gunasthan');
+                    const thana = e.target.closest('[data-thana]').getAttribute('data-thana');
+                    showDetailedTooltip(parseInt(gunasthan), parseInt(thana));
+                    break;
+                case 'showNewDetailedTooltip':
+                    const matrixType = e.target.closest('[data-matrix-type]').getAttribute('data-matrix-type');
+                    const thanaIndex = e.target.closest('[data-thana-index]').getAttribute('data-thana-index');
+                    const colIndex = e.target.closest('[data-col-index]').getAttribute('data-col-index');
+                    showNewDetailedTooltip(matrixType, parseInt(thanaIndex), parseInt(colIndex));
+                    break;
+                case 'findDefinitionByThana':
+                    const thanaName = e.target.getAttribute('data-thana-name');
+                    const conceptName = e.target.getAttribute('data-concept-name');
+                    findDefinitionByThana(thanaName, conceptName);
+                    break;
+                case 'scrollToGunasthan':
+                    const gunasthanId = e.target.closest('[data-gunasthan-id]').getAttribute('data-gunasthan-id');
+                    scrollToGunasthan(parseInt(gunasthanId));
+                    break;
+                default:
+                    window[clickHandler]();
+            }
+        }
+        
+        // Handle modal background clicks
+        if (e.target.id === 'tooltip-modal') {
+            closeTooltip(e);
         }
     });
     
-    // Search functionality
-    const searchInput = document.getElementById('definition-search');
-    if (searchInput) {
-        searchInput.addEventListener('input', (e) => {
-            searchDefinitions(e.target.value);
-        });
-        
-        searchInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') {
+    // Handle change events
+    document.addEventListener('change', (e) => {
+        const changeHandler = e.target.getAttribute('data-change');
+        if (changeHandler && window[changeHandler]) {
+            window[changeHandler]();
+        }
+    });
+    
+    // Handle input events
+    document.addEventListener('input', (e) => {
+        const inputHandler = e.target.getAttribute('data-input');
+        if (inputHandler && window[inputHandler]) {
+            window[inputHandler](e.target.value);
+        }
+    });
+    
+    // Handle keypress events
+    document.addEventListener('keypress', (e) => {
+        const keypressHandler = e.target.getAttribute('data-keypress');
+        if (keypressHandler) {
+            if (keypressHandler === 'searchOnEnter' && e.key === 'Enter') {
                 searchDefinitions(e.target.value);
             }
-        });
-    }
-    
-    // Modal close functionality
-    document.addEventListener('click', (e) => {
-        if (e.target.id === 'tooltip-modal') {
+        }
+        
+        // Global escape key handler
+        if (e.key === 'Escape') {
             closeTooltip();
         }
     });
     
-    // Escape key to close modals
+    // Handle keydown for escape
     document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape') {
             closeTooltip();
@@ -207,7 +268,7 @@ function loadOverview() {
                         Download Original PDF | मूल PDF डाउनलोड करें
                     </a>
                     
-                    <button onclick="showSourceInfo()" 
+                    <button data-click="showSourceInfo" 
                             style="background: rgba(14, 165, 233, 0.1); border: 2px solid #0ea5e9; color: #0ea5e9; padding: 10px 16px; border-radius: 8px; font-weight: 600; font-size: 13px; cursor: pointer; transition: all 0.3s ease;"
                             onmouseover="this.style.background='rgba(14, 165, 233, 0.2)'"
                             onmouseout="this.style.background='rgba(14, 165, 233, 0.1)'">
@@ -236,7 +297,7 @@ function loadOverview() {
             </p>
             
             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-top: 20px;">
-                <div onclick="showTab('matrix')" style="background: white; border: 2px solid #e2e8f0; border-radius: 12px; padding: 16px; cursor: pointer; transition: all 0.3s ease; text-align: center;"
+                <div data-click="showMatrixTab" style="background: white; border: 2px solid #e2e8f0; border-radius: 12px; padding: 16px; cursor: pointer; transition: all 0.3s ease; text-align: center;"
                     onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 24px rgba(0,0,0,0.12)'; this.style.borderColor='#3b82f6'"
                     onmouseout="this.style.transform='translateY(0px)'; this.style.boxShadow='none'; this.style.borderColor='#e2e8f0'">
                     <div style="font-size: 32px; margin-bottom: 8px;">📊</div>
@@ -244,7 +305,7 @@ function loadOverview() {
                     <div style="font-size: 12px; color: #64748b;">24×14 comprehensive grid</div>
                 </div>
                 
-                <div onclick="showTab('transitions')" style="background: white; border: 2px solid #e2e8f0; border-radius: 12px; padding: 16px; cursor: pointer; transition: all 0.3s ease; text-align: center;"
+                <div data-click="showTransitionsTab" style="background: white; border: 2px solid #e2e8f0; border-radius: 12px; padding: 16px; cursor: pointer; transition: all 0.3s ease; text-align: center;"
                     onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 24px rgba(0,0,0,0.12)'; this.style.borderColor='#10b981'"
                     onmouseout="this.style.transform='translateY(0px)'; this.style.boxShadow='none'; this.style.borderColor='#e2e8f0'">
                     <div style="font-size: 32px; margin-bottom: 8px;">🔄</div>
@@ -252,7 +313,7 @@ function loadOverview() {
                     <div style="font-size: 12px; color: #64748b;">गुणस्थान आरोहण-अवरोहण</div>
                 </div>
                 
-                <div onclick="showTab('definitions')" style="background: white; border: 2px solid #e2e8f0; border-radius: 12px; padding: 16px; cursor: pointer; transition: all 0.3s ease; text-align: center;"
+                <div data-click="showDefinitionsTab" style="background: white; border: 2px solid #e2e8f0; border-radius: 12px; padding: 16px; cursor: pointer; transition: all 0.3s ease; text-align: center;"
                     onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 24px rgba(0,0,0,0.12)'; this.style.borderColor='#f59e0b'"
                     onmouseout="this.style.transform='translateY(0px)'; this.style.boxShadow='none'; this.style.borderColor='#e2e8f0'">
                     <div style="font-size: 32px; margin-bottom: 8px;">📖</div>
@@ -363,53 +424,101 @@ function showGunasthanDetail(gunasthanId) {
     alert(message);
 }
 
-// Make functions globally available
-window.showTab = showTab;
-window.loadOverview = loadOverview;
-window.showSourceInfo = showSourceInfo;
-window.showGunasthanDetail = showGunasthanDetail;
+// Helper functions for tab navigation from overview cards
+function showMatrixTab() {
+    showTab('matrix');
+}
 
-// Matrix functions
-window.loadMatrix = loadMatrix;
-window.changeMatrix = changeMatrix;
-window.showDetailedTooltip = showDetailedTooltip;
-window.showNewDetailedTooltip = showNewDetailedTooltip;
-window.closeTooltip = closeTooltip;
-window.searchInMatrix = searchInMatrix;
+function showTransitionsTab() {
+    showTab('transitions');
+}
 
-// Definitions functions
-window.loadDefinitions = loadDefinitions;
-window.searchDefinitions = searchDefinitions;
-window.clearDefinitionSearch = clearDefinitionSearch;
-window.toggleCategory = toggleCategory;
-window.toggleAdditionalInfo = toggleAdditionalInfo;
-window.toggleNestedSubtypes = toggleNestedSubtypes;
-window.showSubDefinitionDetail = showSubDefinitionDetail;
-window.showNestedDefinitionDetail = showNestedDefinitionDetail;
-window.findAndShowDefinition = findAndShowDefinition;
-window.findDefinitionByThana = findDefinitionByThana;
+function showDefinitionsTab() {
+    showTab('definitions');
+}
 
-// Transitions functions
-window.loadTransitions = loadTransitions;
-window.launchGameMode = launchGameMode;
-window.searchInTransitions = searchInTransitions;
-window.scrollToGunasthan = scrollToGunasthan;
+// Helper function for search on enter
+function searchOnEnter(event) {
+    if (event.key === 'Enter') {
+        searchDefinitions(event.target.value);
+    }
+}
 
-// Search functions
-window.handleUniversalSearch = handleUniversalSearch;
-window.updateSearchContext = updateSearchContext;
-window.clearSearch = clearSearch;
-window.searchInOverview = searchInOverview;
-window.searchThanas = searchThanas;
+// Helper function to search from input button
+function searchDefinitionsFromInput() {
+    const searchValue = document.getElementById('definition-search').value;
+    searchDefinitions(searchValue);
+}
 
-// Voice functions
-window.startVoiceSearch = startVoiceSearch;
-window.stopVoiceSearch = stopVoiceSearch;
-window.initVoiceSearch = initVoiceSearch;
+// Helper function to close tooltip modal
+function closeTooltipModal(event) {
+    closeTooltip(event);
+}
 
-// Utility functions
-window.showMessage = showMessage;
-window.getProgressColor = getProgressColor;
+// Helper function to stop propagation
+function stopPropagation(event) {
+    event.stopPropagation();
+}
+
+// Make functions globally available IMMEDIATELY
+function exposeFunctionsGlobally() {
+    // Tab functions
+    window.showTab = showTab;
+    window.loadOverview = loadOverview;
+    window.showSourceInfo = showSourceInfo;
+    window.showGunasthanDetail = showGunasthanDetail;
+
+    // Matrix functions
+    window.loadMatrix = loadMatrix;
+    window.changeMatrix = changeMatrix;
+    window.showDetailedTooltip = showDetailedTooltip;
+    window.showNewDetailedTooltip = showNewDetailedTooltip;
+    window.closeTooltip = closeTooltip;
+    window.searchInMatrix = searchInMatrix;
+
+    // Definitions functions
+    window.loadDefinitions = loadDefinitions;
+    window.searchDefinitions = searchDefinitions;
+    window.clearDefinitionSearch = clearDefinitionSearch;
+    window.toggleCategory = toggleCategory;
+    window.toggleAdditionalInfo = toggleAdditionalInfo;
+    window.toggleNestedSubtypes = toggleNestedSubtypes;
+    window.showSubDefinitionDetail = showSubDefinitionDetail;
+    window.showNestedDefinitionDetail = showNestedDefinitionDetail;
+    window.findAndShowDefinition = findAndShowDefinition;
+    window.findDefinitionByThana = findDefinitionByThana;
+
+    // Transitions functions
+    window.loadTransitions = loadTransitions;
+    window.launchGameMode = launchGameMode;
+    window.searchInTransitions = searchInTransitions;
+    window.scrollToGunasthan = scrollToGunasthan;
+
+    // Search functions
+    window.handleUniversalSearch = handleUniversalSearch;
+    window.updateSearchContext = updateSearchContext;
+    window.clearSearch = clearSearch;
+    window.searchInOverview = searchInOverview;
+    window.searchThanas = searchThanas;
+
+    // Voice functions
+    window.startVoiceSearch = startVoiceSearch;
+    window.stopVoiceSearch = stopVoiceSearch;
+    window.initVoiceSearch = initVoiceSearch;
+
+    // Utility functions
+    window.showMessage = showMessage;
+    window.getProgressColor = getProgressColor;
+    
+    // Helper functions for event handling
+    window.searchOnEnter = searchOnEnter;
+    window.searchDefinitionsFromInput = searchDefinitionsFromInput;
+    window.closeTooltipModal = closeTooltipModal;
+    window.stopPropagation = stopPropagation;
+    window.showMatrixTab = showMatrixTab;
+    window.showTransitionsTab = showTransitionsTab;
+    window.showDefinitionsTab = showDefinitionsTab;
+}
 
 // Initialize app when DOM is loaded
 document.addEventListener('DOMContentLoaded', initializeApp);
