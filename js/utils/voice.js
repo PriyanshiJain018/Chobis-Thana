@@ -1,77 +1,75 @@
-// Voice Search Utility
+// Voice Search Functionality
+
 import { showMessage } from './helpers.js';
-import { quickSearch } from '../components/search.js';
 
 let recognition = null;
 let isListening = false;
 
-// Initialize voice search
 export function initVoiceSearch() {
-    if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
-        console.warn('Speech recognition not supported');
+    // Check if browser supports speech recognition
+    if ('webkitSpeechRecognition' in window) {
+        recognition = new webkitSpeechRecognition();
+    } else if ('SpeechRecognition' in window) {
+        recognition = new SpeechRecognition();
+    } else {
         return false;
     }
     
-    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-    recognition = new SpeechRecognition();
-    
+    // Configure speech recognition
     recognition.continuous = false;
     recognition.interimResults = false;
-    recognition.lang = 'hi-IN'; // Hindi language
+    recognition.lang = 'hi-IN'; // Hindi first, but will also recognize English
     
-    recognition.onstart = () => {
-        isListening = true;
-        updateVoiceUI(true);
-        showMessage('info', '🎤 Listening... Speak now');
-    };
-    
-    recognition.onresult = (event) => {
+    // Handle successful recognition
+    recognition.onresult = function(event) {
         const transcript = event.results[0][0].transcript;
-        showMessage('success', `🎤 Heard: "${transcript}"`);
+        document.getElementById('definition-search').value = transcript;
         
-        // Perform search with the transcript
-        quickSearch(transcript);
+        // Call search function if available
+        if (window.searchDefinitions) {
+            window.searchDefinitions(transcript);
+        }
         
         stopVoiceSearch();
+        showMessage('success', `🎤 Voice search: "${transcript}"`);
     };
     
-    recognition.onerror = (event) => {
+    // Handle errors
+    recognition.onerror = function(event) {
         console.error('Speech recognition error:', event.error);
         stopVoiceSearch();
         
-        let errorMessage = 'Voice search error occurred';
+        let errorMessage = 'Voice search failed. ';
         switch(event.error) {
             case 'no-speech':
-                errorMessage = 'No speech detected. Please try again.';
+                errorMessage += 'No speech detected. Please try again.';
                 break;
             case 'audio-capture':
-                errorMessage = 'No microphone found. Please check your settings.';
+                errorMessage += 'Microphone not found or not working.';
                 break;
             case 'not-allowed':
-                errorMessage = 'Microphone access denied. Please allow microphone access.';
+                errorMessage += 'Microphone permission denied.';
                 break;
             case 'network':
-                errorMessage = 'Network error. Please check your connection.';
+                errorMessage += 'Network error. Check your connection.';
                 break;
             default:
-                errorMessage = `Voice search error: ${event.error}`;
+                errorMessage += 'Please try again or type your search.';
         }
-        
-        showMessage('warning', errorMessage);
+        showMessage('warning', `⚠️ ${errorMessage}`);
     };
     
-    recognition.onend = () => {
-        isListening = false;
-        updateVoiceUI(false);
+    // Handle when recognition ends
+    recognition.onend = function() {
+        stopVoiceSearch();
     };
     
     return true;
 }
 
-// Start voice search
 export function startVoiceSearch() {
-    if (!recognition) {
-        showMessage('warning', 'Voice search not available');
+    if (!recognition && !initVoiceSearch()) {
+        showMessage('warning', '⚠️ Voice search not supported in this browser. Please use Chrome, Edge, or Safari.');
         return;
     }
     
@@ -81,13 +79,32 @@ export function startVoiceSearch() {
     }
     
     try {
+        isListening = true;
+        const btn = document.getElementById('voice-search-btn');
+        const status = document.getElementById('voice-status');
+
+        // Update button appearance
+        if (btn) {
+            btn.style.background = '#ef4444';
+            btn.innerHTML = '⏹️';
+            btn.title = 'Stop listening';
+            btn.classList.add('voice-listening');
+        }
+        
+        // Show status
+        if (status) {
+            status.style.display = 'block';
+            status.innerHTML = '🎤 Listening... Speak your search term in Hindi or English!';
+        }
+        
+        // Start recognition
         recognition.start();
         
         // Auto-stop after 10 seconds
         setTimeout(() => {
             if (isListening) {
                 stopVoiceSearch();
-                showMessage('info', 'Voice search timed out. Please try again.');
+                showMessage('info', 'ℹ️ Voice search timed out. Please try again.');
             }
         }, 10000);
         
@@ -98,114 +115,37 @@ export function startVoiceSearch() {
     }
 }
 
-// Stop voice search
 export function stopVoiceSearch() {
     isListening = false;
+    const btn = document.getElementById('voice-search-btn');
+    const status = document.getElementById('voice-status');
     
     if (recognition) {
         recognition.stop();
     }
     
-    updateVoiceUI(false);
-}
-
-// Update voice search UI
-function updateVoiceUI(listening) {
-    const btn = document.getElementById('voice-search-btn');
-    const status = document.getElementById('voice-status');
-    
+    // Reset button appearance
     if (btn) {
-        if (listening) {
-            btn.style.background = '#ef4444';
-            btn.innerHTML = '⏹️';
-            btn.title = 'Stop listening';
-            btn.classList.add('voice-listening');
-        } else {
-            btn.style.background = '#10b981';
-            btn.innerHTML = '🎤';
-            btn.title = 'Voice search';
-            btn.classList.remove('voice-listening');
-        }
+        btn.style.background = '#10b981';
+        btn.innerHTML = '🎤';
+        btn.title = 'Voice search';
+        btn.classList.remove('voice-listening');
     }
     
+    // Hide status
     if (status) {
-        status.style.display = listening ? 'block' : 'none';
+        status.style.display = 'none';
     }
 }
 
-// Add voice search button to page (if desired)
-export function addVoiceSearchButton() {
-    // Check if button already exists
-    if (document.getElementById('voice-search-btn')) return;
-    
-    const button = document.createElement('button');
-    button.id = 'voice-search-btn';
-    button.innerHTML = '🎤';
-    button.title = 'Voice search';
-    button.style.cssText = `
-        position: fixed;
-        bottom: 20px;
-        right: 20px;
-        width: 56px;
-        height: 56px;
-        border-radius: 50%;
-        border: none;
-        background: #10b981;
-        color: white;
-        font-size: 24px;
-        cursor: pointer;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-        z-index: 1000;
-        transition: all 0.3s ease;
-    `;
-    
-    // Add listening animation styles
-    const style = document.createElement('style');
-    style.textContent = `
-        .voice-listening {
-            animation: pulse 1.5s infinite;
-        }
-        
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-            100% { transform: scale(1); }
-        }
-    `;
-    document.head.appendChild(style);
-    
-    button.onclick = startVoiceSearch;
-    document.body.appendChild(button);
-    
-    // Add status indicator
-    const status = document.createElement('div');
-    status.id = 'voice-status';
-    status.textContent = 'Listening...';
-    status.style.cssText = `
-        position: fixed;
-        bottom: 85px;
-        right: 20px;
-        padding: 8px 12px;
-        background: rgba(0,0,0,0.8);
-        color: white;
-        border-radius: 6px;
-        font-size: 12px;
-        display: none;
-        z-index: 1000;
-    `;
-    document.body.appendChild(status);
-}
-
-// Check if voice search is supported
 export function isVoiceSearchSupported() {
-    return ('webkitSpeechRecognition' in window) || ('SpeechRecognition' in window);
+    return 'webkitSpeechRecognition' in window || 'SpeechRecognition' in window;
 }
 
-// Export state getter
-export function getVoiceSearchState() {
+export function getVoiceSearchStatus() {
     return {
-        isSupported: isVoiceSearchSupported(),
-        isListening,
-        isInitialized: !!recognition
+        supported: isVoiceSearchSupported(),
+        listening: isListening,
+        initialized: recognition !== null
     };
 }
