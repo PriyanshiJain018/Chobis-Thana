@@ -1,0 +1,89 @@
+{
+  "name": "गुणस्थान सोपान - चौबीस ठाणा",
+  "short_name": "Gunasthan App",
+  "description": "Complete analysis of 24 Thanas across 14 Gunasthanas with detailed definitions and spiritual guidance",
+  "version": "1.0.0",
+  "start_url": "./",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "theme_color": "#1e40af",
+  "background_color": "#f3f4f6",
+  "scope": "./",
+  "lang": "hi",
+  "categories": ["education", "reference", "spirituality"],
+  "icons": [
+    {
+      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'><rect fill='%231e40af' width='192' height='192' rx='24'/><text x='96' y='140' font-size='120' text-anchor='middle' fill='white'>🕉️</text></svg>",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><rect fill='%231e40af' width='512' height='512' rx='64'/><text x='256' y='380' font-size='320' text-anchor='middle' fill='white'>🕉️</text></svg>",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Matrix View",
+      "short_name": "Matrix",
+      "description": "View 24×14 comprehensive matrix",
+      "url": "./?tab=matrix",
+      "icons": [
+        {
+          "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 96 96'><rect fill='%233b82f6' width='96' height='96' rx='12'/><text x='48' y='72' font-size='64' text-anchor='middle' fill='white'>📊</text></svg>",
+          "sizes": "96x96",
+          "type": "image/svg+xml"
+        }
+      ]
+    },
+    {
+      "name": "Definitions",
+      "short_name": "Definitions",
+      "description": "Search spiritual definitions",
+      "url": "./?tab=definitions",
+      "icons": [
+        {
+          "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 96 96'><rect fill='%23f59e0b' width='96' height='96' rx='12'/><text x='48' y='72' font-size='64' text-anchor='middle' fill='white'>📖</text></svg>",
+          "sizes": "96x96",
+          "type": "image/svg+xml"
+        }
+      ]
+    },
+    {
+      "name": "Transitions",
+      "short_name": "Transitions", 
+      "description": "Explore spiritual progression paths",
+      "url": "./?tab=transitions",
+      "icons": [
+        {
+          "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 96 96'><rect fill='%2310b981' width='96' height='96' rx='12'/><text x='48' y='72' font-size='64' text-anchor='middle' fill='white'>🔄</text></svg>",
+          "sizes": "96x96",
+          "type": "image/svg+xml"
+        }
+      ]
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 540 720'><rect fill='%23f3f4f6' width='540' height='720'/><rect fill='%231e40af' width='540' height='80'/><text x='270' y='50' font-size='24' text-anchor='middle' fill='white'>गुणस्थान सोपान</text><rect fill='white' x='20' y='100' width='500' height='600' rx='12'/><text x='270' y='140' font-size='18' text-anchor='middle' fill='%231f2937'>24 Thana Matrix</text></svg>",
+      "sizes": "540x720",
+      "type": "image/svg+xml",
+      "form_factor": "narrow",
+      "label": "Matrix View on Mobile"
+    },
+    {
+      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1280 800'><rect fill='%23f3f4f6' width='1280' height='800'/><rect fill='%231e40af' width='1280' height='80'/><text x='640' y='50' font-size='28' text-anchor='middle' fill='white'>गुणस्थान सोपान - चौबीस ठाणा</text><rect fill='white' x='40' y='120' width='1200' height='640' rx='16'/><text x='640' y='180' font-size='24' text-anchor='middle' fill='%231f2937'>Comprehensive Spiritual Analysis</text></svg>",
+      "sizes": "1280x800", 
+      "type": "image/svg+xml",
+      "form_factor": "wide",
+      "label": "Desktop View"
+    }
+  ],
+  "prefer_related_applications": false,
+  "related_applications": [],
+  "dir": "ltr",
+  "iarc_rating_id": ""
+}
