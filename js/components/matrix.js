@@ -1,17 +1,14 @@
-// Matrix Component
-import { thanasData } from '../data/definitions.js';
-import { matrixData, additionalMatrices } from '../data/matrix.js';
-import { showMessage } from '../utils/helpers.js';
+// Matrix Component - Handles matrix display and interactions
+
+import { thanasData, matrixData, additionalMatrices, completeMatrixData, matrixDetailedData } from '../data/matrix.js';
+import { gunasthansData } from '../data/gunasthans.js';
+import { getProgressColor, showMessage } from '../utils/helpers.js';
 
 let selectedMatrix = 'default';
 
-export function initMatrix() {
-    loadMatrix();
-}
-
-function loadMatrix() {
+// Load Matrix based on selected type
+export function loadMatrix() {
     const container = document.getElementById('matrix-table');
-    if (!container) return;
     
     if (selectedMatrix === 'default') {
         // Original Thana-Gunasthan matrix
@@ -27,49 +24,56 @@ function loadMatrix() {
             
             for (let g = 1; g <= 14; g++) {
                 const count = matrixData[g][index];
-                const total = thana.total || 0;
-                const percentage = total > 0 ? (count / total * 100).toFixed(0) : 0;
+                const total = thana.total;
+                const percentage = (count / total) * 100;
+                const color = getProgressColor(percentage);
                 
-                let cellClass = 'matrix-cell';
-                if (count === 0) cellClass += ' zero';
-                else if (count === total) cellClass += ' full';
-                else cellClass += ' partial';
-                
-                html += `<td class="${cellClass}" 
-                    onclick="showDetailedTooltip(${g}, ${index})"
-                    title="G${g} - ${thana.nameHi}: ${count}/${total} (${percentage}%)">
-                    ${count}
-                </td>`;
+                html += `
+                    <td onclick="showDetailedTooltip(${g}, ${index})">
+                        <div class="cell-fraction">${count}/${total}</div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: ${percentage}%; background: ${color}"></div>
+                        </div>
+                    </td>
+                `;
             }
+            
             html += '</tr>';
         });
         
         html += '</tbody></table>';
         container.innerHTML = html;
+        
     } else {
-        // Additional matrices
+        // Other matrices - CONSISTENT STRUCTURE: Thanas as rows, Categories as columns
         const matrix = additionalMatrices[selectedMatrix];
-        if (!matrix) return;
+        let html = '<table class="matrix-table"><thead><tr><th class="thana-header">Thana</th>';
         
-        let html = `<div class="matrix-info">
-            <h3>${matrix.nameHi}</h3>
-            <p>${matrix.description}</p>
-        </div>`;
-        
-        html += '<table class="matrix-table"><thead><tr><th class="thana-header">Thana</th>';
-        
-        matrix.colHeaders.forEach(header => {
-            html += `<th>${header}</th>`;
+        // Column headers - proper names, not just icons
+        matrix.colHeaders.forEach(colName => {
+            html += `<th style="font-size: 11px; padding: 6px 3px;">${colName}</th>`;
         });
         html += '</tr></thead><tbody>';
         
-        thanasData.forEach((thana, index) => {
+        // Rows are Thanas (consistent with original)
+        thanasData.forEach((thana, thanaIndex) => {
             html += `<tr><td class="thana-header">${thana.icon} ${thana.nameHi}</td>`;
             
-            const rowData = matrix.data[index] || [];
-            rowData.forEach(value => {
-                html += `<td class="matrix-cell">${value}</td>`;
-            });
+            for (let colIndex = 0; colIndex < matrix.cols; colIndex++) {
+                const count = matrix.data[thanaIndex][colIndex];
+                const total = matrix.totals[thanaIndex];
+                const percentage = (count / total) * 100;
+                const color = getProgressColor(percentage);
+                
+                html += `
+                    <td onclick="showNewDetailedTooltip('${selectedMatrix}', ${thanaIndex}, ${colIndex})">
+                        <div class="cell-fraction">${count}/${total}</div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: ${percentage}%; background: ${color}"></div>
+                        </div>
+                    </td>
+                `;
+            }
             
             html += '</tr>';
         });
@@ -79,46 +83,248 @@ function loadMatrix() {
     }
 }
 
-// Show detailed tooltip for matrix cell
-window.showDetailedTooltip = function(gunasthanId, thanaIndex) {
+// Change matrix type
+export function changeMatrix() {
+    const selector = document.getElementById('matrix-selector');
+    selectedMatrix = selector.value;
+    loadMatrix();
+}
+
+// Show detailed tooltip for default matrix
+export function showDetailedTooltip(gunasthanId, thanaIndex) {
     const modal = document.getElementById('tooltip-modal');
-    const thana = thanasData[thanaIndex];
+    const g = gunasthansData[gunasthanId];
+    const t = thanasData[thanaIndex];
     
-    if (!modal || !thana) return;
+    // Get accurate data from completeMatrixData
+    let cellData;
+    if (completeMatrixData[gunasthanId] && completeMatrixData[gunasthanId][thanaIndex]) {
+        cellData = completeMatrixData[gunasthanId][thanaIndex];
+    } else {
+        // Fallback for incomplete data - use simple calculation
+        const count = matrixData[gunasthanId][thanaIndex];
+        const total = t.total;
+        
+        cellData = {
+            present: count === total ? t.subtypes : t.subtypes.slice(0, count),
+            absent: count === 0 ? t.subtypes : (count === total ? [] : t.subtypes.slice(count)),
+            count: count,
+            total: total,
+            notes: `${count}/${total} characteristics present`
+        };
+    }
     
-    const count = matrixData[gunasthanId][thanaIndex];
-    const total = thana.total || 0;
+    // Update header
+    document.getElementById('tooltip-title').textContent = t.nameHi;
+    document.getElementById('tooltip-subtitle').textContent = `${t.nameEn} - ${t.english}`;
+    document.getElementById('tooltip-gunasthan').textContent = `In ${g.nameHi} (G${gunasthanId})`;
     
-    // Basic tooltip implementation
-    document.getElementById('tooltip-title').textContent = thana.nameHi;
-    document.getElementById('tooltip-subtitle').textContent = `${thana.nameEn} - ${thana.english}`;
-    document.getElementById('tooltip-gunasthan').textContent = `गुणस्थान ${gunasthanId}`;
+    // Update stats
+    document.getElementById('stat-present').textContent = cellData.count;
+    document.getElementById('stat-absent').textContent = cellData.total - cellData.count;
+    document.getElementById('stat-total').textContent = cellData.total;
     
-    document.getElementById('stat-present').textContent = count;
-    document.getElementById('stat-absent').textContent = total - count;
-    document.getElementById('stat-total').textContent = total;
+    // Build detailed body with accurate present/absent data
+    let bodyHtml = '';
     
-    const percentage = total > 0 ? (count / total * 100).toFixed(1) : 0;
-    
-    let bodyHtml = `
-        <div class="progress-info">
-            <div class="progress-percentage">${percentage}%</div>
-            <div class="progress-bar-large">
-                <div class="progress-fill-large" style="width: ${percentage}%"></div>
-            </div>
-        </div>
-    `;
-    
-    if (thana.definition) {
+    // Present section
+    if (cellData.present.length > 0) {
         bodyHtml += `
-            <div style="margin-top: 16px; padding: 12px; background: #f9fafb; border-radius: 8px;">
-                <strong>परिभाषा:</strong> ${thana.definition}
+            <div class="tooltip-section present">
+                <div class="section-title present">
+                    <span class="section-icon present">✓</span>
+                    Present (${cellData.present.length})
+                </div>
+                <div class="section-items">
+                    ${cellData.present.map(item => 
+                        `<span class="item-tag" onclick="findDefinitionByThana('${t.nameHi}', '${item}')">${item}</span>`
+                    ).join('')}
+                </div>
             </div>
         `;
     }
     
+    // Absent section
+    if (cellData.absent.length > 0) {
+        bodyHtml += `
+            <div class="tooltip-section absent">
+                <div class="section-title absent">
+                    <span class="section-icon absent">✗</span>
+                    Absent (${cellData.absent.length})
+                </div>
+                <div class="section-items">
+                    ${cellData.absent.map(item => 
+                        `<span class="item-tag" onclick="findDefinitionByThana('${t.nameHi}', '${item}')">${item}</span>`
+                    ).join('')}
+                </div>
+            </div>
+        `;
+    }
+    
+    // Add notes if available
+    if (cellData.notes) {
+        bodyHtml += `
+            <div class="tooltip-notes">
+                <strong>विशेष:</strong> ${cellData.notes}
+            </div>
+        `;
+    }
+    
+    // Progress visualization
+    const percentage = (cellData.count / cellData.total * 100).toFixed(1);
+    bodyHtml += `
+        <div class="progress-info">
+            <div class="progress-percentage">${percentage}%</div>
+            <div style="font-size: 14px; color: #6b7280; margin-bottom: 8px;">
+                ${cellData.count} out of ${cellData.total} characteristics present
+            </div>
+            <div class="progress-bar-large">
+                <div class="progress-fill-large" style="width: ${percentage}%; background: ${getProgressColor(parseFloat(percentage))}"></div>
+            </div>
+        </div>
+    `;
+    
+    document.getElementById('tooltip-body').innerHTML = bodyHtml;
+    
+    // Show modal
+    modal.classList.remove('hidden');
+}
+
+// Show detailed tooltip for alternative matrices
+export function showNewDetailedTooltip(matrixType, thanaIndex, colIndex) {
+    const modal = document.getElementById('tooltip-modal');
+    const matrix = additionalMatrices[matrixType];
+    const thana = thanasData[thanaIndex];
+    const colName = matrix.colHeaders[colIndex];
+    const count = matrix.data[thanaIndex][colIndex];
+    const total = matrix.totals[thanaIndex];
+    
+    // Update header
+    document.getElementById('tooltip-title').textContent = thana.nameHi;
+    document.getElementById('tooltip-subtitle').textContent = `${thana.nameEn} - ${thana.english}`;
+    document.getElementById('tooltip-gunasthan').textContent = `In ${colName} context`;
+    
+    // Update stats
+    document.getElementById('stat-present').textContent = count;
+    document.getElementById('stat-absent').textContent = total - count;
+    document.getElementById('stat-total').textContent = total;
+    
+    // Build detailed body
+    let bodyHtml = '';
+    
+    // Check if we have detailed data
+    if (matrixDetailedData[matrixType] && matrixDetailedData[matrixType][thanaIndex] && matrixDetailedData[matrixType][thanaIndex][colIndex]) {
+        const cellData = matrixDetailedData[matrixType][thanaIndex][colIndex];
+        
+        // Present section
+        if (cellData.present.length > 0) {
+            bodyHtml += `
+                <div class="tooltip-section present">
+                    <div class="section-title present">
+                        <span class="section-icon present">✓</span>
+                        Present (${cellData.present.length})
+                    </div>
+                    <div class="section-items">
+                        ${cellData.present.map(item => 
+                            `<span class="item-tag" onclick="findDefinitionByThana('${thana.nameHi}', '${item}')">${item}</span>`
+                        ).join('')}
+                    </div>
+                </div>
+            `;
+        }
+        
+        // Absent section
+        if (cellData.absent.length > 0) {
+            bodyHtml += `
+                <div class="tooltip-section absent">
+                    <div class="section-title absent">
+                        <span class="section-icon absent">✗</span>
+                        Absent (${cellData.absent.length})
+                    </div>
+                    <div class="section-items">
+                        ${cellData.absent.map(item => 
+                            `<span class="item-tag" onclick="findDefinitionByThana('${thana.nameHi}', '${item}')">${item}</span>`
+                        ).join('')}
+                    </div>
+                </div>
+            `;
+        }
+        
+        // Notes
+        if (cellData.notes) {
+            bodyHtml += `
+                <div class="tooltip-notes">
+                    <strong>विशेष:</strong> ${cellData.notes}
+                </div>
+            `;
+        }
+    } else {
+        // Fallback for data without detailed breakdown
+        bodyHtml = `
+            <div style="text-align: center; padding: 20px;">
+                <div style="font-size: 36px; margin-bottom: 16px;">📊</div>
+                <h3 style="margin-bottom: 12px;">${thana.nameHi}</h3>
+                <p style="color: #6b7280; margin-bottom: 20px;">in ${colName}</p>
+                <div style="background: #f3f4f6; padding: 16px; border-radius: 12px;">
+                    <div style="font-size: 24px; font-weight: bold; color: #1f2937;">${count}/${total}</div>
+                    <div style="font-size: 14px; color: #6b7280; margin-top: 4px;">
+                        ${((count/total)*100).toFixed(1)}% characteristics present
+                    </div>
+                </div>
+            </div>
+        `;
+    }
+    
+    // Progress visualization
+    const percentage = (count / total * 100).toFixed(1);
+    bodyHtml += `
+        <div class="progress-info">
+            <div class="progress-percentage">${percentage}%</div>
+            <div style="font-size: 14px; color: #6b7280; margin-bottom: 8px;">
+                ${count} out of ${total} characteristics present
+            </div>
+            <div class="progress-bar-large">
+                <div class="progress-fill-large" style="width: ${percentage}%; background: ${getProgressColor(parseFloat(percentage))}"></div>
+            </div>
+        </div>
+    `;
+    
     document.getElementById('tooltip-body').innerHTML = bodyHtml;
     modal.classList.remove('hidden');
-};
+}
 
-export { selectedMatrix };
+// Search in matrix
+export function searchInMatrix(searchTerm) {
+    const term = searchTerm.toLowerCase();
+    
+    // Highlight relevant Thana rows
+    document.querySelectorAll('.matrix-table tbody tr').forEach((row, index) => {
+        const thana = thanasData[index];
+        if (thana && (thana.nameHi.includes(searchTerm) || 
+                    thana.nameEn.toLowerCase().includes(term) ||
+                    thana.english.toLowerCase().includes(term))) {
+            row.style.background = '#f0f9ff';
+            row.style.border = '2px solid #3b82f6';
+            row.classList.add('search-highlight');
+            
+            // Scroll to first match
+            if (!document.querySelector('.search-highlight')) {
+                row.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+        } else {
+            row.style.background = '';
+            row.style.border = '';
+            row.classList.remove('search-highlight');
+        }
+    });
+    
+    // Show search info
+    showMessage('info', `🔍 Highlighted Thanas matching: ${searchTerm}`);
+}
+
+// Close tooltip
+export function closeTooltip(event) {
+    if (!event || event.target.id === 'tooltip-modal' || event.target.classList.contains('close-button')) {
+        document.getElementById('tooltip-modal').classList.add('hidden');
+    }
+}
