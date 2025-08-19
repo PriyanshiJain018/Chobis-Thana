@@ -8,11 +8,15 @@
     <meta name="theme-color" content="#1e40af">
     <title>गुणस्थान - 24 ठाणा | Complete Edition</title>
     
-    <!-- External CSS Files -->
-    <link rel="stylesheet" href="css/main.css">
-    <link rel="stylesheet" href="css/components.css">
-    <link rel="stylesheet" href="css/definitions.css">
-    <link rel="stylesheet" href="css/matrix.css">
+    <!-- Manifest for PWA -->
+    <link rel="manifest" href="./manifest.json">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🕉️</text></svg>">
+    
+    <!-- CSS Files -->
+    <link rel="stylesheet" href="./css/main.css">
+    <link rel="stylesheet" href="./css/components.css">
+    <link rel="stylesheet" href="./css/definitions.css">
+    <link rel="stylesheet" href="./css/matrix.css">
 </head>
 <body>
     <div class="app-header">
@@ -38,7 +42,7 @@
                     💡 इसका उद्देश्य आपकी जिज्ञासा बढ़ाना है, समाधान देना नहीं ।
                     
                     👉 मूल अध्ययन सदैव आगम ग्रंथों, गुरुओं की वाणी और आत्म-चिंतन से ही करें।
-                    यह एप न तो प्रवचन का विकल्प है, न ही आध्यात्मिक निष्कर्ष का स्रोत।
+                    यह एप ना तो प्रवचन का विकल्प है, ना ही आध्यात्मिक निष्कर्ष का स्रोत।
                 </div>
             </div>
             <div id="gunasthan-list"></div>
@@ -50,16 +54,29 @@
                 <div class="info-description">
                     Comprehensive mapping of 24 spiritual attributes across all 14 Gunasthanas. 
                     Click any cell to see detailed breakdown of present and absent characteristics.
+                    Click on individual terms to see their definitions.
                 </div>
             </div>
-            <div id="matrix-table"></div>
+            <div class="matrix-container">
+                <div style="margin-bottom: 20px; display: flex; flex-wrap: wrap; gap: 12px; align-items: center;">
+                    <label style="font-weight: 600; color: #374151;">Matrix View:</label>
+                    <select id="matrix-selector" onchange="changeMatrix()" style="padding: 8px 12px; border: 2px solid #d1d5db; border-radius: 8px; background: white; font-size: 14px;">
+                        <option value="default">Thana-Gunasthan (24×14)</option>
+                        <option value="gati">Gati Matrix (4×24)</option>
+                        <option value="indriya">Indriya Matrix (5×24)</option>
+                    </select>
+                </div>
+                <div id="matrix-table"></div>
+            </div>
         </div>
         
         <div id="transitions-content" class="tab-content hidden">
             <div class="info-section">
-                <div class="info-title">गुणस्थान संक्रमण</div>
+                <div class="info-title">Spiritual Progression Paths</div>
                 <div class="info-description">
-                    आत्मा की आध्यात्मिक यात्रा में विभिन्न गुणस्थानों के बीच संभावित संक्रमण (transitions) देखें।
+                    Explore possible transitions between Gunasthanas. Each stage has specific paths forward or backward
+                    based on spiritual progress and karmic conditions. 
+                    विभिन्न गुणस्थान में आरोहण तथा अवरोहण  के नियम 
                 </div>
             </div>
             <div id="transitions-list"></div>
@@ -67,10 +84,32 @@
         
         <div id="definitions-content" class="tab-content hidden">
             <div class="info-section">
-                <div class="info-title">संपूर्ण परिभाषा कोश</div>
+                <div class="info-title">Comprehensive Definitions</div>
                 <div class="info-description">
-                    सभी 24 ठाणा और संबंधित जैन दर्शन शब्दावली की विस्तृत परिभाषाएं।
+                    Detailed explanations of all Jain philosophical terms and concepts used in the application.
+                    Search or browse by category to understand the meanings and significance.
                 </div>
+            </div>
+            <div style="display: flex; gap: 8px; margin-bottom: 16px;">
+                <input type="text" id="definition-search" class="search-box" placeholder="Search definitions (Hindi/English/Sanskrit)..." 
+                       oninput="searchDefinitions(this.value)" 
+                       onkeypress="if(event.key==='Enter') searchDefinitions(this.value)"
+                       style="flex: 1; margin-bottom: 0;">
+                <button id="voice-search-btn" onclick="startVoiceSearch()" 
+                        style="background: #10b981; color: white; border: none; padding: 14px 16px; border-radius: 12px; cursor: pointer; font-weight: 600; transition: all 0.3s ease;">
+                    🎤
+                </button>
+                <button onclick="searchDefinitions(document.getElementById('definition-search').value)" 
+                        style="background: #3b82f6; color: white; border: none; padding: 14px 20px; border-radius: 12px; cursor: pointer; font-weight: 600; white-space: nowrap;">
+                    🔍
+                </button>
+                <button onclick="clearDefinitionSearch()" 
+                        style="background: #6b7280; color: white; border: none; padding: 14px 16px; border-radius: 12px; cursor: pointer; font-weight: 600;">
+                    ✖
+                </button>
+            </div>
+            <div id="voice-status" style="display: none; text-align: center; margin-bottom: 12px; padding: 8px; background: #fef3c7; border: 1px solid #f59e0b; border-radius: 8px; color: #78350f; font-size: 14px;">
+                🎤 Listening... Speak now!
             </div>
             <div id="definitions-list"></div>
         </div>
@@ -106,22 +145,22 @@
         </div>
     </div>
     
-    <!-- Main App Script -->
-    <script type="module" src="js/core/app.js"></script>
+    <!-- JavaScript Modules -->
+    <script type="module" src="./js/core/app.js"></script>
     
     <!-- Service Worker Registration -->
     <script>
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('./sw.js')
-                    .then(registration => {
-                        console.log('ServiceWorker registration successful');
-                    })
-                    .catch(error => {
-                        console.log('ServiceWorker registration failed:', error);
-                    });
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('./sw.js')
+            .then(registration => {
+              console.log('ServiceWorker registration successful with scope: ', registration.scope);
+            })
+            .catch(error => {
+              console.log('ServiceWorker registration failed: ', error);
             });
-        }
+        });
+      }
     </script>
 </body>
 </html>
