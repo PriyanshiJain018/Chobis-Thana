@@ -462,8 +462,10 @@ function stopPropagation(event) {
 
 // Make functions globally available IMMEDIATELY
 function exposeFunctionsGlobally() {
+    // Core navigation functions - these are called by old onclick handlers
+    window.showTab = showTab;  // CRITICAL: This must be available immediately
+    
     // Tab functions
-    window.showTab = showTab;
     window.loadOverview = loadOverview;
     window.showSourceInfo = showSourceInfo;
     window.showGunasthanDetail = showGunasthanDetail;
@@ -518,6 +520,8 @@ function exposeFunctionsGlobally() {
     window.showMatrixTab = showMatrixTab;
     window.showTransitionsTab = showTransitionsTab;
     window.showDefinitionsTab = showDefinitionsTab;
+    
+    console.log('✅ All functions exposed globally');
 }
 
 // Initialize app when DOM is loaded
