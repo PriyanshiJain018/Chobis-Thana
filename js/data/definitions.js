@@ -1781,7 +1781,4 @@ export const definitionsDatabase = {
             }
         }
     }
-    // Note: The complete definitions database is very large (over 2000 lines)
-    // This is a sample structure. The full database would include all categories
-    // like इन्द्रिय-मार्गणा, काय-मार्गणा, योग-मार्गणा, etc.
-    export { thanasData, definitionsDatabase };
+   
