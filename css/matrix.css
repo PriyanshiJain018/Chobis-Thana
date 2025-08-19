@@ -1,6 +1,5 @@
-/* Matrix CSS - Matrix-specific Styles */
+/* Matrix CSS - Styles for matrix tables and related components */
 
-/* Matrix Container */
 .matrix-container {
     overflow-x: auto;
     background: white;
@@ -10,7 +9,6 @@
     box-shadow: 0 2px 12px rgba(0,0,0,0.08);
 }
 
-/* Matrix Table */
 .matrix-table {
     border-collapse: separate;
     border-spacing: 0;
@@ -65,30 +63,13 @@
     z-index: 5;
 }
 
-/* Cell Content */
 .cell-fraction {
     font-weight: 600;
     color: #1f2937;
     font-size: 11px;
 }
 
-/* Progress Bars */
-.progress-bar {
-    width: 100%;
-    height: 4px;
-    background: #e5e7eb;
-    border-radius: 2px;
-    margin: 4px auto 0;
-    overflow: hidden;
-}
-
-.progress-fill {
-    height: 100%;
-    transition: width 0.3s ease;
-    border-radius: 2px;
-}
-
-/* Mobile Optimizations for Matrix */
+/* Mobile Matrix Optimizations */
 @media (max-width: 640px) {
     .matrix-table {
         font-size: 10px;
