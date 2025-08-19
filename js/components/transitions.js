@@ -39,7 +39,7 @@ export function loadTransitions() {
             html += '<div class="transition-targets">';
             rule.canGoTo.forEach(target => {
                 html += `
-                    <div class="transition-target" onclick="scrollToGunasthan(${target})">
+                    <div class="transition-target" data-click="scrollToGunasthan" data-gunasthan-id="${target}">
                         <span class="transition-arrow">→</span> G${target}: ${gunasthansData[target].nameHi}
                     </div>
                 `;
