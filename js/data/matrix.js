@@ -926,7 +926,7 @@ export const additionalMatrices = {
 };
 
 // Detailed matrix data for tooltips (placeholder - can be expanded as needed)
-export const matrixDetailedData = {
+export const additionalMatrixDetailedData = {
     'gati': {
                 0: { // गति thana
                     0: {present: ['नरकगति'], absent: ['तिर्यंचगति', 'मनुष्यगति', 'देवगति'], notes: 'Hell beings exist only in hell destiny'},
