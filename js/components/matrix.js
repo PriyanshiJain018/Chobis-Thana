@@ -1,6 +1,6 @@
 // Matrix Component - Handles matrix display and interactions
 
-import { thanasData, matrixData, additionalMatrices, completeMatrixData, matrixDetailedData } from '../data/matrix.js';
+import { thanasData, matrixData, additionalMatrices, matrixDetailedData } from '../data/matrix.js';
 import { gunasthansData } from '../data/gunasthans.js';
 import { getProgressColor, showMessage } from '../utils/helpers.js';
 
@@ -96,60 +96,54 @@ export function showDetailedTooltip(gunasthanId, thanaIndex) {
     const g = gunasthansData[gunasthanId];
     const t = thanasData[thanaIndex];
     
-    // Get accurate data from completeMatrixData
-    let cellData;
-    if (completeMatrixData[gunasthanId] && completeMatrixData[gunasthanId][thanaIndex]) {
-        cellData = completeMatrixData[gunasthanId][thanaIndex];
-    } else {
-        // Fallback for incomplete data - use simple calculation
-        const count = matrixData[gunasthanId][thanaIndex];
-        const total = t.total;
-        
-        cellData = {
-            present: count === total ? t.subtypes : t.subtypes.slice(0, count),
-            absent: count === 0 ? t.subtypes : (count === total ? [] : t.subtypes.slice(count)),
-            count: count,
-            total: total,
-            notes: `${count}/${total} characteristics present`
-        };
-    }
+    // Use simple calculation for cell data
+    const count = matrixData[gunasthanId][thanaIndex];
+    const total = t.total;
     
-    // Update header
-    document.getElementById('tooltip-title').textContent = t.nameHi;
+    const cellData = {
+        present: count === total ? t.subtypes : t.subtypes.slice(0, count),
+        absent: count === 0 ? t.subtypes : (count === total ? [] : t.subtypes.slice(count)),
+        count: count,
+        total: total,
+        notes: `Gunasthan ${gunasthanId} has ${count} out of ${total} characteristics of ${t.nameHi}`
+    };
+    
+    // Update modal header
+    document.getElementById('tooltip-title').textContent = `${t.icon} ${t.nameHi}`;
     document.getElementById('tooltip-subtitle').textContent = `${t.nameEn} - ${t.english}`;
-    document.getElementById('tooltip-gunasthan').textContent = `In ${g.nameHi} (G${gunasthanId})`;
+    document.getElementById('tooltip-gunasthan').textContent = `Gunasthan ${gunasthanId}: ${g.nameHi}`;
     
     // Update stats
-    document.getElementById('stat-present').textContent = cellData.count;
-    document.getElementById('stat-absent').textContent = cellData.total - cellData.count;
+    document.getElementById('stat-present').textContent = cellData.present.length;
+    document.getElementById('stat-absent').textContent = cellData.absent.length;
     document.getElementById('stat-total').textContent = cellData.total;
     
-    // Build detailed body with accurate present/absent data
+    // Build body content
     let bodyHtml = '';
     
-    // Present section
+    // Present characteristics
     if (cellData.present.length > 0) {
         bodyHtml += `
-            <div class="tooltip-section present">
-                <div class="section-title present">
-                    <span class="section-icon present">✓</span>
+            <div class="tooltip-section">
+                <div class="section-header">
+                    <span class="icon present">✓</span>
                     Present (${cellData.present.length})
                 </div>
                 <div class="section-items">
                     ${cellData.present.map(item => 
-                        `<span class="item-tag" data-click="findDefinitionByThana" data-thana-name="${t.nameHi}" data-concept-name="${item}">${item}</span>`
+                        `<span class="item-tag present" data-click="findDefinitionByThana" data-thana-name="${t.nameHi}" data-concept-name="${item}">${item}</span>`
                     ).join('')}
                 </div>
             </div>
         `;
     }
     
-    // Absent section
+    // Absent characteristics
     if (cellData.absent.length > 0) {
         bodyHtml += `
-            <div class="tooltip-section absent">
-                <div class="section-title absent">
-                    <span class="section-icon absent">✗</span>
+            <div class="tooltip-section">
+                <div class="section-header">
+                    <span class="icon absent">✗</span>
                     Absent (${cellData.absent.length})
                 </div>
                 <div class="section-items">
@@ -200,45 +194,48 @@ export function showNewDetailedTooltip(matrixType, thanaIndex, colIndex) {
     const total = matrix.totals[thanaIndex];
     
     // Update header
-    document.getElementById('tooltip-title').textContent = thana.nameHi;
+    document.getElementById('tooltip-title').textContent = `${thana.icon} ${thana.nameHi}`;
     document.getElementById('tooltip-subtitle').textContent = `${thana.nameEn} - ${thana.english}`;
-    document.getElementById('tooltip-gunasthan').textContent = `In ${colName} context`;
+    document.getElementById('tooltip-gunasthan').textContent = colName;
     
     // Update stats
     document.getElementById('stat-present').textContent = count;
     document.getElementById('stat-absent').textContent = total - count;
     document.getElementById('stat-total').textContent = total;
     
-    // Build detailed body
+    // Build body content
     let bodyHtml = '';
     
-    // Check if we have detailed data
-    if (matrixDetailedData[matrixType] && matrixDetailedData[matrixType][thanaIndex] && matrixDetailedData[matrixType][thanaIndex][colIndex]) {
+    // Check if we have detailed data for this matrix
+    if (matrixDetailedData && matrixDetailedData[matrixType] && 
+        matrixDetailedData[matrixType][thanaIndex] && 
+        matrixDetailedData[matrixType][thanaIndex][colIndex]) {
+        
         const cellData = matrixDetailedData[matrixType][thanaIndex][colIndex];
         
-        // Present section
-        if (cellData.present.length > 0) {
+        // Present items
+        if (cellData.present && cellData.present.length > 0) {
             bodyHtml += `
-                <div class="tooltip-section present">
-                    <div class="section-title present">
-                        <span class="section-icon present">✓</span>
+                <div class="tooltip-section">
+                    <div class="section-header">
+                        <span class="icon present">✓</span>
                         Present (${cellData.present.length})
                     </div>
                     <div class="section-items">
                         ${cellData.present.map(item => 
-                            `<span class="item-tag" data-click="findDefinitionByThana" data-thana-name="${thana.nameHi}" data-concept-name="${item}">${item}</span>`
+                            `<span class="item-tag present" data-click="findDefinitionByThana" data-thana-name="${thana.nameHi}" data-concept-name="${item}">${item}</span>`
                         ).join('')}
                     </div>
                 </div>
             `;
         }
         
-        // Absent section
-        if (cellData.absent.length > 0) {
+        // Absent items
+        if (cellData.absent && cellData.absent.length > 0) {
             bodyHtml += `
-                <div class="tooltip-section absent">
-                    <div class="section-title absent">
-                        <span class="section-icon absent">✗</span>
+                <div class="tooltip-section">
+                    <div class="section-header">
+                        <span class="icon absent">✗</span>
                         Absent (${cellData.absent.length})
                     </div>
                     <div class="section-items">
