@@ -1,6 +1,6 @@
 // Matrix Data - Complete matrix data for Gunasthan-Thana relationships
 // Thanas Data - Information about all 24 Thanas
-export const thanasData = {
+export const thanasData = [
     { icon: '🌍', nameHi: 'गति', nameEn: 'Gati', english: 'Destiny', total: 4, 
       subtypes: ['नरकगति', 'तिर्यंचगति', 'मनुष्यगति', 'देवगति'] },
     
@@ -72,7 +72,7 @@ export const thanasData = {
     
     { icon: '🌏', nameHi: 'कुल', nameEn: 'Kul', english: 'Total Universe', total: 199.5,
       subtypes: ['All categories combined'] }
-};
+];
 
 // Complete matrix data simplified
 export const matrixData = {
