@@ -311,6 +311,9 @@ const exposeFunctionsGlobally = () => {
 // EXPOSE FUNCTIONS IMMEDIATELY - BEFORE ANYTHING ELSE
 exposeFunctionsGlobally();
 
+// Set up event listeners IMMEDIATELY to ensure tabs work
+setupEventListeners();
+
 // Initialize the application
 function initializeApp() {
     if (isInitialized) return;
@@ -322,9 +325,6 @@ function initializeApp() {
     
     // Initialize voice search if supported
     initVoiceSearch();
-    
-    // Set up event listeners
-    setupEventListeners();
     
     // Mark as initialized
     isInitialized = true;
@@ -438,8 +438,5 @@ document.addEventListener('DOMContentLoaded', initializeApp);
 // Export for potential module usage
 export { 
     initializeApp, 
-    showTab: window.showTab, 
-    loadOverview: window.loadOverview, 
-    showGunasthanDetail: window.showGunasthanDetail,
     currentTab
 };
