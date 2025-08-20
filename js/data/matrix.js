@@ -95,7 +95,7 @@ export const matrixData = {
 // This provides the correct present/absent elements for each cell in the matrix
 
 // First, your complete matrix data as provided
-const completeMatrixData = {
+export const completeMatrixData = {
     1: { // Mithyatva
         0: { present: ["नरकगति", "तिर्यंचगति", "मनुष्यगति", "देवगति"], absent: [], count: 4, total: 4,
              notes: "All four destinies possible in false belief" },
