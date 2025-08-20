@@ -1,6 +1,6 @@
 // Matrix Component - Handles matrix display and interactions
 
-import { thanasData, matrixData, additionalMatrices, matrixDetailedData } from '../data/matrix.js';
+import { thanasData, matrixData, additionalMatrices, matrixDetailedData, completeMatrixData } from '../data/matrix.js';
 import { gunasthansData } from '../data/gunasthans.js';
 import { getProgressColor, showMessage } from '../utils/helpers.js';
 
@@ -90,23 +90,38 @@ export function changeMatrix() {
     loadMatrix();
 }
 
-// Show detailed tooltip for default matrix
+// Updated showDetailedTooltip function for js/components/matrix.js
+// This replaces the existing showDetailedTooltip function
+
 export function showDetailedTooltip(gunasthanId, thanaIndex) {
     const modal = document.getElementById('tooltip-modal');
     const g = gunasthansData[gunasthanId];
     const t = thanasData[thanaIndex];
     
-    // Use simple calculation for cell data
+    // Get the count from matrix data
     const count = matrixData[gunasthanId][thanaIndex];
     const total = t.total;
     
-    const cellData = {
-        present: count === total ? t.subtypes : t.subtypes.slice(0, count),
-        absent: count === 0 ? t.subtypes : (count === total ? [] : t.subtypes.slice(count)),
-        count: count,
-        total: total,
-        notes: `Gunasthan ${gunasthanId} has ${count} out of ${total} characteristics of ${t.nameHi}`
-    };
+    // Check if we have detailed data for this cell
+    let cellData;
+    
+    if (matrixDetailedData && 
+        matrixDetailedData['default'] && 
+        matrixDetailedData['default'][thanaIndex] && 
+        matrixDetailedData['default'][thanaIndex][gunasthanId]) {
+        
+        // Use the detailed data if available
+        cellData = matrixDetailedData['default'][thanaIndex][gunasthanId];
+    } else {
+        // Fallback to simple calculation (NOT ACCURATE but prevents errors)
+        cellData = {
+            present: count === total ? t.subtypes : (count === 0 ? [] : t.subtypes.slice(0, count)),
+            absent: count === 0 ? t.subtypes : (count === total ? [] : t.subtypes.slice(count)),
+            count: count,
+            total: total,
+            notes: `Gunasthan ${gunasthanId} has ${count} out of ${total} characteristics of ${t.nameHi}`
+        };
+    }
     
     // Update modal header
     document.getElementById('tooltip-title').textContent = `${t.icon} ${t.nameHi}`;
@@ -122,11 +137,11 @@ export function showDetailedTooltip(gunasthanId, thanaIndex) {
     let bodyHtml = '';
     
     // Present characteristics
-    if (cellData.present.length > 0) {
+    if (cellData.present && cellData.present.length > 0) {
         bodyHtml += `
             <div class="tooltip-section">
                 <div class="section-header">
-                    <span class="icon present">✓</span>
+                    <span class="icon present">✔</span>
                     Present (${cellData.present.length})
                 </div>
                 <div class="section-items">
@@ -139,7 +154,7 @@ export function showDetailedTooltip(gunasthanId, thanaIndex) {
     }
     
     // Absent characteristics
-    if (cellData.absent.length > 0) {
+    if (cellData.absent && cellData.absent.length > 0) {
         bodyHtml += `
             <div class="tooltip-section">
                 <div class="section-header">
