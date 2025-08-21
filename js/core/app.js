@@ -191,10 +191,10 @@ window.showSourceInfo = function() {
             <div style="background: #fef3c7; border: 2px solid #f59e0b; border-radius: 12px; padding: 16px; margin-bottom: 20px;">
                 <h3 style="color: #92400e; margin-bottom: 12px; font-size: 18px;">श्री चौबीस ठाणा चर्चा</h3>
                 <div style="color: #78350f; line-height: 1.8;">
-                    <p style="margin-bottom: 8px;"><strong>Publisher:</strong> विध्यासागर पाठशाला, Mumbai</p>
-                    <p style="margin-bottom: 8px;"><strong>Language:</strong> Hindi/Sanskrit</p>
-                    <p style="margin-bottom: 8px;"><strong>Content:</strong> Complete analysis of 24 Thanas across 14 Gunasthans</p>
-                    <p style="margin-bottom: 12px;"><strong>Significance:</strong> Authoritative Jain scripture on spiritual progression</p>
+                    <p style="margin-bottom: 8px;"><strong>Author:</strong> निर्यापक मुनि श्री प्रशांतसागर जी महाराज </p>
+                    <p style="margin-bottom: 8px;"><strong>Language:</strong> Hindi</p>
+                    <p style="margin-bottom: 8px;"><strong>Content:</strong> Complete analysis of 24 Thanas</p>
+                    <p style="margin-bottom: 12px;"><strong>Significance:</strong> Authoritative Jain scripture on core concepts</p>
                     <p style="font-style: italic; color: #92400e;">
                         This digital application serves as a modern interface to 
                         access and study the timeless wisdom contained in the original text.
