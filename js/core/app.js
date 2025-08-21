@@ -111,9 +111,9 @@ window.loadOverview = function() {
                 <h3 style="color: #0c4a6e; font-size: 20px; font-weight: 700; margin: 0;">Source Material</h3>
             </div>
             <p style="color: #1e293b; line-height: 1.6; margin-bottom: 16px;">
-                This application is based on the authoritative Jain text: 
+                This application is based entirely on the authentic text:
                 <strong style="color: #0ea5e9;">श्री चौबीस ठाणा चर्चा</strong> 
-                published by विध्यासागर पाठशाला, Mumbai. All content is derived from this sacred scripture.
+                by निर्यापक मुनि श्री प्रशांतसागर जी महाराज. All data, definitions, and spiritual concepts have been carefully extracted from this authoritative source. 
             </p>
             <button onclick="showSourceInfo()" style="background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%); color: white; border: none; padding: 10px 20px; border-radius: 8px; font-weight: 600; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 2px 8px rgba(14, 165, 233, 0.3);">
                 📄 View Original PDF Source
