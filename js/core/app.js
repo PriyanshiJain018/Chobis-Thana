@@ -61,9 +61,13 @@ window.showTab = function(tabName) {
         targetContent.classList.remove('hidden');
     }
     
-    // Set active tab
+    // Set active tab - updated to handle Hindi tab names
     const targetTab = Array.from(document.querySelectorAll('.tab')).find(tab => 
-        tab.textContent.toLowerCase() === tabName || tab.getAttribute('data-tab') === tabName
+        tab.getAttribute('data-tab') === tabName ||
+        (tabName === 'overview' && tab.textContent === 'मुख्य पृष्ठ') ||
+        (tabName === 'matrix' && tab.textContent === 'चार्ट') ||
+        (tabName === 'transitions' && tab.textContent === 'गुणस्थान बदलाव') ||
+        (tabName === 'definitions' && tab.textContent === 'परिभाषाएं')
     );
     if (targetTab) {
         targetTab.classList.add('active');
@@ -108,34 +112,35 @@ window.loadOverview = function() {
         <div style="background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%); border: 2px solid #0ea5e9; border-radius: 16px; padding: 20px; margin-bottom: 24px; box-shadow: 0 4px 16px rgba(14, 165, 233, 0.1);">
             <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 16px;">
                 <span style="font-size: 28px;">📚</span>
-                <h3 style="color: #0c4a6e; font-size: 20px; font-weight: 700; margin: 0;">Source Material</h3>
+                <h3 style="color: #0c4a6e; font-size: 20px; font-weight: 700; margin: 0;">स्रोत सामग्री</h3>
             </div>
             <p style="color: #1e293b; line-height: 1.6; margin-bottom: 16px;">
-                This application is based entirely on the authentic text:
+                यह ऐप पूर्णतः प्रामाणिक ग्रंथ पर आधारित है:
                 <strong style="color: #0ea5e9;">श्री चौबीस ठाणा चर्चा</strong> 
-                by निर्यापक मुनि श्री प्रशांतसागर जी महाराज. All data, definitions, and spiritual concepts have been carefully extracted from this authoritative source. 
+                लेखक - निर्यापक मुनि श्री प्रशांतसागर जी महाराज। 
+                सभी डेटा, परिभाषाएं और आध्यात्मिक विचार इस प्रामाणिक स्रोत से सावधानीपूर्वक लिए गए हैं।
             </p>
             <button onclick="showSourceInfo()" style="background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%); color: white; border: none; padding: 10px 20px; border-radius: 8px; font-weight: 600; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 2px 8px rgba(14, 165, 233, 0.3);">
-                📄 View Original PDF Source
+                📄 मूल PDF देखें
             </button>
         </div>
         
         <div style="margin-bottom: 24px;">
-            <h3 style="color: #1e293b; margin-bottom: 16px;">🏛️ The 14 Gunasthans - Stages of Spiritual Development</h3>
+            <h3 style="color: #1e293b; margin-bottom: 16px;">🛕 १४ गुणस्थान - आध्यात्मिक विकास के चरण</h3>
             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 16px; margin-bottom: 24px;">
                 <div onclick="showMatrixTab()" style="background: white; border: 2px solid #e2e8f0; border-radius: 12px; padding: 16px; cursor: pointer; transition: all 0.3s ease; text-align: center;"
                     onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 24px rgba(0,0,0,0.12)'; this.style.borderColor='#3b82f6'"
                     onmouseout="this.style.transform='translateY(0px)'; this.style.boxShadow='none'; this.style.borderColor='#e2e8f0'">
                     <div style="font-size: 32px; margin-bottom: 8px;">📊</div>
-                    <div style="font-weight: 600; color: #1e293b; margin-bottom: 4px;">Matrix View</div>
-                    <div style="font-size: 12px; color: #64748b;">24 ठाणा Analysis</div>
+                    <div style="font-weight: 600; color: #1e293b; margin-bottom: 4px;">चार्ट देखें</div>
+                    <div style="font-size: 12px; color: #64748b;">२४ ठाणा विश्लेषण</div>
                 </div>
                 
                 <div onclick="showTransitionsTab()" style="background: white; border: 2px solid #e2e8f0; border-radius: 12px; padding: 16px; cursor: pointer; transition: all 0.3s ease; text-align: center;"
                     onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 24px rgba(0,0,0,0.12)'; this.style.borderColor='#10b981'"
                     onmouseout="this.style.transform='translateY(0px)'; this.style.boxShadow='none'; this.style.borderColor='#e2e8f0'">
                     <div style="font-size: 32px; margin-bottom: 8px;">🔄</div>
-                    <div style="font-weight: 600; color: #1e293b; margin-bottom: 4px;">Transitions</div>
+                    <div style="font-weight: 600; color: #1e293b; margin-bottom: 4px;">बदलाव</div>
                     <div style="font-size: 12px; color: #64748b;">गुणस्थान आरोहण-अवरोहण</div>
                 </div>
                 
@@ -143,12 +148,29 @@ window.loadOverview = function() {
                     onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 24px rgba(0,0,0,0.12)'; this.style.borderColor='#f59e0b'"
                     onmouseout="this.style.transform='translateY(0px)'; this.style.boxShadow='none'; this.style.borderColor='#e2e8f0'">
                     <div style="font-size: 32px; margin-bottom: 8px;">📖</div>
-                    <div style="font-weight: 600; color: #1e293b; margin-bottom: 4px;">Definitions</div>
-                    <div style="font-size: 12px; color: #64748b;">Complete glossary</div>
+                    <div style="font-weight: 600; color: #1e293b; margin-bottom: 4px;">शब्दावली</div>
+                    <div style="font-size: 12px; color: #64748b;">संपूर्ण शब्दकोश</div>
                 </div>
             </div>
         </div>
     `;
+    
+    // Add all 14 Gunasthans
+    for (let i = 1; i <= 14; i++) {
+        const g = gunasthansData[i];
+        html += `
+            <div class="gunasthan-card" onclick="showGunasthanDetail(${i})">
+                <div style="display: flex; align-items: center;">
+                    <span class="gunasthan-number" style="background: ${g.color}">${i}</span>
+                    <div style="flex: 1;">
+                        <div class="gunasthan-name">${g.nameHi}</div>
+                        <div class="gunasthan-sanskrit">${g.nameEn} - ${g.english}</div>
+                        <div class="gunasthan-description">${g.description}</div>
+                    </div>
+                </div>
+            </div>
+        `;
+    }
     
     container.innerHTML = html;
 };
@@ -185,19 +207,19 @@ window.showSourceInfo = function() {
             
             <h2 style="color: #1e293b; margin-bottom: 24px; display: flex; align-items: center; gap: 12px;">
                 <span style="font-size: 32px;">📚</span>
-                Original Source Document
+                मूल स्रोत ग्रंथ
             </h2>
             
             <div style="background: #fef3c7; border: 2px solid #f59e0b; border-radius: 12px; padding: 16px; margin-bottom: 20px;">
                 <h3 style="color: #92400e; margin-bottom: 12px; font-size: 18px;">श्री चौबीस ठाणा चर्चा</h3>
                 <div style="color: #78350f; line-height: 1.8;">
-                    <p style="margin-bottom: 8px;"><strong>Author:</strong> निर्यापक मुनि श्री प्रशांतसागर जी महाराज </p>
-                    <p style="margin-bottom: 8px;"><strong>Language:</strong> Hindi</p>
-                    <p style="margin-bottom: 8px;"><strong>Content:</strong> Complete analysis of 24 Thanas</p>
-                    <p style="margin-bottom: 12px;"><strong>Significance:</strong> Authoritative Jain scripture on core concepts</p>
+                    <p style="margin-bottom: 8px;"><strong>लेखक:</strong> निर्यापक मुनि श्री प्रशांतसागर जी महाराज</p>
+                    <p style="margin-bottom: 8px;"><strong>भाषा:</strong> हिंदी</p>
+                    <p style="margin-bottom: 8px;"><strong>विषय:</strong> २४ ठाणों का संपूर्ण विश्लेषण</p>
+                    <p style="margin-bottom: 12px;"><strong>महत्व:</strong> जैन दर्शन के मुख्य सिद्धांतों पर प्रामाणिक ग्रंथ</p>
                     <p style="font-style: italic; color: #92400e;">
-                        This digital application serves as a modern interface to 
-                        access and study the timeless wisdom contained in the original text.
+                        यह डिजिटल ऐप मूल ग्रंथ में निहित कालातीत ज्ञान को 
+                        आधुनिक रूप में प्रस्तुत करने का एक माध्यम है।
                     </p>
                 </div>
             </div>
@@ -209,7 +231,7 @@ window.showSourceInfo = function() {
                 onmouseover="this.style.transform='translateY(-2px)'"
                 onmouseout="this.style.transform='translateY(0px)'">
                     <span style="font-size: 18px;">📄</span>
-                    Access Original PDF Document
+                    मूल PDF ग्रंथ देखें
                 </a>
             </div>
         </div>
@@ -223,7 +245,7 @@ window.showGunasthanDetail = function(gunasthanId) {
     const g = gunasthansData[gunasthanId];
     const rule = transitionRules[gunasthanId];
     
-    let message = `🔢 Gunasthan ${gunasthanId}: ${g.nameHi}\n`;
+    let message = `📢 Gunasthan ${gunasthanId}: ${g.nameHi}\n`;
     message += `📖 ${g.nameEn} - ${g.english}\n\n`;
     message += `${g.description}\n\n`;
     message += `🔄 Transitions: ${rule.description}\n`;
