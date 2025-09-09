@@ -155,23 +155,6 @@ window.loadOverview = function() {
         </div>
     `;
     
-    // Add all 14 Gunasthans
-    for (let i = 1; i <= 14; i++) {
-        const g = gunasthansData[i];
-        html += `
-            <div class="gunasthan-card" onclick="showGunasthanDetail(${i})">
-                <div style="display: flex; align-items: center;">
-                    <span class="gunasthan-number" style="background: ${g.color}">${i}</span>
-                    <div style="flex: 1;">
-                        <div class="gunasthan-name">${g.nameHi}</div>
-                        <div class="gunasthan-sanskrit">${g.nameEn} - ${g.english}</div>
-                        <div class="gunasthan-description">${g.description}</div>
-                    </div>
-                </div>
-            </div>
-        `;
-    }
-    
     container.innerHTML = html;
 };
 
