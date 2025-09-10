@@ -363,9 +363,13 @@ function setupEventListeners() {
                     window.searchDefinitions(searchValue);
                     break;
                 case 'showDetailedTooltip':
-                    const gunasthan = e.target.closest('[data-gunasthan]').getAttribute('data-gunasthan');
-                    const thana = e.target.closest('[data-thana]').getAttribute('data-thana');
-                    window.showDetailedTooltip(parseInt(gunasthan), parseInt(thana));
+                    // Find the TD element that has both data-gunasthan and data-thana
+                    const tdElement = e.target.closest('td[data-gunasthan][data-thana]');
+                    if (tdElement) {
+                        const gunasthan = tdElement.getAttribute('data-gunasthan');
+                        const thana = tdElement.getAttribute('data-thana');
+                        window.showDetailedTooltip(parseInt(gunasthan), parseInt(thana));
+                    }
                     break;
                 case 'showNewDetailedTooltip':
                     const matrixType = e.target.closest('[data-matrix-type]').getAttribute('data-matrix-type');
