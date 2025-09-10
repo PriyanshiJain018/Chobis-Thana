@@ -1,4 +1,5 @@
 // Matrix Component - Handles matrix display and interactions
+// FIXED VERSION - Resolves click handling issues
 
 import { thanasData, matrixData, additionalMatrices, matrixDetailedData, completeMatrixData } from '../data/matrix.js';
 import { gunasthansData } from '../data/gunasthans.js';
@@ -28,11 +29,12 @@ export function loadMatrix() {
                 const percentage = (count / total) * 100;
                 const color = getProgressColor(percentage);
                 
+                // FIXED: Use onclick directly for better reliability
                 html += `
-                    <td data-click="showDetailedTooltip" data-gunasthan="${g}" data-thana="${index}">
-                        <div class="cell-fraction">${count}/${total}</div>
-                        <div class="progress-bar">
-                            <div class="progress-fill" style="width: ${percentage}%; background: ${color}"></div>
+                    <td onclick="window.showDetailedTooltip(${g}, ${index})" style="cursor: pointer;">
+                        <div class="cell-fraction" style="pointer-events: none;">${count}/${total}</div>
+                        <div class="progress-bar" style="pointer-events: none;">
+                            <div class="progress-fill" style="width: ${percentage}%; background: ${color}; pointer-events: none;"></div>
                         </div>
                     </td>
                 `;
@@ -65,11 +67,12 @@ export function loadMatrix() {
                 const percentage = (count / total) * 100;
                 const color = getProgressColor(percentage);
                 
+                // FIXED: Use window.showNewDetailedTooltip for consistency
                 html += `
-                    <td onclick="showNewDetailedTooltip('${selectedMatrix}', ${thanaIndex}, ${colIndex})">
-                        <div class="cell-fraction">${count}/${total}</div>
-                        <div class="progress-bar">
-                            <div class="progress-fill" style="width: ${percentage}%; background: ${color}"></div>
+                    <td onclick="window.showNewDetailedTooltip('${selectedMatrix}', ${thanaIndex}, ${colIndex})" style="cursor: pointer;">
+                        <div class="cell-fraction" style="pointer-events: none;">${count}/${total}</div>
+                        <div class="progress-bar" style="pointer-events: none;">
+                            <div class="progress-fill" style="width: ${percentage}%; background: ${color}; pointer-events: none;"></div>
                         </div>
                     </td>
                 `;
@@ -90,36 +93,55 @@ export function changeMatrix() {
     loadMatrix();
 }
 
-// Updated showDetailedTooltip function for js/components/matrix.js
-// This replaces the existing showDetailedTooltip function
-
+// Show detailed tooltip for default matrix
 export function showDetailedTooltip(gunasthanId, thanaIndex) {
+    console.log('showDetailedTooltip called:', gunasthanId, thanaIndex);
+    
     const modal = document.getElementById('tooltip-modal');
+    if (!modal) {
+        console.error('Tooltip modal not found!');
+        return;
+    }
+    
     const g = gunasthansData[gunasthanId];
     const t = thanasData[thanaIndex];
+    
+    if (!g || !t) {
+        console.error('Invalid gunasthan or thana:', gunasthanId, thanaIndex);
+        return;
+    }
     
     // Get the count from matrix data
     const count = matrixData[gunasthanId][thanaIndex];
     const total = t.total;
     
-    // Check if we have detailed data for this cell
+    // Get detailed data from completeMatrixData
     let cellData;
     
-    if (matrixDetailedData && 
-        matrixDetailedData['default'] && 
-        matrixDetailedData['default'][thanaIndex] && 
-        matrixDetailedData['default'][thanaIndex][gunasthanId]) {
-        
-        // Use the detailed data if available
+    // First try to get from completeMatrixData which has the accurate data
+    if (completeMatrixData && completeMatrixData[thanaIndex] && completeMatrixData[thanaIndex][gunasthanId - 1]) {
+        const rawData = completeMatrixData[thanaIndex][gunasthanId - 1];
+        cellData = {
+            present: rawData.present || [],
+            absent: rawData.absent || [],
+            count: count,
+            total: total,
+            notes: `Gunasthan ${gunasthanId} में ${t.nameHi} के ${count}/${total} गुण उपस्थित हैं`
+        };
+    } else if (matrixDetailedData && matrixDetailedData['default'] && 
+               matrixDetailedData['default'][thanaIndex] && 
+               matrixDetailedData['default'][thanaIndex][gunasthanId]) {
+        // Fallback to matrixDetailedData
         cellData = matrixDetailedData['default'][thanaIndex][gunasthanId];
     } else {
-        // Fallback to simple calculation (NOT ACCURATE but prevents errors)
+        // Last resort fallback
+        console.warn('No detailed data found, using fallback');
         cellData = {
             present: count === total ? t.subtypes : (count === 0 ? [] : t.subtypes.slice(0, count)),
             absent: count === 0 ? t.subtypes : (count === total ? [] : t.subtypes.slice(count)),
             count: count,
             total: total,
-            notes: `Gunasthan ${gunasthanId} has ${count} out of ${total} characteristics of ${t.nameHi}`
+            notes: `Gunasthan ${gunasthanId} में ${t.nameHi} के ${count}/${total} गुण उपस्थित हैं`
         };
     }
     
@@ -139,14 +161,14 @@ export function showDetailedTooltip(gunasthanId, thanaIndex) {
     // Present characteristics
     if (cellData.present && cellData.present.length > 0) {
         bodyHtml += `
-            <div class="tooltip-section">
+            <div class="tooltip-section present">
                 <div class="section-header">
-                    <span class="icon present">✔</span>
-                    Present (${cellData.present.length})
+                    <span class="icon present">✓</span>
+                    <span class="section-title present">Present (${cellData.present.length})</span>
                 </div>
                 <div class="section-items">
                     ${cellData.present.map(item => 
-                        `<span class="item-tag present" data-click="findDefinitionByThana" data-thana-name="${t.nameHi}" data-concept-name="${item}">${item}</span>`
+                        `<span class="item-tag present" onclick="window.findDefinitionByThana('${t.nameHi}', '${item}')" style="cursor: pointer;">${item}</span>`
                     ).join('')}
                 </div>
             </div>
@@ -156,14 +178,14 @@ export function showDetailedTooltip(gunasthanId, thanaIndex) {
     // Absent characteristics
     if (cellData.absent && cellData.absent.length > 0) {
         bodyHtml += `
-            <div class="tooltip-section">
+            <div class="tooltip-section absent">
                 <div class="section-header">
                     <span class="icon absent">✗</span>
-                    Absent (${cellData.absent.length})
+                    <span class="section-title absent">Absent (${cellData.absent.length})</span>
                 </div>
                 <div class="section-items">
                     ${cellData.absent.map(item => 
-                        `<span class="item-tag" data-click="findDefinitionByThana" data-thana-name="${t.nameHi}" data-concept-name="${item}">${item}</span>`
+                        `<span class="item-tag" onclick="window.findDefinitionByThana('${t.nameHi}', '${item}')" style="cursor: pointer;">${item}</span>`
                     ).join('')}
                 </div>
             </div>
@@ -201,7 +223,14 @@ export function showDetailedTooltip(gunasthanId, thanaIndex) {
 
 // Show detailed tooltip for alternative matrices
 export function showNewDetailedTooltip(matrixType, thanaIndex, colIndex) {
+    console.log('showNewDetailedTooltip called:', matrixType, thanaIndex, colIndex);
+    
     const modal = document.getElementById('tooltip-modal');
+    if (!modal) {
+        console.error('Tooltip modal not found!');
+        return;
+    }
+    
     const matrix = additionalMatrices[matrixType];
     const thana = thanasData[thanaIndex];
     const colName = matrix.colHeaders[colIndex];
@@ -231,14 +260,14 @@ export function showNewDetailedTooltip(matrixType, thanaIndex, colIndex) {
         // Present items
         if (cellData.present && cellData.present.length > 0) {
             bodyHtml += `
-                <div class="tooltip-section">
+                <div class="tooltip-section present">
                     <div class="section-header">
                         <span class="icon present">✓</span>
-                        Present (${cellData.present.length})
+                        <span class="section-title present">Present (${cellData.present.length})</span>
                     </div>
                     <div class="section-items">
                         ${cellData.present.map(item => 
-                            `<span class="item-tag present" data-click="findDefinitionByThana" data-thana-name="${thana.nameHi}" data-concept-name="${item}">${item}</span>`
+                            `<span class="item-tag present" onclick="window.findDefinitionByThana('${thana.nameHi}', '${item}')" style="cursor: pointer;">${item}</span>`
                         ).join('')}
                     </div>
                 </div>
@@ -248,14 +277,14 @@ export function showNewDetailedTooltip(matrixType, thanaIndex, colIndex) {
         // Absent items
         if (cellData.absent && cellData.absent.length > 0) {
             bodyHtml += `
-                <div class="tooltip-section">
+                <div class="tooltip-section absent">
                     <div class="section-header">
                         <span class="icon absent">✗</span>
-                        Absent (${cellData.absent.length})
+                        <span class="section-title absent">Absent (${cellData.absent.length})</span>
                     </div>
                     <div class="section-items">
                         ${cellData.absent.map(item => 
-                            `<span class="item-tag" data-click="findDefinitionByThana" data-thana-name="${thana.nameHi}" data-concept-name="${item}">${item}</span>`
+                            `<span class="item-tag" onclick="window.findDefinitionByThana('${thana.nameHi}', '${item}')" style="cursor: pointer;">${item}</span>`
                         ).join('')}
                     </div>
                 </div>
