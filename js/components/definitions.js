@@ -98,156 +98,345 @@ export function loadDefinitions() {
     
     container.innerHTML = html;
 }
+// Improved search function for definitions.js
+// Replace the existing searchDefinitions function with this one
 
-// Search definitions
 export function searchDefinitions(searchTerm) {
     if (!searchTerm) {
         loadDefinitions();
         return;
     }
     
-    const term = searchTerm.toLowerCase();
+    const term = searchTerm.toLowerCase().trim();
     const container = document.getElementById('definitions-list');
     let html = '';
-    let found = false;
-    let matchedSubtypes = []; // Track which subtypes matched for auto-expansion
     
+    // Separate storage for exact and partial matches
+    const exactMatches = {
+        mainDefinitions: [],
+        subtypes: []
+    };
+    
+    const partialMatches = {
+        mainDefinitions: [],
+        subtypes: []
+    };
+    
+    // Helper function to check match type
+    const getMatchType = (text, searchTerm) => {
+        if (!text) return 'none';
+        const lowerText = text.toLowerCase();
+        const lowerSearch = searchTerm.toLowerCase();
+        
+        // Check for exact word match
+        const words = lowerText.split(/[\s,\-().]+/);
+        if (words.includes(lowerSearch)) {
+            return 'exact';
+        }
+        
+        // Check for exact phrase match
+        if (lowerText === lowerSearch) {
+            return 'exact';
+        }
+        
+        // Check for starts with
+        if (lowerText.startsWith(lowerSearch)) {
+            return 'startsWith';
+        }
+        
+        // Check for contains
+        if (lowerText.includes(lowerSearch)) {
+            return 'contains';
+        }
+        
+        return 'none';
+    };
+    
+    // Search through all definitions
     Object.keys(definitionsDatabase).forEach(categoryKey => {
         const category = definitionsDatabase[categoryKey];
-        let categoryHtml = '';
-        let categoryFound = false;
         
         Object.keys(category.definitions).forEach(defKey => {
             const def = category.definitions[defKey];
-            let defFound = false;
-            let hasSubtypeMatch = false;
-            let matchedSubtypeKeys = [];
+            let matchScore = 0;
+            let matchType = 'none';
             
-            // Check main definition with null checks
-            if ((def.nameHi && def.nameHi.includes(searchTerm)) || 
-                (def.nameEn && def.nameEn.toLowerCase().includes(term)) ||
-                (def.english && def.english.toLowerCase().includes(term)) ||
-                (def.definition && def.definition.includes(searchTerm))) {
-                defFound = true;
+            // Check main definition matches
+            const nameHiMatch = getMatchType(def.nameHi, term);
+            const nameEnMatch = getMatchType(def.nameEn, term);
+            const englishMatch = getMatchType(def.english, term);
+            const definitionMatch = getMatchType(def.definition, term);
+            
+            // Calculate match score (exact = 10, startsWith = 5, contains = 1)
+            if (nameHiMatch === 'exact' || nameEnMatch === 'exact') {
+                matchScore = 10;
+                matchType = 'exact';
+            } else if (nameHiMatch === 'startsWith' || nameEnMatch === 'startsWith') {
+                matchScore = 5;
+                matchType = 'startsWith';
+            } else if (englishMatch === 'exact') {
+                matchScore = 8;
+                matchType = 'exact';
+            } else if (nameHiMatch === 'contains' || nameEnMatch === 'contains' || englishMatch === 'contains') {
+                matchScore = 2;
+                matchType = 'contains';
+            } else if (definitionMatch === 'contains') {
+                matchScore = 1;
+                matchType = 'contains';
             }
             
-            // Check subtypes with null checks
-            if (def.subtypes && Object.keys(def.subtypes).length > 0) {
+            if (matchScore > 0) {
+                const matchData = {
+                    category: category,
+                    categoryKey: categoryKey,
+                    def: def,
+                    defKey: defKey,
+                    score: matchScore,
+                    matchType: matchType
+                };
+                
+                if (matchScore >= 8) {
+                    exactMatches.mainDefinitions.push(matchData);
+                } else {
+                    partialMatches.mainDefinitions.push(matchData);
+                }
+            }
+            
+            // Check subtypes
+            if (def.subtypes) {
                 Object.keys(def.subtypes).forEach(subKey => {
                     const subDef = def.subtypes[subKey];
-                    if ((subDef.nameHi && subDef.nameHi.includes(searchTerm)) || 
-                        (subDef.nameEn && subDef.nameEn.toLowerCase().includes(term)) ||
-                        (subDef.english && subDef.english.toLowerCase().includes(term)) ||
-                        (subDef.definition && subDef.definition.includes(searchTerm)) ||
-                        (subDef.additionalNotes && subDef.additionalNotes.includes(searchTerm))) {
-                        defFound = true;
-                        hasSubtypeMatch = true;
-                        matchedSubtypeKeys.push(subKey);
+                    let subMatchScore = 0;
+                    let subMatchType = 'none';
+                    
+                    const subNameHiMatch = getMatchType(subDef.nameHi, term);
+                    const subNameEnMatch = getMatchType(subDef.nameEn, term);
+                    const subEnglishMatch = getMatchType(subDef.english, term);
+                    const subDefinitionMatch = getMatchType(subDef.definition, term);
+                    
+                    if (subNameHiMatch === 'exact' || subNameEnMatch === 'exact') {
+                        subMatchScore = 10;
+                        subMatchType = 'exact';
+                    } else if (subNameHiMatch === 'startsWith' || subNameEnMatch === 'startsWith') {
+                        subMatchScore = 5;
+                        subMatchType = 'startsWith';
+                    } else if (subEnglishMatch === 'exact') {
+                        subMatchScore = 8;
+                        subMatchType = 'exact';
+                    } else if (subNameHiMatch === 'contains' || subNameEnMatch === 'contains' || subEnglishMatch === 'contains') {
+                        subMatchScore = 2;
+                        subMatchType = 'contains';
+                    } else if (subDefinitionMatch === 'contains' || (subDef.additionalNotes && subDef.additionalNotes.toLowerCase().includes(term))) {
+                        subMatchScore = 1;
+                        subMatchType = 'contains';
+                    }
+                    
+                    if (subMatchScore > 0) {
+                        const subMatchData = {
+                            category: category,
+                            categoryKey: categoryKey,
+                            def: def,
+                            defKey: defKey,
+                            subDef: subDef,
+                            subKey: subKey,
+                            score: subMatchScore,
+                            matchType: subMatchType
+                        };
+                        
+                        if (subMatchScore >= 8) {
+                            exactMatches.subtypes.push(subMatchData);
+                        } else {
+                            partialMatches.subtypes.push(subMatchData);
+                        }
                     }
                 });
             }
-            
-            if (defFound) {
-                found = true;
-                categoryFound = true;
-                
-                // Store info for auto-expansion
-                if (hasSubtypeMatch) {
-                    matchedSubtypes.push({
-                        defKey: defKey,
-                        subtypeKeys: matchedSubtypeKeys
-                    });
-                }
-                
-                categoryHtml += `
-                    <div class="definition-card" id="def-${defKey}">
-                        <div class="definition-header">
-                            <div>
-                                <div class="definition-title">${def.nameHi || ''} (${def.nameEn || ''})</div>
-                                <div class="definition-subtitle">${def.english || ''}</div>
-                            </div>
-                            ${def.additionalNotes || (def.subtypes && Object.keys(def.subtypes).length > 0) ? 
-                                `<button class="know-more-btn" onclick="toggleAdditionalInfo('${defKey}')">Know More</button>` : ''}
-                        </div>
-                        <div class="definition-content">${def.definition || ''}</div>
-                `;
-                
-                if (def.additionalNotes) {
-                    categoryHtml += `
-                        <div id="additional-${defKey}" class="additional-notes" style="${hasSubtypeMatch ? 'display: block;' : 'display: none;'}">
-                            <strong>विशेष:</strong> ${def.additionalNotes}
-                        </div>
-                    `;
-                }
-                
-                if (def.subtypes && Object.keys(def.subtypes).length > 0) {
-                    categoryHtml += `
-                        <div id="subtypes-${defKey}" class="sub-definitions" style="${hasSubtypeMatch ? 'display: block;' : 'display: none;'}">
-                            <h4 style="margin-bottom: 12px; color: #374151;">Sub-types:</h4>
-                    `;
-                    
-                    Object.keys(def.subtypes).forEach(subKey => {
-                        const subDef = def.subtypes[subKey];
-                        const isMatched = matchedSubtypeKeys.includes(subKey);
-                        categoryHtml += `
-                            <div class="sub-definition" id="subdef-${subKey}" style="${isMatched ? 'background: #fef3c7; border: 2px solid #f59e0b;' : ''}">
-                                <div class="sub-definition-title">${subDef.nameHi || ''} (${subDef.nameEn || ''})</div>
-                                <div class="sub-definition-content">${subDef.definition || ''}</div>
-                                ${subDef.additionalNotes ? `<div style="margin-top: 8px; font-style: italic; color: #78350f;"><strong>विशेष:</strong> ${subDef.additionalNotes}</div>` : ''}
-                            </div>
-                        `;
-                    });
-                    
-                    categoryHtml += '</div>';
-                }
-                
-                categoryHtml += '</div>';
-            }
         });
-        
-        if (categoryFound) {
-            html += `
-                <div class="category-section">
-                    <div class="category-header">
-                        <div class="category-title">${category.title || ''}</div>
-                        <div class="category-subtitle">${category.titleEn || ''} - ${category.english || ''}</div>
-                    </div>
-                    <div class="collapsible-content expanded">
-                        ${categoryHtml}
-                    </div>
-                </div>
-            `;
-        }
     });
     
-    if (!found) {
-        html = '<div class="loading">No definitions found for your search term...</div>';
+    // Sort matches by score
+    exactMatches.mainDefinitions.sort((a, b) => b.score - a.score);
+    exactMatches.subtypes.sort((a, b) => b.score - a.score);
+    partialMatches.mainDefinitions.sort((a, b) => b.score - a.score);
+    partialMatches.subtypes.sort((a, b) => b.score - a.score);
+    
+    // Build HTML - Show exact matches first
+    if (exactMatches.mainDefinitions.length > 0 || exactMatches.subtypes.length > 0) {
+        html += `
+            <div style="background: #dcfce7; border: 2px solid #22c55e; border-radius: 12px; padding: 16px; margin-bottom: 20px;">
+                <h3 style="color: #166534; margin-bottom: 8px;">✓ सटीक मिलान (Exact Matches)</h3>
+                <p style="color: #166534; font-size: 14px;">Found ${exactMatches.mainDefinitions.length + exactMatches.subtypes.length} exact matches for: <strong>${searchTerm}</strong></p>
+            </div>
+        `;
+        
+        // Display exact match main definitions
+        exactMatches.mainDefinitions.forEach(match => {
+            html += renderDefinitionCard(match, true);
+        });
+        
+        // Display exact match subtypes
+        exactMatches.subtypes.forEach(match => {
+            html += renderSubtypeCard(match, true);
+        });
+    }
+    
+    // Show partial matches
+    if (partialMatches.mainDefinitions.length > 0 || partialMatches.subtypes.length > 0) {
+        html += `
+            <div style="background: #fef3c7; border: 2px solid #f59e0b; border-radius: 12px; padding: 16px; margin: 20px 0;">
+                <h3 style="color: #92400e; margin-bottom: 8px;">≈ आंशिक मिलान (Partial Matches)</h3>
+                <p style="color: #92400e; font-size: 14px;">Found ${partialMatches.mainDefinitions.length + partialMatches.subtypes.length} partial matches containing: <strong>${searchTerm}</strong></p>
+            </div>
+        `;
+        
+        // Display partial match main definitions
+        partialMatches.mainDefinitions.forEach(match => {
+            html += renderDefinitionCard(match, false);
+        });
+        
+        // Display partial match subtypes
+        partialMatches.subtypes.forEach(match => {
+            html += renderSubtypeCard(match, false);
+        });
+    }
+    
+    // No matches found
+    if (exactMatches.mainDefinitions.length === 0 && exactMatches.subtypes.length === 0 &&
+        partialMatches.mainDefinitions.length === 0 && partialMatches.subtypes.length === 0) {
+        html = `
+            <div style="background: #fee2e2; border: 2px solid #ef4444; border-radius: 12px; padding: 20px; text-align: center;">
+                <h3 style="color: #991b1b; margin-bottom: 8px;">❌ कोई परिणाम नहीं मिला</h3>
+                <p style="color: #991b1b;">No results found for: <strong>${searchTerm}</strong></p>
+                <p style="color: #7f1d1d; font-size: 14px; margin-top: 8px;">Try searching with different keywords in Hindi or English</p>
+            </div>
+        `;
     }
     
     container.innerHTML = html;
     
-    // Auto-scroll to first matched subtype if any
-    if (matchedSubtypes.length > 0) {
+    // Auto-scroll to first exact match
+    if (exactMatches.mainDefinitions.length > 0 || exactMatches.subtypes.length > 0) {
         setTimeout(() => {
-            const firstMatch = matchedSubtypes[0];
-            const firstSubtype = firstMatch.subtypeKeys[0];
-            const element = document.getElementById(`subdef-${firstSubtype}`);
-            if (element) {
-                element.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                // Add pulse animation
-                element.style.animation = 'pulse 2s ease-in-out';
-                setTimeout(() => {
-                    element.style.animation = '';
-                }, 2000);
-            } else {
-                // Fallback to main definition
-                const defElement = document.getElementById(`def-${firstMatch.defKey}`);
-                if (defElement) {
-                    defElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                }
+            const firstMatch = document.querySelector('.exact-match');
+            if (firstMatch) {
+                firstMatch.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                // Add highlight animation
+                firstMatch.style.animation = 'highlight-pulse 2s ease-in-out';
             }
-        }, 300);
+        }, 100);
     }
+}
+
+// Helper function to render definition card
+function renderDefinitionCard(match, isExact) {
+    const { category, def, defKey } = match;
+    const highlightClass = isExact ? 'exact-match' : 'partial-match';
+    const borderStyle = isExact ? 'border: 3px solid #22c55e; background: #f0fdf4;' : 'border: 2px solid #f59e0b; background: #fffbeb;';
+    
+    let html = `
+        <div class="category-section ${highlightClass}" style="margin-bottom: 16px;">
+            <div class="category-header" onclick="toggleCategory('${match.categoryKey}')">
+                <div class="category-title">${category.title}</div>
+                <div class="category-subtitle">${category.titleEn} - ${category.english}</div>
+            </div>
+            <div class="collapsible-content expanded">
+                <div class="definition-card" id="def-${defKey}" style="${borderStyle}">
+                    <div class="definition-header">
+                        <div>
+                            <div class="definition-title">${def.nameHi} (${def.nameEn})</div>
+                            <div class="definition-subtitle">${def.english}</div>
+                        </div>
+                        ${def.additionalNotes || (def.subtypes && Object.keys(def.subtypes).length > 0) ? 
+                            `<button class="know-more-btn" onclick="toggleAdditionalInfo('${defKey}')">
+                                <span id="toggle-text-${defKey}">Show Details</span>
+                            </button>` : ''}
+                    </div>
+                    <div class="definition-content">${def.definition}</div>
+    `;
+    
+    if (def.additionalNotes) {
+        html += `
+            <div id="additional-${defKey}" class="additional-notes" style="display: block;">
+                <strong>विशेष:</strong> ${def.additionalNotes}
+            </div>
+        `;
+    }
+    
+    if (def.subtypes && Object.keys(def.subtypes).length > 0) {
+        html += `
+            <div id="subtypes-${defKey}" class="sub-definitions" style="display: block;">
+                <h4 style="margin-bottom: 12px; color: #374151;">Sub-types:</h4>
+                ${Object.keys(def.subtypes).map(subKey => {
+                    const subDef = def.subtypes[subKey];
+                    return `
+                        <div class="sub-definition" onclick="showSubDefinitionDetail('${subKey}')">
+                            <div class="sub-definition-title">${subDef.nameHi} (${subDef.nameEn})</div>
+                            <div class="sub-definition-content">${subDef.definition}</div>
+                        </div>
+                    `;
+                }).join('')}
+            </div>
+        `;
+    }
+    
+    html += '</div></div></div>';
+    return html;
+}
+
+// Helper function to render subtype card
+function renderSubtypeCard(match, isExact) {
+    const { category, def, defKey, subDef, subKey } = match;
+    const highlightClass = isExact ? 'exact-match' : 'partial-match';
+    const borderStyle = isExact ? 'border: 3px solid #22c55e; background: #f0fdf4;' : 'border: 2px solid #f59e0b; background: #fffbeb;';
+    
+    return `
+        <div class="category-section ${highlightClass}" style="margin-bottom: 16px;">
+            <div class="category-header" onclick="toggleCategory('${match.categoryKey}')">
+                <div class="category-title">${category.title}</div>
+                <div class="category-subtitle">${category.titleEn} - ${category.english}</div>
+            </div>
+            <div class="collapsible-content expanded">
+                <div class="definition-card">
+                    <div style="font-size: 14px; color: #6b7280; margin-bottom: 8px;">
+                        Parent: ${def.nameHi} (${def.nameEn})
+                    </div>
+                    <div class="sub-definition" id="subdef-${subKey}" style="${borderStyle} padding: 16px;">
+                        <div class="sub-definition-title" style="font-size: 16px; font-weight: 600;">
+                            ${subDef.nameHi} (${subDef.nameEn})
+                        </div>
+                        <div style="color: #6b7280; margin-bottom: 8px;">${subDef.english || ''}</div>
+                        <div class="sub-definition-content">${subDef.definition}</div>
+                        ${subDef.additionalNotes ? 
+                            `<div style="margin-top: 8px; font-style: italic; color: #78350f;">
+                                <strong>विशेष:</strong> ${subDef.additionalNotes}
+                            </div>` : ''}
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+}
+
+// Add CSS for highlight animation
+if (!document.getElementById('search-highlight-styles')) {
+    const style = document.createElement('style');
+    style.id = 'search-highlight-styles';
+    style.textContent = `
+        @keyframes highlight-pulse {
+            0% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7); }
+            50% { box-shadow: 0 0 20px 10px rgba(34, 197, 94, 0.3); }
+            100% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0); }
+        }
+        
+        .exact-match {
+            position: relative;
+        }
+        
+        .partial-match {
+            opacity: 0.95;
+        }
+    `;
+    document.head.appendChild(style);
 }
 
 // Clear definition search
