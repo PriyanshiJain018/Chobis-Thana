@@ -6,9 +6,7 @@ import { showMessage, clearSearchHighlights } from '../utils/helpers.js';
 
 // Universal Search Functionality
 export function handleUniversalSearch(searchTerm) {
-    // Get the active tab by data-tab attribute instead of text content
-    const activeTabElement = document.querySelector('.tab.active');
-    const activeTab = activeTabElement ? activeTabElement.getAttribute('data-tab') : 'overview';
+    const activeTab = document.querySelector('.tab.active').textContent.toLowerCase();
     updateSearchContext(activeTab);
     
     if (!searchTerm.trim()) {
@@ -44,14 +42,14 @@ export function handleUniversalSearch(searchTerm) {
 export function updateSearchContext(activeTab) {
     const contextElement = document.getElementById('search-context');
     const contexts = {
-        'overview': 'मुख्य पृष्ठ',
-        'matrix': 'चार्ट', 
-        'transitions': 'गुणस्थान बदलाव',
-        'definitions': 'परिभाषाएं'
+        'overview': 'Overview Mode',
+        'matrix': 'Matrix Mode', 
+        'transitions': 'Transitions Mode',
+        'definitions': 'Definitions Mode'
     };
     
     if (contextElement) {
-        contextElement.textContent = contexts[activeTab] || 'खोज मोड';
+        contextElement.textContent = contexts[activeTab] || 'Search Mode';
     }
 }
 
@@ -60,10 +58,8 @@ export function clearSearch() {
     // Clear any search highlights or filters
     clearSearchHighlights();
     
-    // Reset any filtered content based on data-tab attribute
-    const activeTabElement = document.querySelector('.tab.active');
-    const activeTab = activeTabElement ? activeTabElement.getAttribute('data-tab') : 'overview';
-    
+    // Reset any filtered content
+    const activeTab = document.querySelector('.tab.active').textContent.toLowerCase();
     if (activeTab === 'overview' && !document.getElementById('gunasthan-list').innerHTML.includes('Enter a search term')) {
         if (window.loadOverview) {
             window.loadOverview();
@@ -146,28 +142,28 @@ export function searchThanas(searchTerm) {
             }
             
             html += `
-                <div class="thana-search-result" style="background: white; padding: 16px; border-radius: 12px; margin-bottom: 12px; border: 1px solid #e5e7eb;">
-                    <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 12px;">
-                        <span style="font-size: 24px;">${thana.icon}</span>
+                <div class="gunasthan-card">
+                    <div style="display: flex; align-items: center; margin-bottom: 12px;">
+                        <span style="font-size: 24px; margin-right: 12px;">${thana.icon}</span>
                         <div>
-                            <div style="font-weight: 600; color: #1f2937;">${thana.nameHi}</div>
-                            <div style="color: #6b7280; font-size: 14px;">${thana.nameEn} - ${thana.english}</div>
+                            <div style="font-size: 18px; font-weight: 600;">${thana.nameHi}</div>
+                            <div style="color: #6b7280;">${thana.nameEn} - ${thana.english}</div>
                         </div>
                     </div>
-                    <div style="display: flex; gap: 12px; margin-bottom: 12px;">
-                        <div style="flex: 1; padding: 8px; background: #dcfce7; border-radius: 8px;">
-                            <div style="font-size: 12px; color: #166534;">Max in G${maxGunasthan}</div>
-                            <div style="font-weight: 600; color: #166534;">${maxCount}/${thana.subtypes.length}</div>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 12px;">
+                        <div style="background: #f0fdf4; padding: 12px; border-radius: 8px; border: 1px solid #86efac;">
+                            <div style="font-size: 12px; color: #16a34a;">Maximum in</div>
+                            <div style="font-weight: 600;">G${maxGunasthan}: ${maxCount}/${thana.total}</div>
                         </div>
-                        <div style="flex: 1; padding: 8px; background: #fee2e2; border-radius: 8px;">
-                            <div style="font-size: 12px; color: #991b1b;">Min in G${minGunasthan}</div>
-                            <div style="font-weight: 600; color: #991b1b;">${minCount}/${thana.subtypes.length}</div>
+                        <div style="background: #fef2f2; padding: 12px; border-radius: 8px; border: 1px solid #fca5a5;">
+                            <div style="font-size: 12px; color: #dc2626;">Minimum in</div>
+                            <div style="font-weight: 600;">G${minGunasthan}: ${minCount}/${thana.total}</div>
                         </div>
                     </div>
                     <div style="margin-top: 12px;">
-                        <div style="font-size: 12px; color: #6b7280; margin-bottom: 4px;">Subtypes:</div>
-                        <div style="display: flex; flex-wrap: wrap; gap: 4px;">
-                            ${thana.subtypes.slice(0, 5).map(s => `<span style="padding: 2px 8px; background: #f3f4f6; border-radius: 4px; font-size: 11px;">${s}</span>`).join('')}
+                        <div style="font-size: 14px; color: #6b7280; margin-bottom: 8px;">Subtypes (${thana.subtypes.length}):</div>
+                        <div style="display: flex; flex-wrap: wrap; gap: 6px;">
+                            ${thana.subtypes.slice(0, 5).map(s => `<span class="item-tag" onclick="findAndShowDefinition('${s}')">${s}</span>`).join('')}
                             ${thana.subtypes.length > 5 ? `<span class="item-tag">+${thana.subtypes.length - 5} more</span>` : ''}
                         </div>
                     </div>
