@@ -331,21 +331,32 @@ function initializeApp() {
     
     console.log('✅ App initialized successfully');
 }
+// REPLACE your entire setupEventListeners function in app.js with this fixed version:
 
-// Set up event listeners
 function setupEventListeners() {
     // Event delegation for all click events
     document.addEventListener('click', (e) => {
-        const clickHandler = e.target.getAttribute('data-click');
-        const tabName = e.target.getAttribute('data-tab');
+        // First check for closest element with data-click (bubbles up from target)
+        let clickElement = e.target;
+        let clickHandler = null;
+        
+        // Walk up the DOM tree to find an element with data-click
+        while (clickElement && clickElement !== document.body) {
+            if (clickElement.hasAttribute && clickElement.hasAttribute('data-click')) {
+                clickHandler = clickElement.getAttribute('data-click');
+                break;
+            }
+            clickElement = clickElement.parentElement;
+        }
         
         // Handle tab clicks
+        const tabName = e.target.getAttribute('data-tab');
         if (tabName) {
             window.showTab(tabName);
             return;
         }
         
-        // Handle other click events
+        // Handle click events if we found a data-click attribute
         if (clickHandler && window[clickHandler]) {
             e.preventDefault();
             e.stopPropagation();
@@ -355,39 +366,62 @@ function setupEventListeners() {
                 case 'closeTooltipModal':
                     window.closeTooltip(e);
                     break;
+                    
                 case 'stopPropagation':
                     e.stopPropagation();
                     break;
+                    
                 case 'searchDefinitionsFromInput':
                     const searchValue = document.getElementById('definition-search').value;
                     window.searchDefinitions(searchValue);
                     break;
+                    
                 case 'showDetailedTooltip':
-                    // Find the TD element that has both data-gunasthan and data-thana
-                    const tdElement = e.target.closest('td[data-gunasthan][data-thana]');
-                    if (tdElement) {
-                        const gunasthan = tdElement.getAttribute('data-gunasthan');
-                        const thana = tdElement.getAttribute('data-thana');
+                    // clickElement is the TD with data attributes
+                    const gunasthan = clickElement.getAttribute('data-gunasthan');
+                    const thana = clickElement.getAttribute('data-thana');
+                    console.log('Matrix cell clicked - G:', gunasthan, 'T:', thana);
+                    if (gunasthan && thana) {
                         window.showDetailedTooltip(parseInt(gunasthan), parseInt(thana));
+                    } else {
+                        console.error('Missing data attributes on TD');
                     }
                     break;
+                    
                 case 'showNewDetailedTooltip':
-                    const matrixType = e.target.closest('[data-matrix-type]').getAttribute('data-matrix-type');
-                    const thanaIndex = e.target.closest('[data-thana-index]').getAttribute('data-thana-index');
-                    const colIndex = e.target.closest('[data-col-index]').getAttribute('data-col-index');
-                    window.showNewDetailedTooltip(matrixType, parseInt(thanaIndex), parseInt(colIndex));
+                    const matrixType = clickElement.getAttribute('data-matrix-type');
+                    const thanaIndex = clickElement.getAttribute('data-thana-index');
+                    const colIndex = clickElement.getAttribute('data-col-index');
+                    if (matrixType && thanaIndex && colIndex) {
+                        window.showNewDetailedTooltip(matrixType, parseInt(thanaIndex), parseInt(colIndex));
+                    }
                     break;
+                    
                 case 'findDefinitionByThana':
-                    const thanaName = e.target.getAttribute('data-thana-name');
-                    const conceptName = e.target.getAttribute('data-concept-name');
-                    window.findDefinitionByThana(thanaName, conceptName);
+                    const thanaName = clickElement.getAttribute('data-thana-name');
+                    const conceptName = clickElement.getAttribute('data-concept-name');
+                    if (thanaName && conceptName) {
+                        window.findDefinitionByThana(thanaName, conceptName);
+                    }
                     break;
+                    
                 case 'scrollToGunasthan':
-                    const gunasthanId = e.target.closest('[data-gunasthan-id]').getAttribute('data-gunasthan-id');
-                    window.scrollToGunasthan(parseInt(gunasthanId));
+                    const gunasthanIdElement = clickElement.closest('[data-gunasthan-id]');
+                    if (gunasthanIdElement) {
+                        const gunasthanId = gunasthanIdElement.getAttribute('data-gunasthan-id');
+                        window.scrollToGunasthan(parseInt(gunasthanId));
+                    }
                     break;
+                    
+                case 'closeTooltip':
+                    window.closeTooltip();
+                    break;
+                    
                 default:
-                    window[clickHandler]();
+                    // For functions without parameters
+                    if (typeof window[clickHandler] === 'function') {
+                        window[clickHandler]();
+                    }
             }
         }
         
@@ -435,7 +469,6 @@ function setupEventListeners() {
         }
     });
 }
-
 // Initialize app when DOM is loaded
 document.addEventListener('DOMContentLoaded', initializeApp);
 
