@@ -21,14 +21,14 @@
 <body>
     <div class="app-header">
         <h1 class="app-title">चौबीस ठाणा</h1>
-        <div class="app-subtitle">""</div>
+        <div class="app-subtitle">Complete Spiritual Journey Mapping</div>
     </div>
     
     <div class="tab-container">
-        <button class="tab active" data-tab="overview">मुख्य पृष्ठ</button>
-        <button class="tab" data-tab="matrix">चार्ट</button>
-        <button class="tab" data-tab="transitions">गुणस्थान बदलाव</button>
-        <button class="tab" data-tab="definitions">परिभाषाएं</button>
+        <button class="tab active" data-tab="overview">Overview</button>
+        <button class="tab" data-tab="matrix">Matrix</button>
+        <button class="tab" data-tab="transitions">Transitions</button>
+        <button class="tab" data-tab="definitions">Definitions</button>
     </div>
     
     <div class="content">
@@ -50,20 +50,20 @@
         
         <div id="matrix-content" class="tab-content hidden">
             <div class="info-section">
-                <div class="info-title">२४ ठाणा चार्ट</div>
+                <div class="info-title">24 Thana Matrix</div>
                 <div class="info-description">
-                    १४ गुणस्थान में २४ ठाणा का पूरा विवरण।
-                    किसी भी खाने पर क्लिक करें - उपस्थित और अनुपस्थित की जानकारी मिलेगी।
-                    शब्दों का अर्थ जानने के लिए उन पर क्लिक करें।
+                    Comprehensive mapping of 24 spiritual attributes across all 14 Gunasthanas. 
+                    Click any cell to see detailed breakdown of present and absent characteristics.
+                    Click on individual terms to see their definitions.
                 </div>
             </div>
             <div class="matrix-container">
                 <div style="margin-bottom: 20px; display: flex; flex-wrap: wrap; gap: 12px; align-items: center;">
-                    <label style="font-weight: 600; color: #374151;">चार्ट का प्रकार:</label>
+                    <label style="font-weight: 600; color: #374151;">Matrix View:</label>
                     <select id="matrix-selector" data-change="changeMatrix" style="padding: 8px 12px; border: 2px solid #d1d5db; border-radius: 8px; background: white; font-size: 14px;">
-                        <option value="default">ठाणा-गुणस्थान (२४×१४)</option>
-                        <option value="gati">गति चार्ट (४×२४)</option>
-                        <option value="indriya">इंद्रिय चार्ट (५×२४)</option>
+                        <option value="default">Thana-Gunasthan (24×14)</option>
+                        <option value="gati">Gati Matrix (4×24)</option>
+                        <option value="indriya">Indriya Matrix (5×24)</option>
                     </select>
                 </div>
                 <div id="matrix-table"></div>
@@ -72,11 +72,11 @@
         
         <div id="transitions-content" class="tab-content hidden">
             <div class="info-section">
-                <div class="info-title">आध्यात्मिक प्रगति के मार्ग</div>
+                <div class="info-title">Spiritual Progression Paths</div>
                 <div class="info-description">
-                    गुणस्थानों के बीच संभावित बदलाव देखें। प्रत्येक स्तर से आगे या पीछे जाने के विशेष नियम हैं।
-                    ये नियम आपकी आध्यात्मिक प्रगति और कर्मों पर आधारित हैं।
-                    विभिन्न गुणस्थान में आरोहण तथा अवरोहण के नियम।
+                    Explore possible transitions between Gunasthanas. Each stage has specific paths forward or backward
+                    based on spiritual progress and karmic conditions. 
+                    विभिन्न गुणस्थान में आरोहण तथा अवरोहण  के नियम 
                 </div>
             </div>
             <div id="transitions-list"></div>
@@ -84,78 +84,83 @@
         
         <div id="definitions-content" class="tab-content hidden">
             <div class="info-section">
-                <div class="info-title">विस्तृत शब्दावली</div>
+                <div class="info-title">Comprehensive Definitions</div>
                 <div class="info-description">
-                    इस ऐप में उपयोग किए गए सभी जैन दर्शन के शब्दों और विचारों की सरल व्याख्या।
-                    अर्थ समझने के लिए खोजें या श्रेणी के अनुसार देखें।
+                    Detailed explanations of all Jain philosophical terms and concepts used in the application.
+                    Search or browse by category to understand the meanings and significance.
                 </div>
             </div>
-            <div style="margin-bottom: 20px;">
-                <input type="text" id="definition-search" placeholder="Search definitions..." 
-                    style="width: 100%; padding: 12px 16px; border: 2px solid #d1d5db; border-radius: 8px; font-size: 14px;">
-                <div style="margin-top: 8px; display: flex; gap: 8px;">
-                    <button onclick="searchDefinitions(document.getElementById('definition-search').value)" 
-                        style="padding: 8px 16px; background: #3b82f6; color: white; border: none; border-radius: 6px; cursor: pointer;">
-                        Search
-                    </button>
-                    <button onclick="clearDefinitionSearch()" 
-                        style="padding: 8px 16px; background: #6b7280; color: white; border: none; border-radius: 6px; cursor: pointer;">
-                        Clear
-                    </button>
-                </div>
+            <div style="display: flex; gap: 8px; margin-bottom: 16px;">
+                <input type="text" id="definition-search" class="search-box" placeholder="Search definitions (Hindi/English/Sanskrit)..." 
+                       data-input="searchDefinitions" 
+                       data-keypress="searchOnEnter"
+                       style="flex: 1; margin-bottom: 0;">
+                <button id="voice-search-btn" data-click="startVoiceSearch" 
+                        style="background: #10b981; color: white; border: none; padding: 14px 16px; border-radius: 12px; cursor: pointer; font-weight: 600; transition: all 0.3s ease;">
+                    🎤
+                </button>
+                <button id="search-definitions-btn" data-click="searchDefinitionsFromInput" 
+                        style="background: #3b82f6; color: white; border: none; padding: 14px 20px; border-radius: 12px; cursor: pointer; font-weight: 600; white-space: nowrap;">
+                    🔍
+                </button>
+                <button id="clear-search-btn" data-click="clearDefinitionSearch" 
+                        style="background: #6b7280; color: white; border: none; padding: 14px 16px; border-radius: 12px; cursor: pointer; font-weight: 600;">
+                    ✖
+                </button>
+            </div>
+            <div id="voice-status" style="display: none; text-align: center; margin-bottom: 12px; padding: 8px; background: #fef3c7; border: 1px solid #f59e0b; border-radius: 8px; color: #78350f; font-size: 14px;">
+                🎤 Listening... Speak now!
             </div>
             <div id="definitions-list"></div>
         </div>
     </div>
     
-    <!-- Tooltip Modal (hidden by default) -->
-    <div id="tooltip-modal" class="tooltip-modal hidden" onclick="closeTooltip(event)">
-        <div class="tooltip-content" onclick="event.stopPropagation()">
+    <div id="tooltip-modal" class="tooltip-modal hidden" data-click="closeTooltipModal">
+        <div class="tooltip-content" data-click="stopPropagation">
             <div class="tooltip-header">
                 <div class="tooltip-title-section">
-                    <div id="tooltip-title" class="tooltip-title"></div>
+                    <h3 id="tooltip-title" class="tooltip-title"></h3>
                     <div id="tooltip-subtitle" class="tooltip-subtitle"></div>
                     <div id="tooltip-gunasthan" class="tooltip-gunasthan-info"></div>
                 </div>
-                <button class="close-button" onclick="closeTooltip()">×</button>
+                <button class="close-button" data-click="closeTooltip">×</button>
             </div>
             
             <div class="tooltip-stats">
                 <div class="stat-item">
-                    <span id="stat-present" class="stat-value">0</span>
+                    <span class="stat-value" id="stat-present">0</span>
                     <span class="stat-label">Present</span>
                 </div>
                 <div class="stat-item">
-                    <span id="stat-absent" class="stat-value">0</span>
+                    <span class="stat-value" id="stat-absent">0</span>
                     <span class="stat-label">Absent</span>
                 </div>
                 <div class="stat-item">
-                    <span id="stat-total" class="stat-value">0</span>
+                    <span class="stat-value" id="stat-total">0</span>
                     <span class="stat-label">Total</span>
                 </div>
             </div>
             
-            <div id="tooltip-body" class="tooltip-body"></div>
+            <div id="tooltip-body"></div>
         </div>
     </div>
     
     <!-- JavaScript Modules -->
-    <script type="module">
-        import('./js/core/app.js').then(module => {
-            // App will auto-initialize
-            console.log('App modules loaded successfully');
-        }).catch(error => {
-            console.error('Failed to load app modules:', error);
-        });
-    </script>
+    <script type="module" src="./js/core/app.js"></script>
     
-    <!-- Register Service Worker -->
+    <!-- Service Worker Registration -->
     <script>
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('./sw.js')
-                .then(registration => console.log('Service Worker registered'))
-                .catch(error => console.log('Service Worker registration failed:', error));
-        }
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('./sw.js')
+            .then(registration => {
+              console.log('ServiceWorker registration successful with scope: ', registration.scope);
+            })
+            .catch(error => {
+              console.log('ServiceWorker registration failed: ', error);
+            });
+        });
+      }
     </script>
 </body>
 </html>
