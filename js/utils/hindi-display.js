@@ -16,10 +16,10 @@ function updateDisplayToHindi() {
                 tab.textContent = 'चार्ट';
                 break;
             case 'transitions':
-                tab.textContent = 'बदलाव';
+                tab.textContent = 'गुणस्थान बदलाव';
                 break;
             case 'definitions':
-                tab.textContent = 'शब्दावली';
+                tab.textContent = 'परिभाषाएं ';
                 break;
         }
     });
@@ -59,7 +59,7 @@ function updateDisplayToHindi() {
         // Definitions section
         const defsInfo = document.querySelector('#definitions-content .info-title');
         if (defsInfo && defsInfo.textContent === 'Comprehensive Definitions') {
-            defsInfo.textContent = 'विस्तृत शब्दावली';
+            defsInfo.textContent = 'विस्तृत परिभाषाएं ';
         }
         
         const defsDesc = document.querySelector('#definitions-content .info-description');
@@ -192,10 +192,10 @@ function updateDisplayToHindi() {
                     titleDiv.textContent = 'चार्ट देखें';
                     subtitleDiv.textContent = '२४ ठाणा विश्लेषण';
                 } else if (titleDiv.textContent === 'Transitions') {
-                    titleDiv.textContent = 'बदलाव';
+                    titleDiv.textContent = 'गुणस्थान बदलाव';
                     subtitleDiv.textContent = 'गुणस्थान आरोहण-अवरोहण';
                 } else if (titleDiv.textContent === 'Definitions') {
-                    titleDiv.textContent = 'शब्दावली';
+                    titleDiv.textContent = 'परिभाषाएं ';
                     subtitleDiv.textContent = 'संपूर्ण शब्दकोश';
                 }
             }
