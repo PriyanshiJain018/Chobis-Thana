@@ -227,7 +227,7 @@ export const completeMatrixData = {
                      notes: "All three gender inclinations present" },
                 5: { present: ["All except अनन्तानुबंधी (4)"], absent: ["अनन्तानुबंधी क्रोध", "मान", "माया", "लोभ"], 
                      count: 21, total: 25, notes: "Anantanubandhi passions absent in mixed belief" },
-                6: { present: ["मिश्र ज्ञान"], absent: ["Pure forms", "Higher knowledge"], count: 2, total: 8,
+                6: { present: ["मिश्र ज्ञान"], absent: ["Pure forms", "Higher knowledge"], count: 3, total: 8,
                      notes: "Mixed knowledge - combination of right and wrong" },
                 7: { present: ["असंयम"], absent: ["All forms of restraint"], count: 1, total: 7,
                      notes: "No restraint in mixed belief stage" },
