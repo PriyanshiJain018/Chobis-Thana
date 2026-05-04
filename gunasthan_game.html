@@ -1135,6 +1135,404 @@
                 filter: brightness(1.2);
             }
         }
+        
+        /* ============================================================
+           NEW STYLES — enhancements
+           ============================================================ */
+        
+        /* Mode selector */
+        .mode-selector {
+            display: flex;
+            gap: 6px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 16px;
+        }
+        .mode-pill {
+            padding: 6px 12px;
+            border-radius: 20px;
+            background: white;
+            border: 2px solid #e5e7eb;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 500;
+            color: #4b5563;
+            transition: all 0.2s ease;
+            user-select: none;
+        }
+        .mode-pill:hover { border-color: #9ca3af; }
+        .mode-pill.active {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border-color: transparent;
+            box-shadow: 0 2px 8px rgba(102,126,234,0.4);
+        }
+        
+        /* Dhyana chip on gunasthan tile */
+        .dhyana-chip {
+            display: inline-block;
+            background: rgba(255,255,255,0.25);
+            backdrop-filter: blur(10px);
+            color: white;
+            padding: 6px 14px;
+            border-radius: 14px;
+            font-size: 13px;
+            font-weight: 500;
+            margin-top: 12px;
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+        .dhyana-chip-label {
+            font-size: 11px;
+            opacity: 0.85;
+            margin-right: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        /* Shreni indicator */
+        .shreni-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-left: 8px;
+        }
+        .shreni-badge.upashama {
+            background: #fef3c7;
+            color: #92400e;
+            border: 1px solid #fde68a;
+        }
+        .shreni-badge.kshapaka {
+            background: #dcfce7;
+            color: #166534;
+            border: 1px solid #86efac;
+        }
+        
+        /* Leshya tracker */
+        .leshya-tracker {
+            background: white;
+            border-radius: 14px;
+            padding: 14px 18px;
+            margin: 16px 0;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+        }
+        .leshya-tracker-title {
+            font-size: 13px;
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .leshya-bar {
+            display: flex;
+            gap: 4px;
+            border-radius: 8px;
+            overflow: hidden;
+            height: 28px;
+        }
+        .leshya-segment {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            font-weight: 600;
+            transition: all 0.4s ease;
+            opacity: 0.25;
+            position: relative;
+            color: white;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+        }
+        .leshya-segment.valid { opacity: 1; }
+        .leshya-segment.current {
+            transform: scale(1.05);
+            box-shadow: 0 0 0 2px white, 0 0 0 4px #3b82f6;
+            z-index: 2;
+        }
+        .leshya-segment.disabled {
+            opacity: 0.15;
+            background: #e5e7eb !important;
+            color: #9ca3af !important;
+            text-shadow: none;
+        }
+        .leshya-aleshya {
+            background: linear-gradient(135deg, #fbbf24, #f59e0b);
+            color: white;
+        }
+        
+        /* Glossary popovers */
+        .glossary-term {
+            text-decoration: underline;
+            text-decoration-style: dotted;
+            text-decoration-color: #667eea;
+            text-underline-offset: 3px;
+            cursor: help;
+            color: #4338ca;
+            font-weight: 500;
+        }
+        .glossary-term:hover { color: #312e81; }
+        .glossary-popover {
+            position: absolute;
+            background: white;
+            border-radius: 10px;
+            padding: 12px 14px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.18);
+            border: 1px solid #e5e7eb;
+            max-width: 320px;
+            z-index: 200;
+            font-size: 13px;
+            line-height: 1.5;
+            color: #374151;
+            animation: popoverIn 0.2s ease;
+        }
+        .glossary-popover .term-name {
+            font-weight: 700;
+            color: #1f2937;
+            margin-bottom: 6px;
+            font-size: 14px;
+        }
+        .glossary-popover .page-ref {
+            margin-top: 8px;
+            font-size: 11px;
+            color: #6b7280;
+            font-style: italic;
+            border-top: 1px solid #f3f4f6;
+            padding-top: 6px;
+        }
+        @keyframes popoverIn {
+            from { opacity: 0; transform: translateY(-4px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* Sloka button + audio overlay */
+        .sloka-button {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            color: white;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 24px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            margin: 8px 4px;
+            box-shadow: 0 4px 12px rgba(245,158,11,0.4);
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .sloka-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(245,158,11,0.5);
+        }
+        .sloka-button.playing { animation: pulse 1.5s ease infinite; }
+        
+        .gatha-display {
+            background: linear-gradient(135deg, #fefce8, #fef3c7);
+            border: 2px solid #fde68a;
+            border-radius: 14px;
+            padding: 20px;
+            margin: 16px 0;
+            text-align: center;
+        }
+        .gatha-line {
+            font-size: 17px;
+            line-height: 1.9;
+            color: #78350f;
+            font-family: Georgia, 'Hindi-Sangam', serif;
+            transition: all 0.3s ease;
+        }
+        .gatha-line.active {
+            background: rgba(245,158,11,0.2);
+            font-weight: 600;
+            color: #451a03;
+            border-radius: 6px;
+            padding: 2px 8px;
+        }
+        .gatha-translation {
+            margin-top: 14px;
+            padding-top: 14px;
+            border-top: 1px solid #fde68a;
+            font-size: 13px;
+            color: #78350f;
+            font-style: italic;
+            line-height: 1.6;
+        }
+        
+        /* Choice preview overlay */
+        .choice-preview-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1500;
+            animation: fadeIn 0.2s ease;
+            padding: 20px;
+        }
+        .choice-preview-card {
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            max-width: 500px;
+            width: 100%;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+            animation: previewSlide 0.3s ease;
+        }
+        @keyframes previewSlide {
+            from { transform: scale(0.92) translateY(20px); opacity: 0; }
+            to { transform: scale(1) translateY(0); opacity: 1; }
+        }
+        .preview-header {
+            font-size: 18px;
+            font-weight: 700;
+            color: #1f2937;
+            margin-bottom: 12px;
+        }
+        .preview-consequence {
+            background: #f3f4f6;
+            padding: 12px;
+            border-radius: 8px;
+            margin: 12px 0;
+            font-size: 14px;
+            color: #4b5563;
+        }
+        .preview-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 18px;
+        }
+        .preview-btn {
+            flex: 1;
+            padding: 12px;
+            border-radius: 10px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .preview-btn-confirm {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+        }
+        .preview-btn-cancel {
+            background: #e5e7eb;
+            color: #4b5563;
+        }
+        .preview-btn:hover { transform: translateY(-1px); }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        /* Deva rebirth animation overlay */
+        .deva-rebirth-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: radial-gradient(circle at center, rgba(139,92,246,0.95), rgba(30,27,75,0.98));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            z-index: 2500;
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+        .deva-stage {
+            font-size: 52px;
+            font-weight: bold;
+            margin: 12px 0;
+            animation: devaStagePulse 1.5s ease infinite;
+        }
+        @keyframes devaStagePulse {
+            0%, 100% { transform: scale(1); text-shadow: 0 0 20px rgba(255,255,255,0.5); }
+            50% { transform: scale(1.05); text-shadow: 0 0 40px rgba(255,255,255,0.9); }
+        }
+        .deva-arrow {
+            font-size: 32px;
+            margin: 8px 0;
+            opacity: 0.7;
+            animation: devaArrowDrift 2s ease infinite;
+        }
+        @keyframes devaArrowDrift {
+            0%, 100% { transform: translateY(0); opacity: 0.5; }
+            50% { transform: translateY(8px); opacity: 1; }
+        }
+        .deva-label {
+            font-size: 18px;
+            margin: 6px 0 24px 0;
+            opacity: 0.9;
+            max-width: 600px;
+        }
+        
+        /* Save indicator */
+        .save-indicator {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background: rgba(16,185,129,0.95);
+            color: white;
+            padding: 8px 14px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            z-index: 90;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.3s ease;
+            pointer-events: none;
+            box-shadow: 0 4px 12px rgba(16,185,129,0.4);
+        }
+        .save-indicator.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* Mobile responsive */
+        @media (max-width: 480px) {
+            .game-container { padding: 12px; }
+            .game-header { padding: 20px; }
+            .game-title { font-size: 24px; }
+            .game-stats {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 10px;
+            }
+            .stat-card { padding: 14px; }
+            .stat-value { font-size: 22px; }
+            .stat-label { font-size: 11px; }
+            .choices-container { grid-template-columns: 1fr !important; }
+            .choice-button { padding: 14px; }
+            .choice-title { font-size: 14px; }
+            .choice-description { font-size: 12px; }
+            .gunasthan-display { padding: 20px; }
+            .gunasthan-name { font-size: 22px; }
+            .scenario-content { padding: 16px; }
+            .karma-bars { grid-template-columns: 1fr; }
+            .progress-path { gap: 4px; }
+            .path-stage {
+                width: 32px;
+                height: 32px;
+                font-size: 13px;
+            }
+            .path-arrow { font-size: 12px; }
+            .mode-pill { padding: 4px 10px; font-size: 12px; }
+            .gatha-line { font-size: 14px; line-height: 1.6; }
+            .leshya-segment { font-size: 9px; }
+        }
+        @media (max-width: 360px) {
+            .game-stats { grid-template-columns: 1fr 1fr; }
+            .gunasthan-number { font-size: 32px; }
+            .gunasthan-name { font-size: 18px; }
+            .leshya-bar { height: 24px; }
+            .leshya-segment { font-size: 8px; }
+        }
     </style>
 </head>
 <body>
@@ -1155,6 +1553,19 @@
         <div class="game-header">
             <div class="game-title">🧘 गुणस्थान यात्रा</div>
             <div class="game-subtitle">Interactive Spiritual Journey Through 14 Stages of Soul Development</div>
+            
+            <!-- Mode selector -->
+            <div class="mode-selector" id="mode-selector">
+                <div class="mode-pill" data-mode="study" onclick="setGameMode('study')">📖 अध्ययन</div>
+                <div class="mode-pill active" data-mode="beginner" onclick="setGameMode('beginner')">🌱 सरल</div>
+                <div class="mode-pill" data-mode="scholar" onclick="setGameMode('scholar')">🎓 विद्वान्</div>
+                <div class="mode-pill" data-mode="speedrun" onclick="setGameMode('speedrun')">⚡ द्रुत</div>
+            </div>
+            
+            <!-- Sloka audio button -->
+            <button class="sloka-button" id="sloka-button" onclick="openGathaModal()">
+                🎵 <span>मूल गाथा सुनें (Opening Gatha)</span>
+            </button>
             
             <div id="timer-warning" class="timer-warning hidden">
                 <div style="font-weight: 600; color: #92400e; margin-bottom: 8px;">⏰ मरणकाल निकट - Death Approaching</div>
@@ -1220,8 +1631,20 @@
                 </ul>
             </div>
             
+            <!-- NEW: Leshya tracker -->
+            <div class="leshya-tracker" id="leshya-tracker">
+                <div class="leshya-tracker-title">
+                    🎨 लेश्या (Leshya) — Soul Coloration
+                    <span style="margin-left: auto; font-size: 11px; color: #6b7280; font-weight: normal;" id="leshya-current-label"></span>
+                </div>
+                <div class="leshya-bar" id="leshya-bar"></div>
+            </div>
+            
             <div class="karma-display" id="karma-display"></div>
         </div>
+        
+        <!-- Save indicator (shows when game saves) -->
+        <div class="save-indicator" id="save-indicator">💾 Progress saved</div>
         
         <div class="action-buttons">
             <button class="action-button secondary" onclick="showHelp()">❓ Help</button>
@@ -1252,10 +1675,114 @@
     </div>
 
     <script>
-        // Complete accurate data from main app (unchanged)
+        // ============================================================
+        // NEW: Canonical reference data — all tied to source page citations
+        // ============================================================
+        
+        // Shukla dhyana mapping per gunasthan (corrected per source pages 27-28)
+        const dhyanaPerGunasthan = {
+            1:  { dhyana: "आर्त 4, रौद्र 4", type: "अशुभ", page: 29 },
+            2:  { dhyana: "आर्त 4, रौद्र 4", type: "अशुभ", page: 30 },
+            3:  { dhyana: "आर्त 4, रौद्र 4, धर्म्य 4", type: "मिश्र", page: 31 },
+            4:  { dhyana: "आर्त 4, रौद्र 4, धर्म्य 4", type: "मिश्र", page: 32 },
+            5:  { dhyana: "आर्त 4, रौद्र 4, धर्म्य 4", type: "मिश्र", page: 33 },
+            6:  { dhyana: "आर्त 3, धर्म्य 4", type: "शुभ", page: 34 },
+            7:  { dhyana: "धर्म्य 4", type: "शुभ", page: 35 },
+            8:  { dhyana: "पृथक्त्व-वितर्क-वीचार", type: "प्रथम शुक्लध्यान", page: 36 },
+            9:  { dhyana: "पृथक्त्व-वितर्क-वीचार", type: "प्रथम शुक्लध्यान", page: 37 },
+            10: { dhyana: "पृथक्त्व-वितर्क-वीचार", type: "प्रथम शुक्लध्यान", page: 38 },
+            11: { dhyana: "पृथक्त्व-वितर्क-वीचार", type: "प्रथम शुक्लध्यान", page: 39 },
+            12: { dhyana: "एकत्व-वितर्क-अवीचार", type: "द्वितीय शुक्लध्यान", page: 40 },
+            13: { dhyana: "सूक्ष्मक्रिय-अप्रतिपाति (अंतिम अन्तर्मुहूर्त)", type: "तृतीय शुक्लध्यान", page: 41 },
+            14: { dhyana: "व्युपरत-क्रिया-निवृत्ति", type: "चतुर्थ शुक्लध्यान", page: 41 }
+        };
+        
+        // Valid leshyas per gunasthan (per source matrix data)
+        // 6 leshyas: कृष्ण, नील, कापोत (अशुभ); पीत, पद्म, शुक्ल (शुभ)
+        const validLeshyaPerGunasthan = {
+            1:  ['कृष्ण', 'नील', 'कापोत', 'पीत', 'पद्म', 'शुक्ल'],
+            2:  ['कृष्ण', 'नील', 'कापोत', 'पीत', 'पद्म', 'शुक्ल'],
+            3:  ['कृष्ण', 'नील', 'कापोत', 'पीत', 'पद्म', 'शुक्ल'],
+            4:  ['कृष्ण', 'नील', 'कापोत', 'पीत', 'पद्म', 'शुक्ल'],
+            5:  ['पीत', 'पद्म', 'शुक्ल'],
+            6:  ['पीत', 'पद्म', 'शुक्ल'],
+            7:  ['पीत', 'पद्म', 'शुक्ल'],
+            8:  ['शुक्ल'],
+            9:  ['शुक्ल'],
+            10: ['शुक्ल'],
+            11: ['शुक्ल'],
+            12: ['शुक्ल'],
+            13: ['शुक्ल'],   // परम शुक्ल
+            14: []             // अलेश्य (no leshya)
+        };
+        
+        const leshyaColors = {
+            'कृष्ण': '#1f2937',
+            'नील': '#1e3a8a',
+            'कापोत': '#9a3412',
+            'पीत': '#eab308',
+            'पद्म': '#ec4899',
+            'शुक्ल': '#f8fafc',
+            'अलेश्य': '#fbbf24'
+        };
+        
+        // Realistic fall logic — kashaya type determines fall destination
+        // Per canon: अनन्तानुबन्धी udaya → G1/G2; अप्रत्याख्यान → G4; प्रत्याख्यान → G5; संज्वलन → G6
+        const kashayaFallMap = {
+            'anantanubandhi': { target: 1, label: 'अनन्तानुबन्धी कषाय का तीव्र उदय', desc: 'सम्यक्त्व का घात — सीधे मिथ्यात्व में पतन' },
+            'apratyakhyana':  { target: 4, label: 'अप्रत्याख्यान कषाय का उदय', desc: 'व्रत का घात — चतुर्थ गुणस्थान में पतन' },
+            'pratyakhyana':   { target: 5, label: 'प्रत्याख्यान कषाय का उदय', desc: 'सकल संयम का घात — श्रावक स्तर पर पतन' },
+            'samjvalan':      { target: 6, label: 'संज्वलन कषाय का तीव्र उदय', desc: 'यथाख्यात संयम का घात — प्रमत्त संयत में पतन' }
+        };
+        
+        // Glossary terms with canonical page citations
+        const glossary = {
+            'अधःकरण': { def: 'पहले से नीचे (निम्न) करण — मिथ्यात्व से सम्यक्त्व की ओर बढ़ने में पहला परिणाम-विशुद्धि का करण।', page: 17 },
+            'अपूर्वकरण': { def: 'पूर्व में कभी प्राप्त न हुए ऐसे अपूर्व परिणामों को धारण करना। सम-समयवर्ती जीवों के परिणाम समान-असमान दोनों।', page: 20 },
+            'अनिवृत्तिकरण': { def: 'इस अन्तर्मुहूर्त में सम-समयवर्ती जीवों के परिणामों में भेद नहीं होता — परिणाम "नहीं लौटते"।', page: 20 },
+            'इर्यापथ बंध': { def: '13वें/12वें गुणस्थान में केवल योग के निमित्त से होने वाला बंध — स्थिति-अनुभाग रहित। एक समय में बंधकर अगले समय में निर्जरा।', page: 21 },
+            'उपशम श्रेणी': { def: 'मोहनीय कर्म का उपशम (दबाना) करते हुए श्रेणी आरोहण — 11वें तक पहुँचता है, फिर अवश्य गिरता है।', page: 19 },
+            'क्षपक श्रेणी': { def: 'मोहनीय कर्म का क्षय (नाश) करते हुए श्रेणी आरोहण — 12वें तक सीधा पहुँचता है, बिना पतन।', page: 19 },
+            'द्वितीयोपशम सम्यक्त्व': { def: 'क्षयोपशम सम्यक्त्व पूर्वक होने वाला उपशम सम्यक्त्व। 7वें से 11वें तक रहता है। 11वें में मरण → देवगति-अपर्याप्त में 4वें गुणस्थान में।', page: 18 },
+            'क्षायिक सम्यक्त्व': { def: 'सात प्रकृतियों के क्षय से होने वाला सम्यग्दर्शन — स्थायी, अविनाशी।', page: 19 },
+            'अनन्तानुबन्धी कषाय': { def: 'सम्यक्त्व का घात करने वाली तीव्र कषाय (4 भेद: क्रोध, मान, माया, लोभ)। उदय → मिथ्यात्व में पतन।', page: 16 },
+            'संज्वलन कषाय': { def: 'यथाख्यात चारित्र का घात करने वाली सूक्ष्म कषाय। 6-10 तक उदय में रहती है।', page: 16 },
+            'पृथक्त्व-वितर्क-वीचार': { def: 'प्रथम शुक्लध्यान — अर्थ, व्यञ्जन, योग की संक्रान्ति युक्त। 8-11 गुणस्थान में।', page: 27 },
+            'एकत्व-वितर्क-अवीचार': { def: 'द्वितीय शुक्लध्यान — एक योग के साथ, संक्रान्ति रहित। 12वें गुणस्थान में।', page: 28 },
+            'सूक्ष्मक्रिय-अप्रतिपाति': { def: 'तृतीय शुक्लध्यान — केवल सूक्ष्म काययोग शेष। 13वें के अंतिम अन्तर्मुहूर्त में।', page: 28 },
+            'व्युपरत-क्रिया-निवृत्ति': { def: 'चतुर्थ शुक्लध्यान — योग रहित अवस्था में। 14वें गुणस्थान में।', page: 28 }
+        };
+        
+        // Opening gatha (Prakrit) from page 4 — Gommatasara Jeevkand based
+        const openingGatha = {
+            text: [
+                "गइ इंदिये च काये, जोगे वेये कसाय णाणे य।",
+                "संजम दंसण लेस्सा, भविया सम्मत्त सण्णि आहारे॥",
+                "गुण जीवा पज्जत्ती, पाणा सण्णा य मग्गणा ओय।",
+                "उवओगो वि य कमसो, वीसं तु परूवणा भणिया॥",
+                "झाणा वि य पच्चा वि य, जाइ य कुलकोडि संजुया सव्वे।",
+                "गहणाति जेण भणिया, कमेण चउवीसा ठाणाणि॥"
+            ],
+            // Hindi-phonetic for Web Speech API (Prakrit isn't supported, hi-IN is closest)
+            speechText: "गइ इंदिये च काये, जोगे वेये कसाय णाणे य। संजम दंसण लेस्सा, भविया सम्मत्त सण्णि आहारे। गुण जीवा पज्जत्ती, पाणा सण्णा य मग्गणा ओय। उवओगो वि य कमसो, वीसं तु परूवणा भणिया। झाणा वि य पच्चा वि य, जाइ य कुलकोडि संजुया सव्वे। गहणाति जेण भणिया, कमेण चउवीसा ठाणाणि।",
+            translation: "गति, इन्द्रिय, काय, योग, वेद, कषाय, ज्ञान, संयम, दर्शन, लेश्या, भव्य, सम्यक्त्व, संज्ञी, आहारक — ये (14 मार्गणाएँ); गुणस्थान, जीवसमास, पर्याप्ति, प्राण, संज्ञा, उपयोग — ये (6); ध्यान, आस्रव, जाति, कुलकोटि — ये सब क्रमशः चौबीस ठाणे (24 स्थान) कहे गए हैं।"
+        };
+        
+        // Game mode definitions
+        const gameModes = {
+            'study':    { name: 'अध्ययन (Study)', timer: false, hints: true, quiz: true, falls: 'gentle', label: '📖' },
+            'beginner': { name: 'सरल (Beginner)', timer: false, hints: true, quiz: true, falls: 'gradual', label: '🌱' },
+            'scholar':  { name: 'विद्वान् (Scholar)', timer: true, hints: false, quiz: true, falls: 'canonical', label: '🎓' },
+            'speedrun': { name: 'द्रुत (Speedrun)', timer: true, hints: false, quiz: false, falls: 'canonical', label: '⚡' }
+        };
+
+        // ============================================================
+        // ============================================================
+        // Existing canonical data (verified against source)
+        // ============================================================
         const gunasthansData = {
             1: { nameHi: "मिथ्यात्व", nameEn: "Mithyatva", english: "False Belief", description: "Wrong belief due to mithyatva karma — does not have यथार्थ श्रद्धान in 7 tattvas.", descriptionHi: "मिथ्यात्व के उदय से सात तत्त्वों का यथार्थ श्रद्धान न होना — प्रथम गुणस्थान।", color: "#EF4444" },
-            2: { nameHi: "सासादन", nameEn: "Sasadan", english: "Taste of Right Belief (in fall)", description: "Fallen from upashama samyaktva but not yet in mithyatva. Duration: 1 समय to 6 आवली.", descriptionHi: "उपशम सम्यक्त्व से पतन; जघन्य 1 समय, उत्कृष्ट 6 आवली।", color: "#F87171" },
+            2: { nameHi: "सासादन", nameEn: "Sasadan", english: "Taste of Right Belief (in fall)", description: "Fallen from upashama samyaktva but not yet in mithyatva. Duration: 1 समय to 6 आवली.", descriptionHi: "उपशम सम्यक्त्व से पतन; जघन्य 1 समय, उत्कृष्ट 6 आवली।", color: "#F97316" },
             3: { nameHi: "मिश्र", nameEn: "Mishra", english: "Mixed Belief", description: "Mixed right and wrong belief simultaneously (खिचड़ी-like). No marana occurs here.", descriptionHi: "सम्यक् और मिथ्या मिश्रित श्रद्धान। यहाँ मरण नहीं होता।", color: "#FB923C" },
             4: { nameHi: "अविरत सम्यग्दृष्टि", nameEn: "Avirat Samyagdrishti", english: "Right Belief without Vows", description: "सम्यग्दर्शन manifested but no vows (neither संयमासंयम nor सकल संयम) yet.", descriptionHi: "सम्यग्दर्शन तो प्रकट हुआ किन्तु कोई व्रत नहीं।", color: "#FBBF24" },
             5: { nameHi: "देशविरत", nameEn: "Deshvirat", english: "Partial Vows (householder)", description: "Same time both संयत (from त्रस-हिंसा) and असंयत (from स्थावर-हिंसा).", descriptionHi: "एक ही समय में संयत और असंयत — श्रावक त्रसहिंसा से विरत किन्तु स्थावरहिंसा से अविरत।", color: "#A3E635" },
@@ -1270,22 +1797,22 @@
             14: { nameHi: "अयोगकेवली", nameEn: "Ayogakevali", english: "Omniscient without Activity", description: "All योग ceased. Duration: time to utter 5 short syllables (अ-इ-उ-ऋ-ऌ). उपान्त्य 72 + अन्तिम 13 = 85 prakriti destroyed.", descriptionHi: "5 ह्रस्व अक्षर बोलने जितना काल। उपान्त्य समय में 72 + अन्तिम समय में 13 प्रकृतियों का क्षय।", color: "#F59E0B" }
         };
 
-        // Accurate transition rules from main app (unchanged)
+        // Accurate transition rules per canonical चौबीस ठाणा चर्चा (corrected)
         const transitionRules = {
-            1: { canGoTo: [3, 4, 5, 7], description: "Can progress to mixed belief, right belief, partial vows, or rarely complete vows" },
-            2: { canGoTo: [1], description: "Falls back to false belief" },
-            3: { canGoTo: [1, 4], description: "Can fall to false belief or progress to right belief" },
-            4: { canGoTo: [1, 2, 3, 5, 7], description: "Multiple paths including direct jump to complete vows" },
-            5: { canGoTo: [1, 2, 3, 4, 7], description: "Can fall back or progress to monastic life" },
-            6: { canGoTo: [1, 2, 3, 4, 5, 7], description: "Can progress to careful conduct or spiritual ladder" },
-            7: { canGoTo: [6, 8], description: "Can become careless or continue ascending" },
-            8: { canGoTo: [7, 9], description: "Can fall back or continue ascending" },
-            9: { canGoTo: [7, 10], description: "Can fall back or reach subtle greed stage" },
-            10: { canGoTo: [7, 11, 12], description: "Can fall, subside, or destroy delusion" },
-            11: { canGoTo: [4, 7, 10], description: "Falls back through ladder; cannot directly reach 12 or 13 (those require kshapaka shreni). Death → 4 in deva birth." },
-            12: { canGoTo: [13], description: "Progresses to omniscience" },
-            13: { canGoTo: [14], description: "Final transition to liberation" },
-            14: { canGoTo: [], description: "Liberation (Moksha) - No further transitions" }
+            1: { canGoTo: [3, 4, 5, 7], description: "विशेष: तीसरे (मिश्र) में जाना केवल पूर्व में प्रथमोपशम सम्यक्त्व प्राप्त करने के बाद ही संभव। 4/5/7 में अधःकरण-अपूर्वकरण-अनिवृत्तिकरण के बाद।" },
+            2: { canGoTo: [1], description: "जघन्य 1 समय, उत्कृष्ट 6 आवली के पश्चात् नियम से मिथ्यात्व में पतन" },
+            3: { canGoTo: [1, 4], description: "मिथ्यात्व में पतन या सम्यक्त्व में आरोहण। यहाँ मरण नहीं होता।" },
+            4: { canGoTo: [1, 2, 3, 5, 7], description: "अनेक मार्ग - सीधे मुनि-दीक्षा सम्भव" },
+            5: { canGoTo: [1, 2, 3, 4, 7], description: "श्रावक से पतन या मुनि-दीक्षा" },
+            6: { canGoTo: [1, 2, 3, 4, 5, 7], description: "प्रमाद त्याग कर अप्रमत्त या श्रेणी-आरम्भ" },
+            7: { canGoTo: [4, 6, 8], description: "विशेष: मरण की अपेक्षा से चतुर्थ गुणस्थान भी सम्भव (देवगति में)" },
+            8: { canGoTo: [4, 7, 9], description: "विशेष: मरण की अपेक्षा से चतुर्थ गुणस्थान भी सम्भव (उपशम श्रेणी में मरण → देवगति-अपर्याप्त → 4)" },
+            9: { canGoTo: [4, 7, 10], description: "विशेष: मरण की अपेक्षा से चतुर्थ गुणस्थान भी सम्भव" },
+            10: { canGoTo: [4, 7, 11, 12], description: "उपशम श्रेणी → 11; क्षपक श्रेणी → 12। मरण → देवगति → 4" },
+            11: { canGoTo: [4, 7, 10], description: "उपशम श्रेणी से क्रमशः अवरोहण (11→10→...→7→4); 12वें/13वें में सीधे नहीं जा सकते (वे क्षपक श्रेणी से ही)। मरण → देवगति-अपर्याप्त → 4 (द्वितीयोपशम सम्यक्त्व)।" },
+            12: { canGoTo: [13], description: "केवलज्ञान-प्राप्ति की ओर — कोई पतन नहीं" },
+            13: { canGoTo: [14], description: "अन्तिम अन्तर्मुहूर्त में योग-निरोध — 14वें में संक्रमण" },
+            14: { canGoTo: [], description: "मोक्ष — कोई आगे का संक्रमण नहीं" }
         };
 
         // Game scenarios (unchanged)
@@ -1295,9 +1822,9 @@
                 content: "आप संसार के भ्रम में फंसे हुए एक जीव हैं। आपको सत्य और असत्य का भेद नहीं पता है। आप सभी प्रकार के कर्मों से बंधे हुए हैं।",
                 scenario: "आप एक मंदिर में जाते हैं और वहां जैन आचार्य का प्रवचन सुनते हैं। आप क्या करेंगे?",
                 choices: [
-                    { target: 3, title: "आंशिक स्वीकार", description: "आचार्य की कुछ बातें सही लगती हैं, कुछ संदेह भी है", karma: { मोहनीय: -10, ज्ञानावरणीय: -5 }, quiz: false },
-                    { target: 4, title: "पूर्ण श्रद्धा", description: "सम्पूर्ण श्रद्धा के साथ सत्य को स्वीकार करना", karma: { मोहनीय: -25, ज्ञानावरणीय: -15 }, quiz: true },
-                    { target: 5, title: "व्रत संकल्प", description: "तुरंत आंशिक व्रत लेने का निश्चय करना", karma: { मोहनीय: -35, ज्ञानावरणीय: -20 }, quiz: true },
+                    { target: 3, title: "आंशिक स्वीकार (मिश्र)", description: "आचार्य की कुछ बातें सही लगती हैं, कुछ संदेह भी है। (विशेष: यह मार्ग केवल पूर्व में प्रथमोपशम सम्यक्त्व प्राप्त करने वाले जीव के लिए ही सम्भव।)", karma: { मोहनीय: -10, ज्ञानावरणीय: -5 }, quiz: false },
+                    { target: 4, title: "पूर्ण श्रद्धा", description: "अधःकरण-अपूर्वकरण-अनिवृत्तिकरण के बल से सम्यग्दर्शन प्राप्ति", karma: { मोहनीय: -25, ज्ञानावरणीय: -15 }, quiz: true },
+                    { target: 5, title: "व्रत संकल्प", description: "सम्यक्त्व सहित आंशिक व्रत लेने का निश्चय (दुर्लभ)", karma: { मोहनीय: -35, ज्ञानावरणीय: -20 }, quiz: true },
                     { target: 1, title: "🚫 अहंकार वृद्धि", description: "\"मैं तो पहले से ही धार्मिक हूं, मुझे सिखाने की जरूरत नहीं\"", karma: { सभी: 20 }, quiz: false },
                     { target: 1, title: "🚫 भौतिकवादी सोच", description: "\"यह सब कल्पना है, केवल पैसा और सुख ही सच है\"", karma: { सभी: 25 }, quiz: false },
                     { target: 1, title: "🚫 तर्कवादी खंडन", description: "\"विज्ञान के युग में यह सब अंधविश्वास है\"", karma: { सभी: 30 }, quiz: false }
@@ -1327,8 +1854,8 @@
                 content: "शुभ हो! आपने सम्यक्त्व प्राप्त कर लिया है। अब आप सत्य को जानते हैं, लेकिन अभी चारित्र नहीं अपनाया है।",
                 scenario: "सम्यक्त्व के बाद आपका अगला महत्वपूर्ण कदम क्या होगा?",
                 choices: [
-                    { target: 5, title: "आंशिक व्रत धारण", description: "गृहस्थ के रूप में आंशिक व्रत लेना", karma: { मोहनीय: -15, चारित्र: -10 }, quiz: true },
-                    { target: 7, title: "पूर्ण संयम", description: "सीधे मुनि दीक्षा लेना (अत्यंत दुर्लभ)", karma: { मोहनीय: -40, चारित्र: -30 }, quiz: true },
+                    { target: 5, title: "आंशिक व्रत धारण", description: "गृहस्थ के रूप में आंशिक व्रत लेना", karma: { मोहनीय: -15, वेदनीय: -10 }, quiz: true },
+                    { target: 7, title: "पूर्ण संयम", description: "सीधे मुनि दीक्षा लेना (अत्यंत दुर्लभ)", karma: { मोहनीय: -40, वेदनीय: -30 }, quiz: true },
                     { target: 2, title: "कषाय उदय", description: "अनन्तानुबंधी कषाय के उदय से अस्थायी पतन", karma: { मोहनीय: 20, सभी: 10 }, quiz: false },
                     { target: 3, title: "संदेह आगमन", description: "श्रद्धा में थोड़ा संदेह आना", karma: { मोहनीय: 10, ज्ञानावरणीय: 5 }, quiz: false },
                     { target: 1, title: "🚫 प्रमाद विषयों में", description: "\"अब तो सम्यक्त्व मिल गया, अब मौज करके क्या बिगड़ेगा\"", karma: { सभी: 25 }, quiz: false },
@@ -1341,9 +1868,9 @@
                 content: "आपने श्रावक के रूप में देशविरत व्रत ले लिए हैं। आप अहिंसा, सत्य आदि का आंशिक पालन कर रहे हैं।",
                 scenario: "गृहस्थ जीवन में धर्म और संसार के बीच संतुलन बनाना पड़ रहा है। आगे क्या करेंगे?",
                 choices: [
-                    { target: 7, title: "मुनि दीक्षा", description: "पूर्ण संयम अपनाकर मुनि बनना", karma: { मोहनीय: -25, चारित्र: -20 }, quiz: true },
+                    { target: 7, title: "मुनि दीक्षा", description: "पूर्ण संयम अपनाकर मुनि बनना", karma: { मोहनीय: -25, वेदनीय: -20 }, quiz: true },
                     { target: 4, title: "श्रद्धा सुदृढ़ीकरण", description: "पहले सम्यक्त्व को और मजबूत बनाना", karma: { ज्ञानावरणीय: -10 }, quiz: false },
-                    { target: 2, title: "व्रत भंग", description: "आंशिक व्रतों का उल्लंघन करना", karma: { मोहनीय: 15, चारित्र: 10 }, quiz: false },
+                    { target: 2, title: "व्रत भंग", description: "आंशिक व्रतों का उल्लंघन करना", karma: { मोहनीय: 15, वेदनीय: 10 }, quiz: false },
                     { target: 3, title: "धर्म संदेह", description: "व्रतों की उपयोगिता पर संदेह आना", karma: { मोहनीय: 5 }, quiz: false },
                     { target: 1, title: "🚫 व्रत दिखावा", description: "\"लोगों के सामने धार्मिक दिखना है, मन से करने की जरूरत नहीं\"", karma: { सभी: 20 }, quiz: false },
                     { target: 1, title: "🚫 धन का मोह", description: "\"धंधे में झूठ-फरेब जरूरी है, धर्म अलग चीज है\"", karma: { सभी: 25 }, quiz: false },
@@ -1355,10 +1882,10 @@
                 content: "आपने दिगंबर मुनि की दीक्षा ले ली है। पूर्ण संयम है लेकिन अभी भी प्रमाद (लापरवाही) है।",
                 scenario: "मुनि जीवन में साधना और अध्ययन चल रहा है। लेकिन कभी-कभी ध्यान भटकता है।",
                 choices: [
-                    { target: 7, title: "अप्रमत्तता", description: "पूर्ण सावधानी के साथ व्रतों का पालन", karma: { मोहनीय: -15, चारित्र: -15 }, quiz: true },
-                    { target: 8, title: "गुणस्थान सीढ़ी", description: "शुक्लध्यान द्वारा उच्च गुणस्थान में जाना", karma: { मोहनीय: -30, चारित्र: -25 }, quiz: true },
-                    { target: 5, title: "गृहस्थ वापसी", description: "मुनि जीवन की कठिनाई से घबराकर लौटना", karma: { चारित्र: 20 }, quiz: false },
-                    { target: 4, title: "व्रत त्याग", description: "संयम छोड़कर केवल सम्यक्त्व रखना", karma: { चारित्र: 25 }, quiz: false },
+                    { target: 7, title: "अप्रमत्तता", description: "पूर्ण सावधानी के साथ व्रतों का पालन", karma: { मोहनीय: -15, वेदनीय: -15 }, quiz: true },
+                    { target: 8, title: "गुणस्थान सीढ़ी", description: "शुक्लध्यान द्वारा उच्च गुणस्थान में जाना", karma: { मोहनीय: -30, वेदनीय: -25 }, quiz: true },
+                    { target: 5, title: "गृहस्थ वापसी", description: "मुनि जीवन की कठिनाई से घबराकर लौटना", karma: { वेदनीय: 20 }, quiz: false },
+                    { target: 4, title: "व्रत त्याग", description: "संयम छोड़कर केवल सम्यक्त्व रखना", karma: { वेदनीय: 25 }, quiz: false },
                     { target: 1, title: "🚫 लोक सम्मान का मोह", description: "\"लोग मुझे महान मुनि मानते हैं, यह अच्छा लगता है\"", karma: { सभी: 30 }, quiz: false },
                     { target: 1, title: "🚫 शिष्यों का गर्व", description: "\"मेरे पास इतने शिष्य हैं, मैं बड़ा गुरु हूं\"", karma: { सभी: 35 }, quiz: false },
                     { target: 1, title: "🚫 चमत्कारी शक्ति का दुरुपयोग", description: "अवधिज्ञान या ऋद्धि का गलत प्रयोग करना", karma: { सभी: 40 }, quiz: false }
@@ -1369,58 +1896,59 @@
                 content: "अब आप पूर्ण सावधानी के साथ मुनि धर्म का पालन कर रहे हैं। प्रमाद समाप्त हो गया है। ⏰ सावधान: अब मरणकाल की समय सीमा शुरू!",
                 scenario: "निर्मल साधना और गहन अध्ययन से आपकी आत्मा शुद्ध हो रही है। अगला कदम क्या होगा?",
                 choices: [
-                    { target: 8, title: "शुक्लध्यान प्रवेश", description: "अपूर्वकरण गुणस्थान में गुणस्थान सीढ़ी आरंभ", karma: { मोहनीय: -25, चारित्र: -20 }, quiz: true },
-                    { target: 6, title: "प्रमाद पुनरागमन", description: "फिर से थोड़ी लापरवाही आना", karma: { चारित्र: 10 }, quiz: false },
-                    { target: 1, title: "🚫 ऋद्धि का दुरुपयोग", description: "\"मैं चमत्कार दिखाकर प्रसिद्ध बनूंगा\"", karma: { सभी: 45 }, quiz: false },
-                    { target: 1, title: "🚫 साधना में अहंकार", description: "\"मैं कितना महान साधक हूं, कोई मेरे जैसा नहीं\"", karma: { सभी: 40 }, quiz: false }
+                    { target: 8, title: "शुक्लध्यान प्रवेश", description: "अपूर्वकरण गुणस्थान में श्रेणी का आरम्भ", karma: { मोहनीय: -25, वेदनीय: -20 }, quiz: true },
+                    { target: 6, title: "प्रमाद पुनरागमन", description: "फिर से थोड़ी लापरवाही आना", karma: { वेदनीय: 10 }, quiz: false },
+                    { target: 4, title: "मरण → देवगति", description: "अप्रमत्त मुनि का मरण → सम्यक्त्व सहित देवगति में चतुर्थ गुणस्थान", karma: { आयुकर्म: 15 }, quiz: false },
+                    { target: 1, title: "🚫 ऋद्धि का दुरुपयोग", description: "\"मैं चमत्कार दिखाकर प्रसिद्ध बनूंगा\" — अनन्तानुबन्धी कषाय का तीव्र उदय", karma: { सभी: 45 }, quiz: false },
+                    { target: 1, title: "🚫 साधना में अहंकार", description: "\"मैं कितना महान साधक हूं, कोई मेरे जैसा नहीं\" — अनन्तानुबन्धी कषाय का तीव्र उदय", karma: { सभी: 40 }, quiz: false }
                 ]
             },
             8: {
                 title: "अपूर्वकरण - Unprecedented Spiritual Activity",
-                content: "शुक्लध्यान की पहली श्रेणी! गुणस्थान सीढ़ी पर आरोहण शुरू। अभूतपूर्व आध्यात्मिक परिवर्तन हो रहा है। ⏰ समय तेजी से बीत रहा है!",
-                scenario: "शुक्लध्यान में स्थिर होकर आप कर्मों का क्षय कर रहे हैं। यह अत्यंत नाजुक अवस्था है।",
+                content: "प्रथम शुक्लध्यान — पृथक्त्व-वितर्क-वीचार का आरम्भ! गुणस्थान सीढ़ी (श्रेणी) पर आरोहण शुरू। अभूतपूर्व आध्यात्मिक परिणाम। ⏰ समय तेजी से बीत रहा है!",
+                scenario: "शुक्लध्यान में स्थिर होकर आप कर्मों का क्षय/उपशम कर रहे हैं। यह अत्यंत नाजुक अवस्था है।",
                 choices: [
-                    { target: 9, title: "अनिवृत्तिकरण प्रवेश", description: "सूक्ष्म कषायों का नाश शुरू", karma: { मोहनीय: -30, चारित्र: -25 }, quiz: true },
+                    { target: 9, title: "अनिवृत्तिकरण प्रवेश", description: "सूक्ष्म कषायों का नाश शुरू", karma: { मोहनीय: -30, वेदनीय: -25 }, quiz: true },
                     { target: 7, title: "श्रेणी भ्रष्ट", description: "ध्यान भंग होकर गुणस्थान सीढ़ी से गिरना", karma: { मोहनीय: 10 }, quiz: false },
-                    { target: 4, title: "🚫 मरण का भय", description: "मरण के समय भयभीत होकर गिरना", karma: { सभी: 20 }, quiz: false },
-                    { target: 1, title: "🚫 ध्यान में गर्व", description: "\"मैं शुक्लध्यान में हूं, कितना महान हूं\"", karma: { सभी: 50 }, quiz: false }
+                    { target: 4, title: "मरण → देवगति", description: "श्रेणी में मरण → देवगति की अपर्याप्त अवस्था में चतुर्थ गुणस्थान (द्वितीयोपशम सम्यक्त्व सहित)", karma: { आयुकर्म: 20 }, quiz: false },
+                    { target: 1, title: "🚫 ध्यान में गर्व", description: "\"मैं शुक्लध्यान में हूं, कितना महान हूं\" — अनन्तानुबन्धी कषाय का उदय", karma: { सभी: 50 }, quiz: false }
                 ]
             },
             9: {
                 title: "अनिवृत्तिकरण - Subtle Passion Stage",
-                content: "द्वितीय शुक्लध्यान! सूक्ष्म कषायों का नाश हो रहा है। संज्वलन माया नष्ट! ⏰ समय और भी कम बचा है!",
+                content: "प्रथम शुक्लध्यान — पृथक्त्व-वितर्क-वीचार में स्थिरता! सूक्ष्म कषायों का नाश हो रहा है। संज्वलन माया नष्ट! ⏰ समय और भी कम बचा है!",
                 scenario: "अत्यंत सूक्ष्म आध्यात्मिक स्तर पर पहुंचकर आप कर्म नाश में लगे हैं।",
                 choices: [
-                    { target: 10, title: "सूक्ष्मसांपराय प्रवेश", description: "केवल सूक्ष्म लोभ का बचना", karma: { मोहनीय: -35, चारित्र: -30 }, quiz: true },
+                    { target: 10, title: "सूक्ष्मसांपराय प्रवेश", description: "केवल सूक्ष्म लोभ का बचना", karma: { मोहनीय: -35, वेदनीय: -30 }, quiz: true },
                     { target: 7, title: "श्रेणी भ्रष्ट", description: "अत्यधिक सूक्ष्मता से घबराकर गिरना", karma: { मोहनीय: 15 }, quiz: false },
-                    { target: 4, title: "🚫 मरण भय", description: "मरण के समय अति सूक्ष्म भय से गिरना", karma: { सभी: 25 }, quiz: false }
+                    { target: 4, title: "मरण → देवगति", description: "श्रेणी में मरण → देवगति की अपर्याप्त अवस्था में चतुर्थ गुणस्थान", karma: { आयुकर्म: 20 }, quiz: false }
                 ]
             },
             10: {
                 title: "सूक्ष्मसांपराय - Subtle Greed",
-                content: "तृतीय शुक्लध्यान! केवल अत्यंत सूक्ष्म लोभ कषाय बची है। अब दो मार्ग हैं! ⏰ अंतिम क्षण निकट!",
+                content: "प्रथम शुक्लध्यान (पृथक्त्व-वितर्क-वीचार) में अंतिम कषाय का सूक्ष्म उदय बचा है। केवल अत्यंत सूक्ष्म लोभ कषाय बची है। अब दो मार्ग हैं! ⏰ अंतिम क्षण निकट!",
                 scenario: "सबसे महत्वपूर्ण निर्णय का समय - उपशम या क्षपक श्रेणी?",
                 choices: [
-                    { target: 11, title: "उपशम श्रेणी", description: "मोह का अस्थायी उपशम (खतरनाक लेकिन त्वरित)", karma: { मोहनीय: -40 }, quiz: true },
-                    { target: 12, title: "क्षपक श्रेणी", description: "मोह का स्थायी नाश (सुरक्षित लेकिन धीमा)", karma: { मोहनीय: -50 }, quiz: true },
+                    { target: 11, title: "उपशम श्रेणी", description: "मोह का अस्थायी उपशम (खतरनाक — अवश्य गिरना होगा, परन्तु त्वरित)", karma: { मोहनीय: -40 }, quiz: true },
+                    { target: 12, title: "क्षपक श्रेणी", description: "मोह का स्थायी क्षय (सुरक्षित — सीधा केवलज्ञान की ओर)", karma: { मोहनीय: -50 }, quiz: true },
                     { target: 7, title: "श्रेणी भ्रष्ट", description: "अंतिम क्षण में गिरना", karma: { मोहनीय: 20 }, quiz: false },
-                    { target: 4, title: "🚫 मृत्यु भय", description: "मरण के समय सूक्ष्म लोभ से गिरना", karma: { सभी: 30 }, quiz: false }
+                    { target: 4, title: "मरण → देवगति", description: "श्रेणी में मरण → देवगति-अपर्याप्त → चतुर्थ गुणस्थान", karma: { आयुकर्म: 20 }, quiz: false }
                 ]
             },
             11: {
                 title: "उपशांत मोह - Subsided Delusion",
-                content: "उपशम श्रेणी सफल! सभी मोहनीय कर्म उपशम में। खतरनाक स्थिति - कभी भी टूट सकता है! ⏰ बहुत कम समय!",
+                content: "उपशम श्रेणी सफल! प्रथम शुक्लध्यान (पृथक्त्व-वितर्क-वीचार) में स्थिर। सभी मोहनीय कर्म उपशम में, परंतु क्षय नहीं — खतरनाक स्थिति, अवश्य गिरना होगा! ⏰ बहुत कम समय!",
                 scenario: "अत्यंत नाजुक स्थिति में आप हैं। उपशम टूटना निश्चित है — श्रेणी से क्रमशः अवरोहण होगा। 12वें गुणस्थान में सीधे नहीं जा सकते (वहाँ केवल क्षपक श्रेणी से पहुँचते हैं)।",
                 choices: [
-                    { target: 10, title: "तत्काल अवरोहण", description: "उपशम भंग - दसवें गुणस्थान में वापस आना (श्रेणी अवरोहण)", karma: { मोहनीय: 10 }, quiz: false },
-                    { target: 7, title: "क्रमिक पतन", description: "अप्रमत्त संयत तक उतरना", karma: { मोहनीय: 15 }, quiz: false },
-                    { target: 4, title: "मरण-देवगति", description: "विशेष: ग्यारहवें में मरण → देवगति की अपर्याप्त अवस्था में चतुर्थ गुणस्थान", karma: { मोहनीय: 20 }, quiz: true },
-                    { target: 1, title: "🚫 महान पतन", description: "गिरते-गिरते अंत में मिथ्यात्व तक भी पहुँच सकते हैं", karma: { सभी: 40 }, quiz: false }
+                    { target: 10, title: "तत्काल अवरोहण", description: "उपशम भंग - दसवें गुणस्थान में वापस आना (श्रेणी से क्रमिक अवरोहण)", karma: { मोहनीय: 10 }, quiz: false },
+                    { target: 7, title: "क्रमिक पतन", description: "अप्रमत्त संयत तक उतरना (10→9→8→7)", karma: { मोहनीय: 15 }, quiz: false },
+                    { target: 4, title: "मरण → देवगति", description: "विशेष: ग्यारहवें में मरण → देवगति की अपर्याप्त अवस्था में चतुर्थ गुणस्थान + द्वितीयोपशम सम्यक्त्व (वैक्रियिक-मिश्र काययोग में नियम से क्षयोपशम)", karma: { आयुकर्म: 20 }, quiz: true },
+                    { target: 1, title: "🚫 अनन्तानुबन्धी कषाय का तीव्र उदय", description: "गिरते-गिरते अनन्तानुबन्धी कषाय जागृत — अन्ततः मिथ्यात्व तक पतन सम्भव", karma: { सभी: 40 }, quiz: false }
                 ]
             },
             12: {
                 title: "क्षीणमोह - Destroyed Delusion",
-                content: "क्षपक श्रेणी सफल! मोहनीय कर्म का स्थायी नाश! अब कोई वापसी नहीं। ⏰ केवलज्ञान निकट!",
+                content: "क्षपक श्रेणी सफल! द्वितीय शुक्लध्यान — एकत्व-वितर्क-अवीचार। मोहनीय कर्म का स्थायी क्षय! अब कोई वापसी नहीं। ⏰ केवलज्ञान निकट!",
                 scenario: "मोह रहित अवस्था में केवल घातिया कर्मों का नाश बाकी है।",
                 choices: [
                     { target: 13, title: "केवलज्ञान प्राप्ति", description: "चार घातिया कर्मों का एक साथ नाश", karma: { ज्ञानावरणीय: -50, दर्शनावरणीय: -50, अन्तराय: -50 }, quiz: true }
@@ -1428,7 +1956,7 @@
             },
             13: {
                 title: "सयोगकेवली - Omniscient with Activity",
-                content: "केवलज्ञान प्राप्त! आप सर्वज्ञ हैं! दिव्यध्वनि निकल रही है! ⏰ अंतिम क्षण!",
+                content: "केवलज्ञान प्राप्त! आप सर्वज्ञ हैं! दिव्यध्वनि निकल रही है। अंतिम अन्तर्मुहूर्त में तृतीय शुक्लध्यान — सूक्ष्मक्रिय-अप्रतिपाति प्रवेश। ⏰ अंतिम क्षण!",
                 scenario: "आप सर्वज्ञ होकर जगत का कल्याण कर रहे हैं। अब अंतिम चरण।",
                 choices: [
                     { target: 14, title: "अयोगकेवली", description: "सभी योग बंद होकर मोक्ष की तैयारी", karma: {}, quiz: false }
@@ -1436,7 +1964,7 @@
             },
             14: {
                 title: "अयोगकेवली - Omniscient without Activity",
-                content: "सभी गतिविधियां बंद। मोक्ष के द्वार पर! केवल आयुकर्म बाकी!",
+                content: "चतुर्थ शुक्लध्यान — व्युपरत-क्रिया-निवृत्ति। सभी योग बंद। मोक्ष के द्वार पर! 5 ह्रस्व अक्षर (अ-इ-उ-ऋ-ऌ) बोलने जितना काल। उपान्त्य समय में 72 + अन्तिम समय में 13 = 85 प्रकृतियों का क्षय।",
                 scenario: "अंतिम 5 समय... मोक्ष प्राप्ति निश्चित!",
                 choices: [
                     { target: "moksha", title: "🕉️ मोक्ष प्राप्ति", description: "संसार चक्र से अंतिम मुक्ति", karma: {}, quiz: false }
@@ -1444,8 +1972,32 @@
             }
         };
 
-        // Quiz questions (unchanged)
+        // Quiz questions (corrected and expanded)
         const quizQuestions = {
+            1: [
+                {
+                    question: "मिथ्यात्व गुणस्थान का मुख्य कारण क्या है?",
+                    options: ["संज्वलन कषाय का उदय", "मिथ्यात्व कर्म का उदय", "योग की अनुपस्थिति", "केवलज्ञान का अभाव"],
+                    correct: 1
+                },
+                {
+                    question: "मिथ्यात्व गुणस्थानवर्ती जीव में कौन सा ज्ञान होता है?",
+                    options: ["केवलज्ञान", "मनःपर्ययज्ञान", "कुज्ञान (कुमति, कुश्रुत, कुअवधि)", "अवधिज्ञान"],
+                    correct: 2
+                }
+            ],
+            2: [
+                {
+                    question: "सासादन गुणस्थान का उत्कृष्ट काल कितना है?",
+                    options: ["एक समय", "अन्तर्मुहूर्त", "छह आवली", "एक दिन"],
+                    correct: 2
+                },
+                {
+                    question: "सासादन गुणस्थान किस सम्यक्त्व से पतन होने पर होता है?",
+                    options: ["क्षायिक सम्यक्त्व", "क्षयोपशम सम्यक्त्व", "उपशम सम्यक्त्व", "मिश्र सम्यक्त्व"],
+                    correct: 2
+                }
+            ],
             3: [
                 {
                     question: "मिश्र गुणस्थान में जीव की स्थिति कैसी होती है?",
@@ -1573,9 +2125,9 @@
                     correct: 1
                 },
                 {
-                    question: "तेरहवें गुणस्थान में कितने कर्म बंधते हैं?",
-                    options: ["आठ", "चार", "दो", "कोई नहीं"],
-                    correct: 3
+                    question: "तेरहवें गुणस्थान में कितनी प्रकृतियों का बंध होता है?",
+                    options: ["आठ", "चार", "एक (केवल सात-वेदनीय - इर्यापथ बंध)", "कोई नहीं"],
+                    correct: 2
                 }
             ]
         };
@@ -1590,34 +2142,55 @@
         let achievements = new Set(['🎯 Start Journey']);
         let selectedQuizOption = -1;
         
+        // NEW: Extended state for enhancements
+        let gameMode = 'beginner';        // study | beginner | scholar | speedrun
+        let currentShreni = null;          // null | 'upashama' | 'kshapaka' (set at G10)
+        let currentLeshya = 'कापोत';      // tracks active leshya, updates as gunasthan changes
+        let pendingChoice = null;          // for confirm-preview before commit
+        let totalDeaths = 0;               // count G7+ deaths (deva-rebirths)
+        let usedShreniPath = null;         // 'upashama' or 'kshapaka' once committed
+        
         // Timer system for higher gunasthans
         let deathTimer = null;
         let timeLimit = 300; // 5 minutes in seconds
         let timeRemaining = 0;
         let timerActive = false;
 
+        // Authentic 8 karma types per Jain doctrine (अष्ट कर्म)
+        // 4 घातिया (destroyed by G12 transition): ज्ञानावरण, दर्शनावरण, मोहनीय, अन्तराय
+        // 4 अघातिया (destroyed at end of G14): वेदनीय, आयु, नाम, गोत्र
+        // Note: "चारित्र" is a गुण (quality) damaged by चारित्र-मोहनीय (sub-type of मोहनीय कर्म), NOT a separate karma
         let karmaLevels = {
-            'मोहनीय': 80,      // Reduced for better gameplay
-            'ज्ञानावरणीय': 60,
-            'दर्शनावरणीय': 60,
-            'अन्तराय': 50,
-            'चारित्र': 40
+            'मोहनीय': 80,        // Deluding karma — destroys सम्यक्त्व & चारित्र (घातिया)
+            'ज्ञानावरणीय': 60,    // Knowledge-obscuring (घातिया)
+            'दर्शनावरणीय': 60,    // Perception-obscuring (घातिया)
+            'अन्तराय': 50,        // Power-obstructing (घातिया)
+            'वेदनीय': 45,         // Feeling-producing (अघातिया)
+            'नामकर्म': 40,        // Body-making (अघातिया)
+            'गोत्रकर्म': 35,      // Status-determining (अघातिया)
+            'आयुकर्म': 30         // Lifespan-determining (अघातिया)
         };
 
         // Initialize game
         function initGame() {
+            // Try to restore saved state
+            const restored = loadGame();
+            if (restored) {
+                showMessage('info', '💾 पिछली यात्रा पुनः प्रारंभ की गई। नई यात्रा के लिए "🔄 New Journey" दबाएँ।', 4500);
+            } else {
+                showMessage('info', '🎮 गुणस्थान यात्रा में आपका स्वागत है! विकल्प चुनने के बाद कर्म परिणाम दिखाए जाएंगे।');
+            }
+            
             updateDisplay();
             updateProgressPath();
             updateKarmaDisplay();
+            renderLeshyaTracker();
             updateAchievements();
             startTimer();
             checkDeathTimer();
             
             // Set up scroll detection
             window.addEventListener('scroll', handleScroll);
-            
-            // Show welcome message
-            showMessage('info', '🎮 गुणस्थान यात्रा में आपका स्वागत है! विकल्प चुनने के बाद कर्म परिणाम दिखाए जाएंगे।');
         }
 
         // Scroll handling
@@ -1637,6 +2210,7 @@
 
         // Death timer functions (enhanced)
         function startDeathTimer() {
+            if (!gameModes[gameMode].timer) return;
             if (currentGunasthan >= 7 && !timerActive) {
                 timerActive = true;
                 timeRemaining = timeLimit;
@@ -1686,31 +2260,50 @@
 
         function handleDeathTimeout() {
             stopDeathTimer();
+            totalDeaths++;
             
             // Force transition to 4th gunasthan due to death
-            showMessage('error', '💀 मरणकाल समाप्त! मरण की अपेक्षा से आप चतुर्थ गुणस्थान में पुनर्जन्म ले रहे हैं।');
+            const useAnimation = currentGunasthan >= 8 && currentGunasthan <= 11;
             
-            setTimeout(() => {
-                currentGunasthan = 4;
-                totalMoves++;
-                updateKarmaLevels({सभी: 15});
-                
-                gameHistory.push({
-                    from: gameHistory[gameHistory.length - 1]?.to || currentGunasthan,
-                    to: 4,
-                    choice: "मरण की अपेक्षा से (Death due to time limit)",
-                    time: Date.now() - gameStartTime
+            if (useAnimation) {
+                showDevaRebirthAnimation(() => {
+                    finalizeDeathTimeout();
                 });
-                
-                updateDisplay();
-                updateProgressPath();
-                updateKarmaDisplay();
-                
-                showMessage('info', '🔄 नया जन्म! आप फिर से चतुर्थ गुणस्थान से शुरू कर सकते हैं।');
-            }, 2000);
+            } else {
+                showMessage('error', '💀 मरणकाल समाप्त! मरण की अपेक्षा से आप चतुर्थ गुणस्थान में पुनर्जन्म ले रहे हैं।');
+                setTimeout(finalizeDeathTimeout, 2000);
+            }
+        }
+        
+        function finalizeDeathTimeout() {
+            const previousG = currentGunasthan;
+            currentGunasthan = 4;
+            currentShreni = null;
+            totalMoves++;
+            updateKarmaLevels({सभी: 15});
+            
+            gameHistory.push({
+                from: previousG,
+                to: 4,
+                choice: "मरण की अपेक्षा से (Death by time limit)",
+                time: Date.now() - gameStartTime
+            });
+            
+            updateDisplay();
+            updateProgressPath();
+            updateKarmaDisplay();
+            renderLeshyaTracker();
+            saveGame();
+            
+            showMessage('info', '🔄 नया जन्म! देवगति में चतुर्थ गुणस्थान से शुरू कर सकते हैं।');
         }
 
         function checkDeathTimer() {
+            // Respect game mode
+            if (!gameModes[gameMode].timer) {
+                stopDeathTimer();
+                return;
+            }
             if (currentGunasthan >= 7 && currentGunasthan < 14) {
                 startDeathTimer();
             } else {
@@ -1728,11 +2321,28 @@
             
             setTimeout(() => {
                 displayEl.style.background = `linear-gradient(135deg, ${gunasthan.color}, ${gunasthan.color}dd)`;
+                
+                // Build dhyana chip
+                const dhyanaInfo = dhyanaPerGunasthan[currentGunasthan];
+                const dhyanaChip = dhyanaInfo ? `
+                    <div class="dhyana-chip" title="ध्यान — ${dhyanaInfo.type} (पृष्ठ ${dhyanaInfo.page})">
+                        <span class="dhyana-chip-label">ध्यान</span>${dhyanaInfo.dhyana}
+                    </div>
+                ` : '';
+                
+                // Build shreni badge if applicable
+                let shreniBadge = '';
+                if (currentShreni && currentGunasthan >= 8 && currentGunasthan <= 12) {
+                    const shreniLabel = currentShreni === 'upashama' ? '⚠️ उपशम श्रेणी' : '✨ क्षपक श्रेणी';
+                    shreniBadge = `<span class="shreni-badge ${currentShreni}">${shreniLabel}</span>`;
+                }
+                
                 displayEl.innerHTML = `
                     <div class="gunasthan-number">${currentGunasthan}</div>
-                    <div class="gunasthan-name">${gunasthan.nameHi}</div>
+                    <div class="gunasthan-name">${gunasthan.nameHi}${shreniBadge}</div>
                     <div class="gunasthan-english">${gunasthan.nameEn} - ${gunasthan.english}</div>
-                    <div class="gunasthan-description">${gunasthan.description}</div>
+                    <div class="gunasthan-description">${linkifyGlossary(gunasthan.description)}</div>
+                    ${dhyanaChip}
                 `;
                 displayEl.classList.remove('transitioning');
             }, 300);
@@ -1890,6 +2500,14 @@
                 choiceButton.classList.add('selected');
             }
             
+            // Show preview/confirm dialog (skipped in speedrun mode)
+            showChoicePreview(targetGunasthan, choiceIndex, choice);
+        }
+        
+        function actuallyMakeChoice(targetGunasthan, choiceIndex) {
+            const scenario = gameScenarios[currentGunasthan];
+            const choice = scenario.choices[choiceIndex];
+            
             setTimeout(() => {
                 if (choice.title.startsWith('🚫')) {
                     handleWrongChoice(choice);
@@ -1898,6 +2516,33 @@
                 
                 if (!transitionRules[currentGunasthan].canGoTo.includes(targetGunasthan)) {
                     showMessage('error', '❌ यह संक्रमण संभव नहीं है! कृपया वैध विकल्प चुनें।');
+                    return;
+                }
+                
+                // Shreni tracking: commit at G10
+                if (currentGunasthan === 10) {
+                    if (targetGunasthan === 11) setShreni('upashama');
+                    else if (targetGunasthan === 12) setShreni('kshapaka');
+                }
+                
+                // Shreni lock check
+                const lockReason = isChoiceLockedByShreni(targetGunasthan);
+                if (lockReason) {
+                    showMessage('error', '🔒 ' + lockReason);
+                    return;
+                }
+                
+                // Reset shreni when leaving the ladder territory
+                if (targetGunasthan < 8) {
+                    currentShreni = null;
+                }
+                
+                // Special G11 → G4 deva-rebirth animation
+                if (currentGunasthan === 11 && targetGunasthan === 4) {
+                    totalDeaths++;
+                    showDevaRebirthAnimation(() => {
+                        executeTransition(targetGunasthan, choice);
+                    });
                     return;
                 }
                 
@@ -1911,23 +2556,38 @@
         }
 
         function handleWrongChoice(choice) {
-            showMessage('error', `💥 गंभीर आध्यात्मिक पतन! ${choice.title.replace('🚫 ', '')} के कारण आप प्रथम गुणस्थान में गिर गए!`);
+            // Determine fall target using new gradual logic
+            const fallInfo = determineFallTarget(choice, currentGunasthan);
+            const fallTarget = fallInfo.target;
+            const fallLabel = fallInfo.label || 'गलत चयन';
+            const fallDesc = fallInfo.desc || '';
             
-            stopDeathTimer();
+            const targetName = gunasthansData[fallTarget]?.nameHi || '';
+            const fallMsg = fallTarget === 1
+                ? `💥 ${fallLabel}! ${choice.title.replace('🚫 ', '')} — सीधे प्रथम गुणस्थान में पतन।`
+                : `📉 ${fallLabel}! आप ${currentGunasthan}वें गुणस्थान से ${fallTarget}वें (${targetName}) में आ गए। ${fallDesc}`;
+            showMessage('error', fallMsg);
+            
+            // Stop death timer if falling out of timer range
+            if (fallTarget < 7) stopDeathTimer();
             
             setTimeout(() => {
                 const previousKarma = {...karmaLevels};
                 
                 gameHistory.push({
                     from: currentGunasthan,
-                    to: 1,
+                    to: fallTarget,
                     choice: choice.title,
+                    fallKashaya: fallInfo.kashaya,
                     time: Date.now() - gameStartTime
                 });
                 
                 const previousGunasthan = currentGunasthan;
-                currentGunasthan = 1;
+                currentGunasthan = fallTarget;
                 totalMoves++;
+                
+                // Reset shreni on any meaningful fall
+                if (fallTarget < 8) currentShreni = null;
                 
                 updateKarmaLevels(choice.karma || {सभी: 30});
                 
@@ -1935,7 +2595,7 @@
                     showChoiceConsequences(
                         {karma: choice.karma || {सभी: 30}, title: choice.title}, 
                         previousGunasthan, 
-                        1, 
+                        fallTarget, 
                         previousKarma
                     );
                 }, 500);
@@ -1948,10 +2608,13 @@
                 updateDisplay();
                 updateProgressPath();
                 updateKarmaDisplay();
+                renderLeshyaTracker();
                 updateAchievements();
+                checkDeathTimer();
+                saveGame();
                 
                 setTimeout(() => {
-                    showMessage('warning', '⚠️ यह जैन दर्शन की शिक्षा है - गलत विचार और कर्म तुरंत गिरा देते हैं।');
+                    showMessage('warning', `⚠️ शिक्षा: ${fallInfo.kashaya === 'anantanubandhi' ? 'अनन्तानुबन्धी कषाय सम्यक्त्व का घात करती है — सीधे मिथ्यात्व तक गिरा देती है।' : 'विभिन्न कषायों के उदय से विभिन्न गुणस्थानों में पतन होता है।'}`);
                 }, 4000);
             }, 1500);
         }
@@ -2197,8 +2860,10 @@
                 updateDisplay();
                 updateProgressPath();
                 updateKarmaDisplay();
+                renderLeshyaTracker();
                 updateAchievements();
                 checkDeathTimer();
+                saveGame();
                 
                 // Scroll to show new content
                 scrollToActiveContent();
@@ -2245,6 +2910,20 @@
                 animateAchievementBanner();
             }
             
+            // NEW: Upashama Shreni completed
+            if (to === 11 && currentShreni === 'upashama' && !achievements.has('⚠️ उपशम श्रेणी पूर्ण')) {
+                achievements.add('⚠️ उपशम श्रेणी पूर्ण');
+                showMessage('info', '🏆 Achievement: उपशम श्रेणी पूर्ण — Reached G11 via the perilous suppression ladder!');
+                animateAchievementBanner();
+            }
+            
+            // NEW: Kshapaka Shreni completed
+            if (to === 12 && currentShreni === 'kshapaka' && !achievements.has('✨ क्षपक श्रेणी पूर्ण')) {
+                achievements.add('✨ क्षपक श्रेणी पूर्ण');
+                showMessage('info', '🏆 Achievement: क्षपक श्रेणी पूर्ण — Mohaniya karma permanently destroyed!');
+                animateAchievementBanner();
+            }
+            
             // Destroyed Delusion
             if (to === 12 && !achievements.has('✨ Destroyed Delusion')) {
                 achievements.add('✨ Destroyed Delusion');
@@ -2256,6 +2935,19 @@
             if (to === 13 && !achievements.has('🌟 Omniscience')) {
                 achievements.add('🌟 Omniscience');
                 showMessage('info', '🏆 Achievement: Omniscience Achieved!');
+                animateAchievementBanner();
+            }
+            
+            // NEW: Reached G14 (5-syllable stage)
+            if (to === 14 && !achievements.has('🔔 5 ह्रस्व अक्षर काल')) {
+                achievements.add('🔔 5 ह्रस्व अक्षर काल');
+                showMessage('info', '🏆 Achievement: 5 ह्रस्व अक्षर काल — Entered the 5-syllable duration stage!');
+                animateAchievementBanner();
+            }
+            
+            // NEW: Survived deva-rebirth
+            if (totalDeaths > 0 && !achievements.has('☁️ देव-पुनर्जन्म अनुभव')) {
+                achievements.add('☁️ देव-पुनर्जन्म अनुभव');
                 animateAchievementBanner();
             }
             
@@ -2286,6 +2978,11 @@
                 showMessage('info', '🏆 Achievement: Speed Master - Completed with time to spare!');
                 animateAchievementBanner();
             }
+            
+            // NEW: 85-prakriti destruction (reaching moksha)
+            if (to === 14 && !achievements.has('🌟 85-प्रकृति क्षय')) {
+                // Will be granted on moksha-achievement
+            }
         }
 
         function animateAchievementBanner() {
@@ -2296,7 +2993,11 @@
 
         function achieveMoksha() {
             achievements.add('🕉️ Moksha Achieved');
+            achievements.add('🌟 उपान्त्य 72 + अन्तिम 13 = 85 प्रकृति क्षय');
             stopDeathTimer();
+            
+            // Clear save - journey complete
+            clearSave();
             
             // First, animate all karmas to 0
             Object.keys(karmaLevels).forEach(karma => {
@@ -2851,6 +3552,8 @@
             if (confirm('क्या आप वाकई नई यात्रा शुरू करना चाहते हैं? (Are you sure you want to start a new journey?)')) {
                 // Stop any active timers
                 stopDeathTimer();
+                stopGatha();
+                clearSave();
                 
                 // Reset all game state
                 currentGunasthan = 1;
@@ -2863,13 +3566,21 @@
                 selectedQuizOption = -1;
                 timeRemaining = 0;
                 timerActive = false;
+                currentShreni = null;
+                usedShreniPath = null;
+                currentLeshya = 'कापोत';
+                pendingChoice = null;
+                totalDeaths = 0;
                 
                 karmaLevels = {
                     'मोहनीय': 80,
                     'ज्ञानावरणीय': 60,
                     'दर्शनावरणीय': 60,
                     'अन्तराय': 50,
-                    'चारित्र': 40
+                    'वेदनीय': 45,
+                    'नामकर्म': 40,
+                    'गोत्रकर्म': 35,
+                    'आयुकर्म': 30
                 };
                 
                 // Clear UI elements
@@ -2887,6 +3598,7 @@
                 updateDisplay();
                 updateProgressPath();
                 updateKarmaDisplay();
+                renderLeshyaTracker();
                 updateAchievements();
                 
                 showMessage('success', '🆕 नई आध्यात्मिक यात्रा शुरू! सावधानी से चुनाव करें।');
@@ -2902,45 +3614,66 @@
                 <div style="text-align: left; line-height: 1.6;">
                     <p><strong>उद्देश्य:</strong> 14 गुणस्थानों की यात्रा करके मोक्ष प्राप्त करना।</p>
                     
-                    <h4 style="margin: 15px 0 10px 0; color: #1e40af;">🎮 कैसे खेलें:</h4>
+                    <h4 style="margin: 15px 0 10px 0; color: #1e40af;">🎮 खेलने के मोड:</h4>
                     <ul style="margin-left: 20px;">
-                        <li>हर स्थिति में उपलब्ध विकल्पों में से एक चुनें</li>
-                        <li>सावधानी से चुनाव करें - कुछ विकल्प प्रगति लाते हैं, कुछ पतन</li>
-                        <li>कुछ विकल्पों के लिए quiz का उत्तर दें</li>
-                        <li>7th गुणस्थान के बाद समय सीमा शुरू होती है</li>
-                        <li>समय सीमा में मोक्ष न पहुंचे तो मरण के कारण 4th गुणस्थान में जाना पड़ेगा</li>
+                        <li><strong>📖 अध्ययन:</strong> टाइमर नहीं, हल्के पतन, हिन्ट्स दिखें</li>
+                        <li><strong>🌱 सरल:</strong> टाइमर नहीं, क्रमिक पतन, quiz सक्षम</li>
+                        <li><strong>🎓 विद्वान्:</strong> कैनोनिकल नियम, टाइमर सक्रिय</li>
+                        <li><strong>⚡ द्रुत:</strong> कोई preview नहीं, कोई quiz नहीं — speedrun</li>
+                    </ul>
+                    
+                    <h4 style="margin: 15px 0 10px 0; color: #1e40af;">📜 मूल गाथा:</h4>
+                    <ul style="margin-left: 20px;">
+                        <li>"🎵 मूल गाथा सुनें" से गोम्मटसार जीवकाण्ड की मूल गाथा का पाठ सुनें</li>
+                        <li>आपके ब्राउज़र की Hindi text-to-speech का प्रयोग होता है</li>
+                    </ul>
+                    
+                    <h4 style="margin: 15px 0 10px 0; color: #1e40af;">🎨 लेश्या ट्रैकर:</h4>
+                    <ul style="margin-left: 20px;">
+                        <li>हर गुणस्थान में जो लेश्याएं संभव हैं वे रंगीन दिखेंगी</li>
+                        <li>निष्क्रिय (disabled) लेश्याएं ग्रे — उस स्तर पर असंभव</li>
+                        <li>14वें में अलेश्य अवस्था (कोई लेश्या नहीं)</li>
+                    </ul>
+                    
+                    <h4 style="margin: 15px 0 10px 0; color: #1e40af;">📊 शब्दकोश Popovers:</h4>
+                    <ul style="margin-left: 20px;">
+                        <li>रेखांकित शब्दों पर क्लिक करें — परिभाषा + पृष्ठ संख्या मिलेगी</li>
                     </ul>
                     
                     <h4 style="margin: 15px 0 10px 0; color: #1e40af;">⏰ समय सीमा:</h4>
                     <ul style="margin-left: 20px;">
-                        <li><strong>7th-14th गुणस्थान:</strong> 5 मिनट का समय</li>
-                        <li><strong>समय समाप्त:</strong> मरण की अपेक्षा से 4th गुणस्थान में पुनर्जन्म</li>
+                        <li><strong>7th-14th गुणस्थान:</strong> 5 मिनट का समय (विद्वान्/द्रुत मोड में)</li>
+                        <li><strong>समय समाप्त:</strong> मरण → देवगति-अपर्याप्त → 4वें गुणस्थान (सम्यक्त्व सुरक्षित)</li>
+                        <li><strong>11वें में मरण:</strong> देवगति में द्वितीयोपशम सम्यक्त्व सहित 4वें गुणस्थान में</li>
                         <li><strong>रंग कोड:</strong> पीला (सामान्य) → नारंगी (2 मिनट) → लाल (1 मिनट)</li>
                     </ul>
                     
-                    <h4 style="margin: 15px 0 10px 0; color: #1e40af;">🧭 विकल्प चुनना:</h4>
+                    <h4 style="margin: 15px 0 10px 0; color: #1e40af;">🪜 श्रेणी (G10 → G11/12):</h4>
                     <ul style="margin-left: 20px;">
-                        <li>प्रत्येक विकल्प चुनने के बाद आपको उसके कर्म परिणाम दिखाए जाएंगे</li>
-                        <li>गलत विकल्प आपको वापस पहले गुणस्थान तक गिरा सकते हैं</li>
-                        <li>जैन दर्शन के अनुसार गलत विचार तुरंत गिरा देते हैं</li>
-                        <li>रंग से संकेत मिलता है - हरा (प्रगति), नारंगी (पतन), लाल (सावधान रहें)</li>
-                        <li>कर्म परिणाम देखकर भविष्य के विकल्पों में सुधार करें</li>
+                        <li><strong>उपशम श्रेणी:</strong> मोह को दबाना — 11 तक, फिर अवश्य पतन</li>
+                        <li><strong>क्षपक श्रेणी:</strong> मोह का स्थायी क्षय — 12 तक, फिर सीधा केवलज्ञान</li>
+                        <li>एक बार चुनी हुई श्रेणी से दूसरी में स्थानांतरण नहीं हो सकता</li>
                     </ul>
                     
-                    <h4 style="margin: 15px 0 10px 0; color: #1e40af;">🔗 कर्म प्रभाव:</h4>
+                    <h4 style="margin: 15px 0 10px 0; color: #1e40af;">🧭 चुनाव की प्रक्रिया:</h4>
                     <ul style="margin-left: 20px;">
-                        <li>उच्च कर्म स्तर = कम आध्यात्मिक विकल्प</li>
-                        <li>सकारात्मक विकल्प चुनकर कर्म घटाएं</li>
-                        <li>बड़ी आध्यात्मिक छलांग के लिए कम मोहनीय कर्म चाहिए</li>
-                        <li>गलत विकल्प (🚫) हमेशा उपलब्ध होते हैं - सावधान रहें!</li>
+                        <li>विकल्प चुनने पर "पुष्टि" डायलॉग आता है (द्रुत मोड को छोड़कर)</li>
+                        <li>परिणाम देखकर "पुनर्विचार" या "पुष्टि" करें</li>
+                        <li>गलत चुनाव कषाय के अनुसार पतन कराते हैं (कैनोनिकल मोड में सटीक)</li>
+                        <li>अनन्तानुबन्धी कषाय → मिथ्यात्व; संज्वलन → 6वाँ; आदि</li>
                     </ul>
                     
-                    <h4 style="margin: 15px 0 10px 0; color: #1e40af;">💡 सुझाव:</h4>
+                    <h4 style="margin: 15px 0 10px 0; color: #1e40af;">🔗 कर्म प्रभाव (8 कैनोनिकल कर्म):</h4>
                     <ul style="margin-left: 20px;">
-                        <li>कम कर्म स्तर = उच्च आध्यात्मिक पथ</li>
-                        <li>Quiz में सही उत्तर के लिए जैन दर्शन का अध्ययन करें</li>
-                        <li>हर चुनाव आपकी आध्यात्मिक यात्रा को प्रभावित करता है</li>
-                        <li>गलत विकल्प से भी शिक्षा लें - वे वास्तविक आध्यात्मिक खतरे दर्शाते हैं</li>
+                        <li><strong>घातिया (4):</strong> मोहनीय, ज्ञानावरणीय, दर्शनावरणीय, अन्तराय — 12वें में नष्ट</li>
+                        <li><strong>अघातिया (4):</strong> वेदनीय, आयु, नाम, गोत्र — 14वें के अंत में नष्ट</li>
+                    </ul>
+                    
+                    <h4 style="margin: 15px 0 10px 0; color: #1e40af;">💾 स्वतः-संग्रहण:</h4>
+                    <ul style="margin-left: 20px;">
+                        <li>आपकी प्रगति स्वचालित सुरक्षित होती है</li>
+                        <li>ब्राउज़र बंद करने पर भी अगली बार वहीं से शुरू</li>
+                        <li>"🔄 New Journey" से पुनः शुरुआत</li>
                     </ul>
                 </div>
             `);
@@ -3091,6 +3824,515 @@
             });
         }
 
+        // ============================================================
+        // NEW FUNCTIONS — enhancements
+        // ============================================================
+        
+        // ---------- Game mode ----------
+        function setGameMode(mode) {
+            if (!gameModes[mode]) return;
+            gameMode = mode;
+            document.querySelectorAll('.mode-pill').forEach(p => {
+                p.classList.toggle('active', p.dataset.mode === mode);
+            });
+            // Re-evaluate timer state based on mode
+            if (gameModes[mode].timer && currentGunasthan >= 7 && currentGunasthan < 14) {
+                if (!timerActive) startDeathTimer();
+            } else {
+                stopDeathTimer();
+            }
+            saveGame();
+            showMessage('info', `🎮 मोड बदला: ${gameModes[mode].name}`, 2500);
+        }
+        
+        // ---------- Leshya tracker ----------
+        function getCurrentLeshyaForStage(g) {
+            // Pick the most refined available leshya at this stage
+            const valid = validLeshyaPerGunasthan[g] || [];
+            if (valid.length === 0) return 'अलेश्य';
+            // Match progression: lower gunasthans get gradually purer
+            if (g >= 8) return 'शुक्ल';
+            if (g >= 5) return 'पद्म';
+            if (g === 4) return 'पीत';
+            if (g === 3) return 'पीत';
+            return 'कापोत';
+        }
+        
+        function renderLeshyaTracker() {
+            const container = document.getElementById('leshya-bar');
+            if (!container) return;
+            
+            const allLeshyas = ['कृष्ण', 'नील', 'कापोत', 'पीत', 'पद्म', 'शुक्ल'];
+            const validHere = validLeshyaPerGunasthan[currentGunasthan] || [];
+            currentLeshya = getCurrentLeshyaForStage(currentGunasthan);
+            
+            const labelEl = document.getElementById('leshya-current-label');
+            if (labelEl) {
+                labelEl.textContent = validHere.length === 0
+                    ? 'अलेश्य (no leshya — 14वें में)'
+                    : `वर्तमान: ${currentLeshya}`;
+            }
+            
+            // Special case: G14 is अलेश्य
+            if (validHere.length === 0) {
+                container.innerHTML = `
+                    <div class="leshya-segment leshya-aleshya valid current" style="flex: 1;">
+                        ✨ अलेश्य (No Leshya — Beyond Coloration)
+                    </div>
+                `;
+                return;
+            }
+            
+            container.innerHTML = allLeshyas.map(l => {
+                const isValid = validHere.includes(l);
+                const isCurrent = l === currentLeshya && isValid;
+                const cls = ['leshya-segment'];
+                if (isValid) cls.push('valid'); else cls.push('disabled');
+                if (isCurrent) cls.push('current');
+                return `<div class="${cls.join(' ')}" style="background: ${leshyaColors[l]};" title="${l} लेश्या${!isValid ? ' (इस गुणस्थान में नहीं)' : ''}">${l}</div>`;
+            }).join('');
+        }
+        
+        // ---------- Glossary popovers ----------
+        function linkifyGlossary(text) {
+            if (!text) return text;
+            // Sort terms by length descending to match longest first
+            const terms = Object.keys(glossary).sort((a, b) => b.length - a.length);
+            let out = text;
+            terms.forEach(term => {
+                // Use a placeholder to avoid double-wrapping
+                const placeholder = `___GLOSS_${term}___`;
+                const escaped = term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+                const re = new RegExp(`(?<!___GLOSS_)${escaped}(?!___)`, 'g');
+                out = out.replace(re, `<span class="glossary-term" data-term="${term}">${term}</span>`);
+            });
+            return out;
+        }
+        
+        function showGlossaryPopover(termEl) {
+            // Remove any existing popovers
+            document.querySelectorAll('.glossary-popover').forEach(p => p.remove());
+            
+            const term = termEl.dataset.term;
+            const entry = glossary[term];
+            if (!entry) return;
+            
+            const pop = document.createElement('div');
+            pop.className = 'glossary-popover';
+            pop.innerHTML = `
+                <div class="term-name">📖 ${term}</div>
+                <div>${entry.def}</div>
+                <div class="page-ref">— चौबीस ठाणा चर्चा, पृष्ठ ${entry.page}</div>
+            `;
+            document.body.appendChild(pop);
+            
+            // Position near the term
+            const rect = termEl.getBoundingClientRect();
+            const popRect = pop.getBoundingClientRect();
+            let top = rect.bottom + window.scrollY + 6;
+            let left = rect.left + window.scrollX;
+            
+            // Keep within viewport
+            if (left + popRect.width > window.innerWidth - 10) {
+                left = window.innerWidth - popRect.width - 10;
+            }
+            if (left < 10) left = 10;
+            
+            pop.style.top = top + 'px';
+            pop.style.left = left + 'px';
+            
+            // Close on click elsewhere
+            const closer = (e) => {
+                if (!pop.contains(e.target) && e.target !== termEl) {
+                    pop.remove();
+                    document.removeEventListener('click', closer);
+                }
+            };
+            setTimeout(() => document.addEventListener('click', closer), 100);
+        }
+        
+        // Delegated click handler for glossary terms
+        document.addEventListener('click', (e) => {
+            if (e.target.classList && e.target.classList.contains('glossary-term')) {
+                e.stopPropagation();
+                showGlossaryPopover(e.target);
+            }
+        });
+        
+        // ---------- Sloka audio (Web Speech API) ----------
+        let speechActive = false;
+        function openGathaModal() {
+            const lines = openingGatha.text.map((l, i) => 
+                `<div class="gatha-line" data-line="${i}">${l}</div>`).join('');
+            
+            showModal(`
+                <div style="text-align: center;">
+                    <h3 style="color: #92400e; margin-bottom: 8px;">📜 मूल गाथा (Opening Gatha)</h3>
+                    <p style="color: #6b7280; font-size: 13px; margin-bottom: 16px;">गोम्मटसार जीवकाण्ड पर आधारित — पृष्ठ 4</p>
+                    
+                    <div class="gatha-display" id="gatha-display">
+                        ${lines}
+                        <div class="gatha-translation">
+                            <strong>अर्थ:</strong> ${openingGatha.translation}
+                        </div>
+                    </div>
+                    
+                    <div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 12px;">
+                        <button class="sloka-button" id="play-gatha-btn" onclick="playGatha()">
+                            🔊 <span>पाठ करें (Recite)</span>
+                        </button>
+                        <button class="sloka-button" style="background: linear-gradient(135deg, #6b7280, #4b5563);" onclick="stopGatha()">
+                            ⏹ <span>रोकें (Stop)</span>
+                        </button>
+                    </div>
+                    <p style="font-size: 11px; color: #9ca3af; margin-top: 14px; font-style: italic;">
+                        Audio uses your device's Hindi text-to-speech. Quality varies by browser.
+                    </p>
+                </div>
+            `);
+        }
+        
+        function playGatha() {
+            if (!('speechSynthesis' in window)) {
+                showMessage('warning', 'आपका ब्राउज़र speech synthesis को सपोर्ट नहीं करता।');
+                return;
+            }
+            stopGatha();
+            
+            const btn = document.getElementById('play-gatha-btn');
+            const sloka = document.getElementById('sloka-button');
+            if (btn) btn.classList.add('playing');
+            if (sloka) sloka.classList.add('playing');
+            speechActive = true;
+            
+            // Highlight lines as they're spoken
+            const lineEls = document.querySelectorAll('#gatha-display .gatha-line');
+            const linesText = openingGatha.text;
+            
+            let lineIdx = 0;
+            
+            const speakLine = () => {
+                if (!speechActive || lineIdx >= linesText.length) {
+                    speechActive = false;
+                    lineEls.forEach(e => e.classList.remove('active'));
+                    if (btn) btn.classList.remove('playing');
+                    if (sloka) sloka.classList.remove('playing');
+                    return;
+                }
+                lineEls.forEach(e => e.classList.remove('active'));
+                if (lineEls[lineIdx]) lineEls[lineIdx].classList.add('active');
+                
+                const utter = new SpeechSynthesisUtterance(linesText[lineIdx]);
+                utter.lang = 'hi-IN';
+                utter.rate = 0.75;
+                utter.pitch = 1.0;
+                
+                // Try to find a Hindi voice
+                const voices = window.speechSynthesis.getVoices();
+                const hindiVoice = voices.find(v => v.lang.startsWith('hi'));
+                if (hindiVoice) utter.voice = hindiVoice;
+                
+                utter.onend = () => {
+                    lineIdx++;
+                    setTimeout(speakLine, 350);
+                };
+                utter.onerror = () => {
+                    speechActive = false;
+                    lineEls.forEach(e => e.classList.remove('active'));
+                    if (btn) btn.classList.remove('playing');
+                    if (sloka) sloka.classList.remove('playing');
+                };
+                window.speechSynthesis.speak(utter);
+            };
+            
+            // Voices may not be loaded yet on first call
+            if (window.speechSynthesis.getVoices().length === 0) {
+                window.speechSynthesis.addEventListener('voiceschanged', speakLine, { once: true });
+                setTimeout(speakLine, 200);
+            } else {
+                speakLine();
+            }
+        }
+        
+        function stopGatha() {
+            speechActive = false;
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
+            }
+            document.querySelectorAll('.gatha-line').forEach(e => e.classList.remove('active'));
+            const btn = document.getElementById('play-gatha-btn');
+            const sloka = document.getElementById('sloka-button');
+            if (btn) btn.classList.remove('playing');
+            if (sloka) sloka.classList.remove('playing');
+        }
+        
+        // ---------- Shreni tracking ----------
+        function setShreni(shreni) {
+            currentShreni = shreni;
+            usedShreniPath = shreni;
+            saveGame();
+        }
+        
+        function isChoiceLockedByShreni(targetGunasthan) {
+            // G11 only reachable via upashama; G12 only via kshapaka (when ascending from G10)
+            if (currentGunasthan === 10) {
+                return null; // both are valid choices
+            }
+            // After committing to a shreni, you can't switch
+            if (currentShreni === 'upashama' && targetGunasthan === 12) {
+                return 'क्षपक श्रेणी से ही 12वें में पहुँचा जा सकता है। आप उपशम श्रेणी पर हैं।';
+            }
+            if (currentShreni === 'kshapaka' && targetGunasthan === 11) {
+                return 'उपशम श्रेणी से ही 11वें में पहुँचते हैं। आप क्षपक श्रेणी पर हैं।';
+            }
+            return null;
+        }
+        
+        // ---------- Gradual fall logic ----------
+        // Determine fall destination based on choice description and game mode
+        function determineFallTarget(choice, fromGunasthan) {
+            const falls = gameModes[gameMode].falls;
+            const desc = (choice.description || '') + ' ' + (choice.title || '');
+            
+            // Detect kashaya type from text
+            let kashayaType = 'anantanubandhi'; // default for "🚫" wrong choices
+            if (desc.includes('अनन्तानुबन्धी')) kashayaType = 'anantanubandhi';
+            else if (desc.includes('अप्रत्याख्यान')) kashayaType = 'apratyakhyana';
+            else if (desc.includes('प्रत्याख्यान')) kashayaType = 'pratyakhyana';
+            else if (desc.includes('संज्वलन')) kashayaType = 'samjvalan';
+            else {
+                // Heuristic based on severity hints in karma
+                const totalKarma = Object.values(choice.karma || {}).reduce((s, v) => s + Math.max(0, v), 0);
+                if (totalKarma < 25) kashayaType = 'samjvalan';
+                else if (totalKarma < 35) kashayaType = 'pratyakhyana';
+                else if (totalKarma < 45) kashayaType = 'apratyakhyana';
+                else kashayaType = 'anantanubandhi';
+            }
+            
+            // Apply mode-based softening
+            if (falls === 'gentle') {
+                // Study mode: minor falls only
+                return { target: Math.max(1, fromGunasthan - 1), kashaya: kashayaType, mode: 'gentle' };
+            }
+            if (falls === 'gradual' && fromGunasthan >= 6) {
+                // Beginner mode: gradual fall via kashaya
+                const fall = kashayaFallMap[kashayaType];
+                let target = fall.target;
+                // Don't fall lower than logically necessary
+                if (target >= fromGunasthan) target = Math.max(1, fromGunasthan - 1);
+                return { target, kashaya: kashayaType, mode: 'gradual', label: fall.label, desc: fall.desc };
+            }
+            // Canonical mode: kashaya determines, but anantanubandhi → 1
+            const fall = kashayaFallMap[kashayaType];
+            return { target: fall.target, kashaya: kashayaType, mode: 'canonical', label: fall.label, desc: fall.desc };
+        }
+        
+        // ---------- Deva-rebirth animation (G11 death) ----------
+        function showDevaRebirthAnimation(callback) {
+            const overlay = document.createElement('div');
+            overlay.className = 'deva-rebirth-overlay';
+            overlay.innerHTML = `
+                <div style="font-size: 80px; margin-bottom: 20px;">🌟</div>
+                <div class="deva-stage" id="deva-anim-stage">11</div>
+                <div class="deva-label" id="deva-anim-label">उपशांत मोह — मरणकाल</div>
+                <div class="deva-arrow">↓</div>
+            `;
+            document.body.appendChild(overlay);
+            
+            const stages = [
+                { num: '11', label: 'उपशांत मोह — मरणकाल' },
+                { num: '☁️', label: 'देवगति में संक्रमण... (वैक्रियिक मिश्र काययोग)' },
+                { num: '4*', label: 'देवगति-अपर्याप्त अवस्था में चतुर्थ गुणस्थान' },
+                { num: '4', label: 'द्वितीयोपशम सम्यक्त्व — नियम से क्षयोपशम सम्यक्त्व में परिवर्तन' }
+            ];
+            
+            let i = 0;
+            const stageEl = overlay.querySelector('#deva-anim-stage');
+            const labelEl = overlay.querySelector('#deva-anim-label');
+            
+            const advance = () => {
+                if (i >= stages.length) {
+                    setTimeout(() => {
+                        overlay.style.transition = 'opacity 0.5s ease';
+                        overlay.style.opacity = '0';
+                        setTimeout(() => {
+                            overlay.remove();
+                            if (callback) callback();
+                        }, 500);
+                    }, 1500);
+                    return;
+                }
+                stageEl.textContent = stages[i].num;
+                labelEl.textContent = stages[i].label;
+                i++;
+                setTimeout(advance, 1800);
+            };
+            
+            setTimeout(advance, 800);
+        }
+        
+        // ---------- localStorage save/load ----------
+        const SAVE_KEY = 'gunasthan_yatra_save_v2';
+        let saveDebounce = null;
+        
+        function saveGame() {
+            // Debounce so rapid changes don't thrash storage
+            if (saveDebounce) clearTimeout(saveDebounce);
+            saveDebounce = setTimeout(() => {
+                try {
+                    const state = {
+                        currentGunasthan,
+                        totalMoves,
+                        highestReached,
+                        quizScore,
+                        achievements: Array.from(achievements),
+                        karmaLevels,
+                        gameMode,
+                        currentShreni,
+                        usedShreniPath,
+                        currentLeshya,
+                        gameHistory: gameHistory.slice(-30), // keep last 30 moves
+                        totalDeaths,
+                        savedAt: Date.now()
+                    };
+                    localStorage.setItem(SAVE_KEY, JSON.stringify(state));
+                    showSaveIndicator();
+                } catch (e) {
+                    console.warn('Save failed:', e);
+                }
+            }, 500);
+        }
+        
+        function loadGame() {
+            try {
+                const raw = localStorage.getItem(SAVE_KEY);
+                if (!raw) return false;
+                const state = JSON.parse(raw);
+                if (!state || typeof state.currentGunasthan !== 'number') return false;
+                
+                currentGunasthan = state.currentGunasthan;
+                totalMoves = state.totalMoves || 0;
+                highestReached = state.highestReached || 1;
+                quizScore = state.quizScore || 0;
+                achievements = new Set(state.achievements || ['🎯 Start Journey']);
+                karmaLevels = state.karmaLevels || karmaLevels;
+                gameMode = state.gameMode || 'beginner';
+                currentShreni = state.currentShreni || null;
+                usedShreniPath = state.usedShreniPath || null;
+                currentLeshya = state.currentLeshya || 'कापोत';
+                gameHistory = state.gameHistory || [];
+                totalDeaths = state.totalDeaths || 0;
+                
+                // Update mode UI
+                document.querySelectorAll('.mode-pill').forEach(p => {
+                    p.classList.toggle('active', p.dataset.mode === gameMode);
+                });
+                
+                return true;
+            } catch (e) {
+                console.warn('Load failed:', e);
+                return false;
+            }
+        }
+        
+        function clearSave() {
+            try { localStorage.removeItem(SAVE_KEY); } catch (e) { /* ignore */ }
+        }
+        
+        function showSaveIndicator() {
+            const ind = document.getElementById('save-indicator');
+            if (!ind) return;
+            ind.classList.add('visible');
+            clearTimeout(ind._hideTimer);
+            ind._hideTimer = setTimeout(() => ind.classList.remove('visible'), 1800);
+        }
+        
+        // ---------- Choice preview / undo confirmation ----------
+        function showChoicePreview(targetGunasthan, choiceIndex, choice) {
+            // Skip preview in speedrun mode
+            if (gameMode === 'speedrun') {
+                actuallyMakeChoice(targetGunasthan, choiceIndex);
+                return;
+            }
+            
+            const direction = targetGunasthan === 'moksha' ? 'मोक्ष' :
+                              (targetGunasthan > currentGunasthan ? '⬆ आरोहण' :
+                               targetGunasthan < currentGunasthan ? '⬇ अवरोहण' : '↻ स्थिर');
+            
+            const isWrong = choice.title.startsWith('🚫');
+            const targetName = targetGunasthan === 'moksha' ? '🕉️ मोक्ष' :
+                               `${targetGunasthan}. ${gunasthansData[targetGunasthan]?.nameHi || '?'}`;
+            
+            // Build karma summary
+            let karmaSummary = '';
+            if (choice.karma && Object.keys(choice.karma).length > 0) {
+                const items = Object.entries(choice.karma).map(([k, v]) => {
+                    const dir = v > 0 ? '🔴 बंध' : '🟢 क्षय';
+                    return `${dir} ${k}: ${v > 0 ? '+' : ''}${v}%`;
+                });
+                karmaSummary = `<div style="margin-top:8px; font-size:13px;">${items.join('<br>')}</div>`;
+            }
+            
+            const overlay = document.createElement('div');
+            overlay.className = 'choice-preview-overlay';
+            overlay.innerHTML = `
+                <div class="choice-preview-card">
+                    <div class="preview-header">${isWrong ? '⚠️ सावधान!' : '🤔 क्या आप निश्चित हैं?'}</div>
+                    <div style="color: #4b5563; margin-bottom: 8px; font-size: 14px;"><strong>आपका चयन:</strong></div>
+                    <div style="font-weight: 600; color: #1f2937; margin-bottom: 4px;">${choice.title}</div>
+                    <div style="color: #6b7280; font-size: 13px;">${choice.description}</div>
+                    
+                    <div class="preview-consequence">
+                        <strong>परिणाम:</strong> ${direction} → ${targetName}
+                        ${choice.quiz ? '<br><span style="color: #f59e0b;">📝 ज्ञान-परीक्षा देनी होगी</span>' : ''}
+                        ${karmaSummary}
+                    </div>
+                    
+                    <div class="preview-actions">
+                        <button class="preview-btn preview-btn-cancel" onclick="cancelChoicePreview()">
+                            ↩ पुनर्विचार (Reconsider)
+                        </button>
+                        <button class="preview-btn preview-btn-confirm" onclick="confirmChoicePreview()">
+                            ✓ पुष्टि करें (Confirm)
+                        </button>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(overlay);
+            pendingChoice = { targetGunasthan, choiceIndex, overlay };
+            
+            // ESC cancels
+            const escHandler = (e) => {
+                if (e.key === 'Escape') {
+                    cancelChoicePreview();
+                    document.removeEventListener('keydown', escHandler);
+                }
+            };
+            document.addEventListener('keydown', escHandler);
+        }
+        
+        function cancelChoicePreview() {
+            if (pendingChoice && pendingChoice.overlay) {
+                pendingChoice.overlay.style.animation = 'fadeIn 0.2s ease reverse';
+                setTimeout(() => pendingChoice.overlay.remove(), 200);
+            }
+            // Also un-select the choice button visually
+            document.querySelectorAll('.choice-button.selected').forEach(b => b.classList.remove('selected'));
+            pendingChoice = null;
+        }
+        
+        function confirmChoicePreview() {
+            if (!pendingChoice) return;
+            const { targetGunasthan, choiceIndex, overlay } = pendingChoice;
+            overlay.remove();
+            pendingChoice = null;
+            actuallyMakeChoice(targetGunasthan, choiceIndex);
+        }
+        
+        // ============================================================
+        // END NEW FUNCTIONS
+        // ============================================================
+        
         // Initialize the game when page loads
         document.addEventListener('DOMContentLoaded', function() {
             // Initialize game
@@ -3127,6 +4369,14 @@
         window.closeVictoryScreen = closeVictoryScreen;
         window.debugChoiceAvailability = debugChoiceAvailability;
         window.reduceKarmaForTesting = reduceKarmaForTesting;
+        // NEW exposed functions
+        window.setGameMode = setGameMode;
+        window.openGathaModal = openGathaModal;
+        window.playGatha = playGatha;
+        window.stopGatha = stopGatha;
+        window.cancelChoicePreview = cancelChoicePreview;
+        window.confirmChoicePreview = confirmChoicePreview;
+        window.actuallyMakeChoice = actuallyMakeChoice;
     </script>
 </body>
 </html>
