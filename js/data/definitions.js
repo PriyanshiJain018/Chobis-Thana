@@ -364,155 +364,195 @@ export const definitionsDatabase = {
                     english: "Passions",
                     definition: "जो आत्मा के सम्यक्त्वादि गुणों का घात करें, उसे कषाय कहते हैं।",
                     subtypes: {
-                        "अनन्तानुबंधी क्रोध": {
-                            nameHi: "अनन्तानुबंधी क्रोध",
-                            nameEn: "Anantanubandhi Krodha",
-                            english: "Infinite-binding Anger",
-                            definition: "जो आत्मा के सम्यक्त्व तथा चारित्र गुण का घात करती है।"
+                        "अनन्तानुबन्धी कषाय": {
+                            nameHi: "अनन्तानुबन्धी कषाय",
+                            nameEn: "Anantanubandhi Kashaya",
+                            english: "Infinite-binding Passions",
+                            definition: "जो कषाय आत्मा के सम्यक्त्व तथा चारित्र गुण का घात करती है। इसके 4 भेद हैं — क्रोध, मान, माया, लोभ।",
+                            subtypes: {
+                                "क्रोध": {
+                                    nameHi: "क्रोध",
+                                    nameEn: "Krodha",
+                                    english: "Anger",
+                                    definition: "जो आत्मा के सम्यक्त्व तथा चारित्र गुण का घात करती है।"
+                                },
+                                "मान": {
+                                    nameHi: "मान",
+                                    nameEn: "Mana",
+                                    english: "Pride",
+                                    definition: "जो आत्मा के सम्यक्त्व तथा चारित्र गुण का घात करती है।"
+                                },
+                                "माया": {
+                                    nameHi: "माया",
+                                    nameEn: "Maya",
+                                    english: "Deceit",
+                                    definition: "जो आत्मा के सम्यक्त्व तथा चारित्र गुण का घात करती है।"
+                                },
+                                "लोभ": {
+                                    nameHi: "लोभ",
+                                    nameEn: "Lobha",
+                                    english: "Greed",
+                                    definition: "जो आत्मा के सम्यक्त्व तथा चारित्र गुण का घात करती है।"
+                                }
+                            }
                         },
-                        "अनन्तानुबंधी मान": {
-                            nameHi: "अनन्तानुबंधी मान",
-                            nameEn: "Anantanubandhi Mana",
-                            english: "Infinite-binding Pride",
-                            definition: "जो आत्मा के सम्यक्त्व तथा चारित्र गुण का घात करती है।"
+                        "अप्रत्याख्यानावरण कषाय": {
+                            nameHi: "अप्रत्याख्यानावरण कषाय",
+                            nameEn: "Apratyakhyanavarana Kashaya",
+                            english: "Partial Vow Preventing Passions",
+                            definition: "जो कषाय एक देश चारित्र का घात करती है। इसके 4 भेद हैं — क्रोध, मान, माया, लोभ।",
+                            subtypes: {
+                                "क्रोध": {
+                                    nameHi: "क्रोध",
+                                    nameEn: "Krodha",
+                                    english: "Anger",
+                                    definition: "जो कषाय एक देश चारित्र का घात करती है।"
+                                },
+                                "मान": {
+                                    nameHi: "मान",
+                                    nameEn: "Mana",
+                                    english: "Pride",
+                                    definition: "जो कषाय एक देश चारित्र का घात करती है।"
+                                },
+                                "माया": {
+                                    nameHi: "माया",
+                                    nameEn: "Maya",
+                                    english: "Deceit",
+                                    definition: "जो कषाय एक देश चारित्र का घात करती है।"
+                                },
+                                "लोभ": {
+                                    nameHi: "लोभ",
+                                    nameEn: "Lobha",
+                                    english: "Greed",
+                                    definition: "जो कषाय एक देश चारित्र का घात करती है।"
+                                }
+                            }
                         },
-                        "अनन्तानुबंधी माया": {
-                            nameHi: "अनन्तानुबंधी माया",
-                            nameEn: "Anantanubandhi Maya",
-                            english: "Infinite-binding Deceit",
-                            definition: "जो आत्मा के सम्यक्त्व तथा चारित्र गुण का घात करती है।"
+                        "प्रत्याख्यानावरण कषाय": {
+                            nameHi: "प्रत्याख्यानावरण कषाय",
+                            nameEn: "Pratyakhyanavarana Kashaya",
+                            english: "Total Vow Preventing Passions",
+                            definition: "जो कषाय सकल संयम का घात करती है। इसके 4 भेद हैं — क्रोध, मान, माया, लोभ।",
+                            subtypes: {
+                                "क्रोध": {
+                                    nameHi: "क्रोध",
+                                    nameEn: "Krodha",
+                                    english: "Anger",
+                                    definition: "जो कषाय सकल संयम का घात करती है।"
+                                },
+                                "मान": {
+                                    nameHi: "मान",
+                                    nameEn: "Mana",
+                                    english: "Pride",
+                                    definition: "जो कषाय सकल संयम का घात करती है।"
+                                },
+                                "माया": {
+                                    nameHi: "माया",
+                                    nameEn: "Maya",
+                                    english: "Deceit",
+                                    definition: "जो कषाय सकल संयम का घात करती है।"
+                                },
+                                "लोभ": {
+                                    nameHi: "लोभ",
+                                    nameEn: "Lobha",
+                                    english: "Greed",
+                                    definition: "जो कषाय सकल संयम का घात करती है।"
+                                }
+                            }
                         },
-                        "अनन्तानुबंधी लोभ": {
-                            nameHi: "अनन्तानुबंधी लोभ",
-                            nameEn: "Anantanubandhi Lobha",
-                            english: "Infinite-binding Greed",
-                            definition: "जो आत्मा के सम्यक्त्व तथा चारित्र गुण का घात करती है।"
+                        "संज्वलन कषाय": {
+                            nameHi: "संज्वलन कषाय",
+                            nameEn: "Sanjvalana Kashaya",
+                            english: "Flaming Passions",
+                            definition: "जो कषाय यथाख्यात संयम का घात करती है। इसके 4 भेद हैं — क्रोध, मान, माया, लोभ।",
+                            subtypes: {
+                                "क्रोध": {
+                                    nameHi: "क्रोध",
+                                    nameEn: "Krodha",
+                                    english: "Anger",
+                                    definition: "जो कषाय यथाख्यात संयम का घात करती है।"
+                                },
+                                "मान": {
+                                    nameHi: "मान",
+                                    nameEn: "Mana",
+                                    english: "Pride",
+                                    definition: "जो कषाय यथाख्यात संयम का घात करती है।"
+                                },
+                                "माया": {
+                                    nameHi: "माया",
+                                    nameEn: "Maya",
+                                    english: "Deceit",
+                                    definition: "जो कषाय यथाख्यात संयम का घात करती है।"
+                                },
+                                "लोभ": {
+                                    nameHi: "लोभ",
+                                    nameEn: "Lobha",
+                                    english: "Greed",
+                                    definition: "जो कषाय यथाख्यात संयम का घात करती है।"
+                                }
+                            }
                         },
-                        "अप्रत्याख्यानावरण क्रोध": {
-                            nameHi: "अप्रत्याख्यानावरण क्रोध",
-                            nameEn: "Apratyakhyanavarana Krodha",
-                            english: "Partial Vow Preventing Anger",
-                            definition: "जो कषाय एक देश चारित्र का घात करती है।"
-                        },
-                        "अप्रत्याख्यानावरण मान": {
-                            nameHi: "अप्रत्याख्यानावरण मान",
-                            nameEn: "Apratyakhyanavarana Mana",
-                            english: "Partial Vow Preventing Pride",
-                            definition: "जो कषाय एक देश चारित्र का घात करती है।"
-                        },
-                        "अप्रत्याख्यानावरण माया": {
-                            nameHi: "अप्रत्याख्यानावरण माया",
-                            nameEn: "Apratyakhyanavarana Maya",
-                            english: "Partial Vow Preventing Deceit",
-                            definition: "जो कषाय एक देश चारित्र का घात करती है।"
-                        },
-                        "अप्रत्याख्यानावरण लोभ": {
-                            nameHi: "अप्रत्याख्यानावरण लोभ",
-                            nameEn: "Apratyakhyanavarana Lobha",
-                            english: "Partial Vow Preventing Greed",
-                            definition: "जो कषाय एक देश चारित्र का घात करती है।"
-                        },
-                        "प्रत्याख्यानावरण क्रोध": {
-                            nameHi: "प्रत्याख्यानावरण क्रोध",
-                            nameEn: "Pratyakhyanavarana Krodha",
-                            english: "Total Vow Preventing Anger",
-                            definition: "जो कषाय सकल संयम का घात करती है।"
-                        },
-                        "प्रत्याख्यानावरण मान": {
-                            nameHi: "प्रत्याख्यानावरण मान",
-                            nameEn: "Pratyakhyanavarana Mana",
-                            english: "Total Vow Preventing Pride",
-                            definition: "जो कषाय सकल संयम का घात करती है।"
-                        },
-                        "प्रत्याख्यानावरण माया": {
-                            nameHi: "प्रत्याख्यानावरण माया",
-                            nameEn: "Pratyakhyanavarana Maya",
-                            english: "Total Vow Preventing Deceit",
-                            definition: "जो कषाय सकल संयम का घात करती है।"
-                        },
-                        "प्रत्याख्यानावरण लोभ": {
-                            nameHi: "प्रत्याख्यानावरण लोभ",
-                            nameEn: "Pratyakhyanavarana Lobha",
-                            english: "Total Vow Preventing Greed",
-                            definition: "जो कषाय सकल संयम का घात करती है।"
-                        },
-                        "संज्वलन क्रोध": {
-                            nameHi: "संज्वलन क्रोध",
-                            nameEn: "Sanjvalana Krodha",
-                            english: "Flaming Anger",
-                            definition: "जो कषाय यथाख्यात संयम का घात करती है।"
-                        },
-                        "संज्वलन मान": {
-                            nameHi: "संज्वलन मान",
-                            nameEn: "Sanjvalana Mana",
-                            english: "Flaming Pride",
-                            definition: "जो कषाय यथाख्यात संयम का घात करती है।"
-                        },
-                        "संज्वलन माया": {
-                            nameHi: "संज्वलन माया",
-                            nameEn: "Sanjvalana Maya",
-                            english: "Flaming Deceit",
-                            definition: "जो कषाय यथाख्यात संयम का घात करती है।"
-                        },
-                        "संज्वलन लोभ": {
-                            nameHi: "संज्वलन लोभ",
-                            nameEn: "Sanjvalana Lobha",
-                            english: "Flaming Greed",
-                            definition: "जो कषाय यथाख्यात संयम का घात करती है।"
-                        },
-                        "हास्य": {
-                            nameHi: "हास्य", 
-                            nameEn: "Hasya",
-                            english: "Laughter",
-                            definition: "जिसके उदय से हँसी आवे।"
-                        },
-                        "रति": {
-                            nameHi: "रति",
-                            nameEn: "Rati",
-                            english: "Attachment",
-                            definition: "जिसके उदय से क्षेत्र आदि में प्रीति हो।"
-                        },
-                        "अरति": {
-                            nameHi: "अरति",
-                            nameEn: "Arati",
-                            english: "Aversion",
-                            definition: "जिसके उदय से क्षेत्र आदि में अप्रीति हो।"
-                        },
-                        "शोक": {
-                            nameHi: "शोक",
-                            nameEn: "Shoka",
-                            english: "Sorrow",
-                            definition: "जिसके उदय से इष्ट वियोगज क्लेश उत्पन्न हो।"
-                        },
-                        "भय": {
-                            nameHi: "भय",
-                            nameEn: "Bhaya",
-                            english: "Fear",
-                            definition: "जिसके उदय से भय उत्पन्न हो।"
-                        },
-                        "जुगुप्सा": {
-                            nameHi: "जुगुप्सा",
-                            nameEn: "Jugupsaa",
-                            english: "Disgust",
-                            definition: "जिसके उदय से ग्लानि उत्पन्न हो।"
-                        },
-                        "स्त्रीवेद": {
-                            nameHi: "स्त्रीवेद",
-                            nameEn: "Striveda",
-                            english: "Feminine Inclination",
-                            definition: "जिसके उदय से स्त्री सम्बन्धी भावों को प्राप्त हो।"
-                        },
-                        "पुरुषवेद": {
-                            nameHi: "पुरुषवेद",
-                            nameEn: "Purushveda",
-                            english: "Masculine Inclination",
-                            definition: "जिसके उदय से पुरुष सम्बन्धी भावों को प्राप्त हो।"
-                        },
-                        "नपुंसकवेद": {
-                            nameHi: "नपुंसकवेद",
-                            nameEn: "Napumsakveda",
-                            english: "Neuter Inclination",
-                            definition: "जिसके उदय से नपुंसक सम्बन्धी भावों को प्राप्त हो।"
+                        "नो-कषाय": {
+                            nameHi: "नो-कषाय",
+                            nameEn: "No-Kashaya",
+                            english: "Quasi-Passions",
+                            definition: "जो कषाय के सहचारी हैं किन्तु स्वयं मुख्य कषाय नहीं हैं। इसके 9 भेद हैं — हास्य, रति, अरति, शोक, भय, जुगुप्सा, स्त्रीवेद, पुरुषवेद, नपुंसकवेद।",
+                            subtypes: {
+                                "हास्य": {
+                                    nameHi: "हास्य",
+                                    nameEn: "Hasya",
+                                    english: "Laughter",
+                                    definition: "जिसके उदय से हँसी आवे।"
+                                },
+                                "रति": {
+                                    nameHi: "रति",
+                                    nameEn: "Rati",
+                                    english: "Attachment",
+                                    definition: "जिसके उदय से क्षेत्र आदि में प्रीति हो।"
+                                },
+                                "अरति": {
+                                    nameHi: "अरति",
+                                    nameEn: "Arati",
+                                    english: "Aversion",
+                                    definition: "जिसके उदय से क्षेत्र आदि में अप्रीति हो।"
+                                },
+                                "शोक": {
+                                    nameHi: "शोक",
+                                    nameEn: "Shoka",
+                                    english: "Sorrow",
+                                    definition: "जिसके उदय से इष्ट वियोगज क्लेश उत्पन्न हो।"
+                                },
+                                "भय": {
+                                    nameHi: "भय",
+                                    nameEn: "Bhaya",
+                                    english: "Fear",
+                                    definition: "जिसके उदय से भय उत्पन्न हो।"
+                                },
+                                "जुगुप्सा": {
+                                    nameHi: "जुगुप्सा",
+                                    nameEn: "Jugupsaa",
+                                    english: "Disgust",
+                                    definition: "जिसके उदय से ग्लानि उत्पन्न हो।"
+                                },
+                                "स्त्रीवेद": {
+                                    nameHi: "स्त्रीवेद",
+                                    nameEn: "Striveda",
+                                    english: "Feminine Inclination",
+                                    definition: "जिसके उदय से स्त्री सम्बन्धी भावों को प्राप्त हो।"
+                                },
+                                "पुरुषवेद": {
+                                    nameHi: "पुरुषवेद",
+                                    nameEn: "Purushveda",
+                                    english: "Masculine Inclination",
+                                    definition: "जिसके उदय से पुरुष सम्बन्धी भावों को प्राप्त हो।"
+                                },
+                                "नपुंसकवेद": {
+                                    nameHi: "नपुंसकवेद",
+                                    nameEn: "Napumsakveda",
+                                    english: "Neuter Inclination",
+                                    definition: "जिसके उदय से नपुंसक सम्बन्धी भावों को प्राप्त हो।"
+                                }
+                            }
                         }
                     },
                     additionalNotes: "जहाँ अनन्तानुबन्धी कषाय है वहाँ नियम से अप्रत्याख्यानावरण, प्रत्याख्यानावरण एवं संज्वलन कषाय भी रहेगी। जहाँ हास्य कषाय है वहाँ रति कषाय भी रहेगी। जहाँ शोक कषाय है वहाँ अरति कषाय भी रहेगी।",

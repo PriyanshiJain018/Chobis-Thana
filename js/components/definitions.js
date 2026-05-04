@@ -183,11 +183,27 @@ export function searchDefinitions(searchTerm) {
             if (def.subtypes && Object.keys(def.subtypes).length > 0) {
                 Object.keys(def.subtypes).forEach(subKey => {
                     const subDef = def.subtypes[subKey];
+                    let subMatched = false;
                     if ((subDef.nameHi && subDef.nameHi.includes(searchTerm)) || 
                         (subDef.nameEn && subDef.nameEn.toLowerCase().includes(term)) ||
                         (subDef.english && subDef.english.toLowerCase().includes(term)) ||
                         (subDef.definition && subDef.definition.includes(searchTerm)) ||
                         (subDef.additionalNotes && subDef.additionalNotes.includes(searchTerm))) {
+                        subMatched = true;
+                    }
+                    // Also check nested sub-sub-types (e.g. क्रोध/मान/माया/लोभ inside अनन्तानुबन्धी कषाय)
+                    if (!subMatched && subDef.subtypes && Object.keys(subDef.subtypes).length > 0) {
+                        Object.keys(subDef.subtypes).forEach(nestedKey => {
+                            const nestedDef = subDef.subtypes[nestedKey];
+                            if ((nestedDef.nameHi && nestedDef.nameHi.includes(searchTerm)) ||
+                                (nestedDef.nameEn && nestedDef.nameEn.toLowerCase().includes(term)) ||
+                                (nestedDef.english && nestedDef.english.toLowerCase().includes(term)) ||
+                                (nestedDef.definition && nestedDef.definition.includes(searchTerm))) {
+                                subMatched = true;
+                            }
+                        });
+                    }
+                    if (subMatched) {
                         defFound = true;
                         hasSubtypeMatch = true;
                         matchedSubtypeKeys.push(subKey);
@@ -437,7 +453,9 @@ export function findAndShowDefinition(searchTerm) {
         let categoryKey = null;
         let defKey = null;
         let subKey = null;
+        let nestedKey = null;
         let isSubtype = false;
+        let isNested = false;
         
         // Search through all definitions
         Object.keys(definitionsDatabase).forEach(catKey => {
@@ -454,7 +472,7 @@ export function findAndShowDefinition(searchTerm) {
                     return;
                 }
                 
-                // Check subtypes
+                // Check subtypes (level 2)
                 if (def.subtypes) {
                     Object.keys(def.subtypes).forEach(sKey => {
                         const subDef = def.subtypes[sKey];
@@ -465,6 +483,36 @@ export function findAndShowDefinition(searchTerm) {
                             subKey = sKey;
                             isSubtype = true;
                             return;
+                        }
+                        
+                        // Check nested subtypes (level 3, e.g. क्रोध inside अनन्तानुबन्धी कषाय)
+                        if (subDef.subtypes) {
+                            // Build parent prefix for composite matching
+                            // e.g. "अनन्तानुबन्धी कषाय" → "अनन्तानुबन्धी"
+                            const hiPrefix = (subDef.nameHi || '').replace(/\s*कषाय\s*$/, '').trim();
+                            const enPrefix = (subDef.nameEn || '').replace(/\s*Kashaya\s*$/i, '').trim();
+                            
+                            Object.keys(subDef.subtypes).forEach(nKey => {
+                                const nestedDef = subDef.subtypes[nKey];
+                                // Direct match on nested name (e.g. "क्रोध", "Krodha")
+                                const directMatch = nestedDef.nameHi === searchTerm || nestedDef.nameEn === searchTerm;
+                                // Composite match for matrix-style names like "अनन्तानुबन्धी क्रोध" / "Anantanubandhi Krodha"
+                                const compositeHi = hiPrefix && nestedDef.nameHi ? `${hiPrefix} ${nestedDef.nameHi}` : null;
+                                const compositeEn = enPrefix && nestedDef.nameEn ? `${enPrefix} ${nestedDef.nameEn}` : null;
+                                const compositeMatch = (compositeHi && compositeHi === searchTerm) ||
+                                                       (compositeEn && compositeEn.toLowerCase() === searchTerm.toLowerCase());
+                                
+                                if (directMatch || compositeMatch) {
+                                    found = true;
+                                    categoryKey = catKey;
+                                    defKey = dKey;
+                                    subKey = sKey;
+                                    nestedKey = nKey;
+                                    isSubtype = true;
+                                    isNested = true;
+                                    return;
+                                }
+                            });
                         }
                     });
                 }
@@ -490,9 +538,22 @@ export function findAndShowDefinition(searchTerm) {
                     subtypesElement.style.display = 'block';
                 }
                 
-                // Scroll to and highlight the specific subtype
+                // If it's a nested item, also expand the nested-subtypes container of its parent
+                if (isNested && subKey) {
+                    const nestedContainer = document.getElementById(`nested-subtypes-${subKey}`);
+                    const nestedToggle = document.getElementById(`nested-toggle-${subKey}`);
+                    if (nestedContainer) {
+                        nestedContainer.style.display = 'block';
+                    }
+                    if (nestedToggle) {
+                        nestedToggle.textContent = '−';
+                    }
+                }
+                
+                // Scroll to and highlight the parent subtype (nested items don't have unique IDs)
                 setTimeout(() => {
-                    const targetElement = document.getElementById(`subdef-${subKey}`);
+                    const targetElement = document.getElementById(`subdef-${subKey}`) ||
+                                          document.getElementById(`nested-subtypes-${subKey}`);
                     if (targetElement) {
                         targetElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
                         highlightSearchResult(targetElement, 'warning');
