@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#FF6B00">
+    <title>चौबीस ठाणा | गुणस्थान सोपान</title>
+    
+    <!-- Manifest for PWA -->
+    <link rel="manifest" href="./manifest.json">
+    <link rel="icon" href="./icon.png">
+    
+    <!-- CSS Files -->
+    <link rel="stylesheet" href="./css/main.css">
+    <link rel="stylesheet" href="./css/components.css">
+    <link rel="stylesheet" href="./css/definitions.css">
+    <link rel="stylesheet" href="./css/matrix.css">
+    <link rel="stylesheet" href="./css/theme.css">
+</head>
+<body>
+    <div class="app-header">
+        <h1 class="app-title">चौबीस ठाणा चर्चा</h1>
+        <div class="app-subtitle">गुणस्थान सोपान — आत्मा की चौदह सीढ़ियाँ</div>
+    </div>
+    
+    <div class="tab-container">
+        <button class="tab active hindi-label" data-tab="overview">सारांश</button>
+        <button class="tab hindi-label" data-tab="matrix">ठाणा तालिका</button>
+        <button class="tab hindi-label" data-tab="transitions">आरोहण-अवरोहण</button>
+        <button class="tab hindi-label" data-tab="definitions">शब्दकोश</button>
+    </div>
+    
+    <div class="content">
+        <div id="overview-content" class="tab-content">
+            <div class="info-section">
+                <div class="info-title">एक विनम्र निवेदन</div>
+                <div class="info-description">
+                    यह एप मात्र एक प्रयास है —
+                    चौबीस ठाणा को थोड़ा सरल, दृश्य और इंटरैक्टिव रूप में प्रस्तुत करने का।
+                    
+                    💡 इसका उद्देश्य आपकी जिज्ञासा बढ़ाना है, समाधान देना नहीं ।
+                    
+                    👉 मूल अध्ययन सदैव आगम ग्रंथों, गुरुओं की वाणी और आत्म-चिंतन से ही करें।
+                    यह एप ना तो प्रवचन का विकल्प है, ना ही आध्यात्मिक निष्कर्ष का स्रोत।
+                </div>
+            </div>
+            <div id="gunasthan-list"></div>
+        </div>
+        
+        <div id="matrix-content" class="tab-content hidden">
+            <div class="info-section">
+                <div class="info-title">24 Thana Matrix</div>
+                <div class="info-description">
+                    Comprehensive mapping of 24 spiritual attributes across all 14 Gunasthanas. 
+                    Click any cell to see detailed breakdown of present and absent characteristics.
+                    Click on individual terms to see their definitions.
+                </div>
+            </div>
+            <div class="matrix-container">
+                <div style="margin-bottom: 20px; display: flex; flex-wrap: wrap; gap: 12px; align-items: center;">
+                    <label style="font-weight: 600; color: #374151;">Matrix View:</label>
+                    <select id="matrix-selector" data-change="changeMatrix" style="padding: 8px 12px; border: 2px solid #d1d5db; border-radius: 8px; background: white; font-size: 14px;">
+                        <option value="default">Thana-Gunasthan (24×14)</option>
+                        <option value="gati">Gati Matrix (4×24)</option>
+                        <option value="indriya">Indriya Matrix (5×24)</option>
+                    </select>
+                </div>
+                <div id="matrix-table"></div>
+            </div>
+        </div>
+        
+        <div id="transitions-content" class="tab-content hidden">
+            <div class="info-section">
+                <div class="info-title">Spiritual Progression Paths</div>
+                <div class="info-description">
+                    Explore possible transitions between Gunasthanas. Each stage has specific paths forward or backward
+                    based on spiritual progress and karmic conditions. 
+                    विभिन्न गुणस्थान में आरोहण तथा अवरोहण  के नियम 
+                </div>
+            </div>
+            <div id="transitions-list"></div>
+        </div>
+        
+        <div id="definitions-content" class="tab-content hidden">
+            <div class="info-section">
+                <div class="info-title">Comprehensive Definitions</div>
+                <div class="info-description">
+                    Detailed explanations of all Jain philosophical terms and concepts used in the application.
+                    Search or browse by category to understand the meanings and significance.
+                </div>
+            </div>
+            <div style="display: flex; gap: 8px; margin-bottom: 16px;">
+                <input type="text" id="definition-search" class="search-box" placeholder="शब्द खोजें / Search definitions (Hindi/English)..." 
+                       data-input="searchDefinitions" 
+                       data-keypress="searchOnEnter"
+                       style="flex: 1; margin-bottom: 0;">
+                <button id="voice-search-btn" data-click="startVoiceSearch" 
+                        style="background: #10b981; color: white; border: none; padding: 14px 16px; border-radius: 12px; cursor: pointer; font-weight: 600; transition: all 0.3s ease;">
+                    🎤
+                </button>
+                <button id="search-definitions-btn" data-click="searchDefinitionsFromInput" 
+                        style="background: #3b82f6; color: white; border: none; padding: 14px 20px; border-radius: 12px; cursor: pointer; font-weight: 600; white-space: nowrap;">
+                    🔍
+                </button>
+                <button id="clear-search-btn" data-click="clearDefinitionSearch" 
+                        style="background: #6b7280; color: white; border: none; padding: 14px 16px; border-radius: 12px; cursor: pointer; font-weight: 600;">
+                    ✖
+                </button>
+            </div>
+            <div id="voice-status" style="display: none; text-align: center; margin-bottom: 12px; padding: 8px; background: #fef3c7; border: 1px solid #f59e0b; border-radius: 8px; color: #78350f; font-size: 14px;">
+                🎤 Listening... Speak now!
+            </div>
+            <div id="definitions-list"></div>
+        </div>
+    </div>
+    
+    <div id="tooltip-modal" class="tooltip-modal hidden" data-click="closeTooltipModal">
+        <div class="tooltip-content" data-click="stopPropagation">
+            <div class="tooltip-header">
+                <div class="tooltip-title-section">
+                    <h3 id="tooltip-title" class="tooltip-title"></h3>
+                    <div id="tooltip-subtitle" class="tooltip-subtitle"></div>
+                    <div id="tooltip-gunasthan" class="tooltip-gunasthan-info"></div>
+                </div>
+                <button class="close-button" data-click="closeTooltip">×</button>
+            </div>
+            
+            <div class="tooltip-stats">
+                <div class="stat-item">
+                    <span class="stat-value" id="stat-present">0</span>
+                    <span class="stat-label">Present</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-value" id="stat-absent">0</span>
+                    <span class="stat-label">Absent</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-value" id="stat-total">0</span>
+                    <span class="stat-label">Total</span>
+                </div>
+            </div>
+            
+            <div id="tooltip-body"></div>
+        </div>
+    </div>
+    
+    <!-- JavaScript Modules -->
+    <script type="module" src="./js/core/app.js"></script>
+    
+    <!-- Service Worker Registration -->
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('./sw.js')
+            .then(registration => {
+              console.log('ServiceWorker registration successful with scope: ', registration.scope);
+            })
+            .catch(error => {
+              console.log('ServiceWorker registration failed: ', error);
+            });
+        });
+      }
+    </script>
+</body>
+</html>

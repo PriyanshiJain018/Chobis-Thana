@@ -1,0 +1,1113 @@
+/* ===================================================================
+   Theme CSS — Saffron · Gold · Cream
+   Inspired by Jain temple architecture, manuscript traditions, and पूजा सामग्री.
+   Supports: default (saffron-gold), .night-mode (रात्रि स्वाध्याय), .large-view (बड़ा दृश्य)
+   =================================================================== */
+
+/* ---------- Devanagari Font ---------- */
+@import url('https://fonts.googleapis.com/css2?family=Tiro+Devanagari+Hindi:ital@0;1&family=Inter:wght@400;500;600;700&display=swap');
+
+/* ---------- Default theme: Saffron-Gold-Cream ---------- */
+:root {
+    /* Brand */
+    --c-saffron: #FF6B00;
+    --c-maroon: #8B1A1A;
+    --c-gold: #D4A843;
+    --c-deep-gold: #B8860B;
+    --c-cream: #FDFBF7;
+    --c-warm-sand: #E8E0D4;
+    --c-ink-brown: #1a1a2e;
+    --c-temple-red: #C62828;
+    --c-deep-green: #2D7D46;
+    --c-soft-amber: #FFF8EC;
+    --c-shadow-warm: rgba(139, 26, 26, 0.10);
+
+    /* Semantic */
+    --bg-page: var(--c-cream);
+    --bg-card: #FFFFFF;
+    --bg-soft: var(--c-soft-amber);
+    --bg-header: linear-gradient(135deg, var(--c-saffron) 0%, var(--c-maroon) 100%);
+    --bg-info: linear-gradient(135deg, #FFF4E6 0%, #FFE4C7 100%);
+    --bg-info-border: var(--c-gold);
+
+    --text-primary: var(--c-ink-brown);
+    --text-secondary: #5A4A3A;
+    --text-muted: #8B7355;
+    --text-on-dark: #FFFFFF;
+    --text-info-title: var(--c-maroon);
+    --text-info-body: #4A2C0F;
+
+    --border-card: var(--c-warm-sand);
+    --border-strong: #D4C5A8;
+    --shadow-card: 0 2px 8px var(--c-shadow-warm);
+    --shadow-elev: 0 4px 16px rgba(139, 26, 26, 0.18);
+
+    --accent: var(--c-gold);
+    --accent-strong: var(--c-deep-gold);
+    --tab-active: var(--c-maroon);
+    --tab-active-line: linear-gradient(90deg, var(--c-saffron), var(--c-maroon));
+
+    --btn-primary-bg: var(--c-saffron);
+    --btn-primary-hover: var(--c-maroon);
+    --btn-secondary-bg: var(--c-gold);
+    --btn-voice-bg: var(--c-deep-green);
+    --btn-clear-bg: #8B7355;
+
+    --search-focus: var(--c-saffron);
+    --search-shadow: rgba(255, 107, 0, 0.15);
+
+    /* Typography */
+    --font-hindi: 'Tiro Devanagari Hindi', 'Noto Sans Devanagari', serif;
+    --font-ui: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+
+    /* Scale (large-view multiplies these) */
+    --fs-xs: 11px;
+    --fs-sm: 13px;
+    --fs-base: 15px;
+    --fs-md: 16px;
+    --fs-lg: 18px;
+    --fs-xl: 22px;
+    --fs-2xl: 26px;
+    --tap-target: 44px;
+}
+
+/* ---------- रात्रि स्वाध्याय (Night Study Mode) ---------- */
+body.night-mode {
+    --bg-page: #1a1a3e;
+    --bg-card: #2d2d5e;
+    --bg-soft: #353570;
+    --bg-header: linear-gradient(135deg, #2D2D5E 0%, #1a1a3e 100%);
+    --bg-info: linear-gradient(135deg, #2d2d5e 0%, #353570 100%);
+    --bg-info-border: var(--c-gold);
+
+    --text-primary: #E8E0D4;
+    --text-secondary: #C2B49A;
+    --text-muted: #9C8A6E;
+    --text-on-dark: #FFFFFF;
+    --text-info-title: var(--c-gold);
+    --text-info-body: #E8E0D4;
+
+    --border-card: #3d3d5e;
+    --border-strong: #5A5A82;
+    --shadow-card: 0 2px 8px rgba(0, 0, 0, 0.4);
+    --shadow-elev: 0 4px 16px rgba(0, 0, 0, 0.5);
+
+    --accent: var(--c-gold);
+    --accent-strong: #FFD700;
+    --tab-active: var(--c-gold);
+    --tab-active-line: linear-gradient(90deg, #CC7A2E, var(--c-gold));
+
+    --btn-primary-bg: #CC7A2E;
+    --btn-primary-hover: var(--c-gold);
+    --btn-secondary-bg: var(--c-gold);
+    --btn-voice-bg: #4A9B6B;
+    --btn-clear-bg: #5A5A82;
+
+    --search-focus: var(--c-gold);
+    --search-shadow: rgba(212, 168, 67, 0.20);
+}
+
+/* ---------- बड़ा दृश्य (Large View for elderly users) ---------- */
+body.large-view {
+    --fs-xs: 14px;
+    --fs-sm: 16px;
+    --fs-base: 19px;
+    --fs-md: 21px;
+    --fs-lg: 24px;
+    --fs-xl: 28px;
+    --fs-2xl: 34px;
+    --tap-target: 56px;
+}
+
+body.large-view button,
+body.large-view .tab,
+body.large-view input,
+body.large-view select {
+    min-height: var(--tap-target);
+}
+
+body.large-view .matrix-table td,
+body.large-view .matrix-table th {
+    padding: 14px !important;
+    font-size: var(--fs-base) !important;
+}
+
+/* ---------- Body & Devanagari font for Hindi content ---------- */
+body {
+    font-family: var(--font-ui);
+    background: var(--bg-page);
+    color: var(--text-primary);
+    transition: background-color 0.4s ease, color 0.3s ease;
+}
+
+/* Use Tiro for any element/class that's primarily Hindi prose */
+.hindi-prose,
+.info-description,
+.gunasthan-name,
+.definition-content,
+.sub-definition-content,
+.aaj-ka-vishesh-text,
+.descriptionHi-text {
+    font-family: var(--font-hindi);
+    line-height: 1.7;
+}
+
+/* ---------- Header ---------- */
+.app-header {
+    background: var(--bg-header) !important;
+    box-shadow: var(--shadow-elev);
+}
+
+.app-title {
+    font-family: var(--font-hindi);
+    letter-spacing: 0.02em;
+    font-size: var(--fs-xl);
+}
+
+.app-subtitle {
+    font-size: var(--fs-xs);
+    opacity: 0.92;
+}
+
+/* Header utility-toggle row */
+.app-header-tools {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    margin-top: 10px;
+    flex-wrap: wrap;
+}
+
+.tool-btn {
+    background: rgba(255, 255, 255, 0.18);
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.30);
+    padding: 6px 12px;
+    border-radius: 999px;
+    font-size: var(--fs-xs);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    backdrop-filter: blur(4px);
+    min-height: 32px;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    white-space: nowrap;
+}
+
+.tool-btn:hover {
+    background: rgba(255, 255, 255, 0.30);
+    transform: translateY(-1px);
+}
+
+.tool-btn.active {
+    background: var(--c-gold);
+    color: var(--c-ink-brown);
+    border-color: var(--c-gold);
+    font-weight: 700;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+body.large-view .tool-btn {
+    font-size: var(--fs-sm);
+    padding: 8px 14px;
+    min-height: 40px;
+}
+
+/* ---------- Tabs ---------- */
+.tab-container {
+    background: var(--bg-card) !important;
+    border-bottom: 1px solid var(--border-card) !important;
+}
+
+.tab {
+    background: var(--bg-card) !important;
+    color: var(--text-muted) !important;
+    font-size: var(--fs-sm);
+    font-family: var(--font-hindi);
+    font-weight: 600;
+}
+
+.tab.hindi-label {
+    font-size: var(--fs-base);
+}
+
+.tab:hover {
+    background: var(--bg-soft) !important;
+}
+
+.tab.active {
+    color: var(--tab-active) !important;
+    background: var(--bg-card) !important;
+}
+
+.tab.active::after {
+    background: var(--tab-active-line) !important;
+    height: 4px !important;
+}
+
+/* ---------- Info sections ---------- */
+.info-section {
+    background: var(--bg-info) !important;
+    border: 1px solid var(--bg-info-border) !important;
+    border-left: 4px solid var(--c-saffron) !important;
+    border-radius: 10px;
+    box-shadow: var(--shadow-card);
+}
+
+.info-title {
+    color: var(--text-info-title) !important;
+    font-family: var(--font-hindi);
+    font-size: var(--fs-md);
+    font-weight: 700;
+}
+
+.info-description {
+    color: var(--text-info-body) !important;
+    font-size: var(--fs-base);
+}
+
+/* ---------- आज का विशेष card ---------- */
+.aaj-ka-vishesh {
+    position: relative;
+    background: linear-gradient(135deg, #FFF8EC 0%, #FFE4C7 100%);
+    border: 2px solid var(--c-gold);
+    border-radius: 14px;
+    padding: 18px 20px 16px;
+    margin-bottom: 16px;
+    box-shadow: var(--shadow-elev);
+    overflow: hidden;
+}
+
+.aaj-ka-vishesh::before {
+    content: '॥';
+    position: absolute;
+    top: -8px;
+    left: 16px;
+    font-size: 32px;
+    color: var(--c-saffron);
+    background: var(--bg-page);
+    padding: 0 8px;
+    line-height: 1;
+}
+
+.aaj-ka-vishesh::after {
+    content: '॥';
+    position: absolute;
+    top: -8px;
+    right: 16px;
+    font-size: 32px;
+    color: var(--c-saffron);
+    background: var(--bg-page);
+    padding: 0 8px;
+    line-height: 1;
+}
+
+.aaj-ka-vishesh-header {
+    text-align: center;
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px dashed var(--c-gold);
+}
+
+.aaj-ka-vishesh-title {
+    font-family: var(--font-hindi);
+    font-size: var(--fs-lg);
+    font-weight: 700;
+    color: var(--c-maroon);
+    letter-spacing: 0.05em;
+}
+
+.aaj-ka-vishesh-text {
+    font-family: var(--font-hindi);
+    font-size: var(--fs-md);
+    color: var(--text-info-body);
+    line-height: 1.75;
+    text-align: center;
+    padding: 8px 4px;
+}
+
+.aaj-ka-vishesh-source {
+    font-size: var(--fs-xs);
+    color: var(--c-maroon);
+    text-align: center;
+    margin-top: 6px;
+    font-style: italic;
+    opacity: 0.85;
+}
+
+.aaj-ka-vishesh-actions {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 14px;
+    padding-top: 12px;
+    border-top: 1px dashed var(--c-gold);
+    flex-wrap: wrap;
+}
+
+.aaj-ka-vishesh-btn {
+    background: var(--c-saffron);
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 999px;
+    font-size: var(--fs-sm);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    min-height: var(--tap-target);
+}
+
+.aaj-ka-vishesh-btn:hover {
+    background: var(--c-maroon);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.aaj-ka-vishesh-btn.whatsapp {
+    background: #25D366;
+}
+
+.aaj-ka-vishesh-btn.whatsapp:hover {
+    background: #128C7E;
+}
+
+body.night-mode .aaj-ka-vishesh {
+    background: linear-gradient(135deg, #2d2d5e 0%, #353570 100%);
+    border-color: var(--c-gold);
+}
+
+body.night-mode .aaj-ka-vishesh::before,
+body.night-mode .aaj-ka-vishesh::after {
+    background: var(--bg-page);
+    color: var(--c-gold);
+}
+
+body.night-mode .aaj-ka-vishesh-title { color: var(--c-gold); }
+body.night-mode .aaj-ka-vishesh-text { color: var(--text-primary); }
+body.night-mode .aaj-ka-vishesh-source { color: var(--c-gold); }
+
+/* ---------- Cards & Buttons ---------- */
+.search-box {
+    background: var(--bg-card) !important;
+    color: var(--text-primary);
+    border: 2px solid var(--border-card) !important;
+    font-family: var(--font-hindi);
+    font-size: var(--fs-md);
+    min-height: var(--tap-target);
+}
+
+.search-box:focus {
+    border-color: var(--search-focus) !important;
+    box-shadow: 0 0 0 3px var(--search-shadow) !important;
+}
+
+#voice-search-btn { background: var(--btn-voice-bg) !important; min-height: var(--tap-target); }
+#search-definitions-btn { background: var(--btn-primary-bg) !important; min-height: var(--tap-target); }
+#clear-search-btn { background: var(--btn-clear-bg) !important; min-height: var(--tap-target); }
+
+#voice-search-btn:hover { background: #1f5f33 !important; }
+#search-definitions-btn:hover { background: var(--btn-primary-hover) !important; }
+
+/* Loading spinner */
+.loading-spinner {
+    border-color: var(--border-card) !important;
+    border-top-color: var(--c-saffron) !important;
+}
+
+/* ---------- Definitions cards (existing styles override) ---------- */
+.category-section,
+.definition-card,
+.sub-definition {
+    background: var(--bg-card) !important;
+    border-color: var(--border-card) !important;
+    box-shadow: var(--shadow-card);
+}
+
+.definition-title,
+.sub-definition-title,
+.category-title {
+    color: var(--text-primary) !important;
+    font-family: var(--font-hindi);
+}
+
+.definition-subtitle,
+.category-subtitle {
+    color: var(--text-secondary) !important;
+}
+
+.definition-content,
+.sub-definition-content {
+    color: var(--text-secondary) !important;
+}
+
+.know-more-btn {
+    background: var(--btn-primary-bg) !important;
+    color: white !important;
+    min-height: 36px;
+}
+
+body.large-view .know-more-btn {
+    min-height: var(--tap-target);
+    font-size: var(--fs-sm) !important;
+    padding: 8px 14px !important;
+}
+
+/* ---------- Transitions tab cards ---------- */
+.transition-card {
+    background: var(--bg-card) !important;
+    border-color: var(--border-card) !important;
+    box-shadow: var(--shadow-card);
+}
+
+.transition-target {
+    background: var(--bg-soft) !important;
+    color: var(--c-maroon) !important;
+    font-family: var(--font-hindi);
+}
+
+.transition-target:hover {
+    background: var(--c-gold) !important;
+    color: var(--c-ink-brown) !important;
+}
+
+body.night-mode .transition-target {
+    color: var(--c-gold) !important;
+}
+
+body.night-mode .transition-target:hover {
+    color: var(--c-ink-brown) !important;
+}
+
+/* ---------- Matrix table ---------- */
+.matrix-table {
+    background: var(--bg-card);
+}
+
+.matrix-table th {
+    background: linear-gradient(135deg, var(--c-saffron), var(--c-maroon)) !important;
+    color: white !important;
+    font-family: var(--font-hindi);
+}
+
+.matrix-table td {
+    background: var(--bg-card) !important;
+    color: var(--text-primary) !important;
+    border-color: var(--border-card) !important;
+}
+
+.matrix-table td:hover {
+    background: var(--bg-soft) !important;
+}
+
+/* Tooltip modal */
+.tooltip-content {
+    background: var(--bg-card) !important;
+    color: var(--text-primary) !important;
+}
+
+.tooltip-title {
+    color: var(--c-maroon) !important;
+    font-family: var(--font-hindi);
+}
+
+body.night-mode .tooltip-title {
+    color: var(--c-gold) !important;
+}
+
+/* ---------- Mobile tweaks ---------- */
+@media (max-width: 640px) {
+    .app-title { font-size: var(--fs-lg); }
+    .app-header-tools { gap: 6px; }
+    .tool-btn { font-size: 11px; padding: 5px 9px; }
+    .aaj-ka-vishesh-actions { flex-direction: column; align-items: stretch; }
+    .aaj-ka-vishesh-btn { justify-content: center; }
+}
+
+/* ---------- Override remaining hardcoded colors in older CSS ---------- */
+.category-header {
+    background: linear-gradient(135deg, var(--c-saffron) 0%, var(--c-maroon) 100%) !important;
+    color: white !important;
+}
+
+.category-header .category-title,
+.category-header .category-subtitle {
+    color: white !important;
+}
+
+/* Tooltip stats */
+.stat-value {
+    color: var(--c-maroon) !important;
+}
+
+body.night-mode .stat-value {
+    color: var(--c-gold) !important;
+}
+
+/* Modal close button */
+.close-button {
+    color: var(--c-maroon) !important;
+}
+
+body.night-mode .close-button {
+    color: var(--c-gold) !important;
+}
+
+/* Pill / badge */
+.tooltip-gunasthan-info {
+    background: linear-gradient(135deg, var(--c-saffron), var(--c-maroon)) !important;
+    color: white !important;
+}
+
+/* Status notice (voice listening) */
+#voice-status {
+    background: var(--c-soft-amber) !important;
+    border-color: var(--c-gold) !important;
+    color: var(--c-maroon) !important;
+}
+
+body.night-mode #voice-status {
+    background: var(--bg-soft) !important;
+    color: var(--c-gold) !important;
+}
+
+/* Additional notes fallback */
+.additional-notes {
+    background: var(--c-soft-amber) !important;
+    color: var(--text-info-body) !important;
+    border-left: 4px solid var(--c-gold) !important;
+}
+
+body.night-mode .additional-notes {
+    background: var(--bg-soft) !important;
+    color: var(--text-primary) !important;
+}
+
+/* Make sure tabs container background follows theme in dark mode */
+body.night-mode .tab-container {
+    background: var(--bg-card) !important;
+    border-bottom-color: var(--border-card) !important;
+}
+
+body.night-mode .info-section {
+    color: var(--text-primary);
+}
+
+body.night-mode .matrix-table th {
+    background: linear-gradient(135deg, #2D2D5E, #1a1a3e) !important;
+    color: var(--c-gold) !important;
+    border-bottom: 2px solid var(--c-gold) !important;
+}
+
+/* Search highlight */
+.search-highlight {
+    box-shadow: 0 0 0 3px var(--c-gold) !important;
+}
+
+/* Loading spinner border */
+.loading-spinner {
+    border-color: var(--border-card);
+    border-top-color: var(--c-saffron);
+}
+
+/* ===================================================================
+   Phase 4 — Staircase, मुझे समझाओ Mode, Audio, Tour
+   =================================================================== */
+
+/* ---------- गुणस्थान सोपान (Staircase) ---------- */
+.staircase-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 8px 0;
+}
+
+.staircase-title {
+    text-align: center;
+    margin-bottom: 14px;
+    padding: 12px;
+    border-bottom: 2px dashed var(--c-gold);
+}
+
+.staircase-title-text {
+    display: block;
+    font-family: var(--font-hindi);
+    font-size: var(--fs-lg);
+    font-weight: 700;
+    color: var(--c-maroon);
+    letter-spacing: 0.02em;
+}
+
+.staircase-title-sub {
+    display: block;
+    font-family: var(--font-hindi);
+    font-size: var(--fs-sm);
+    color: var(--text-muted);
+    margin-top: 4px;
+}
+
+body.night-mode .staircase-title-text { color: var(--c-gold); }
+
+.staircase-top-label,
+.staircase-bottom-label {
+    text-align: center;
+    font-family: var(--font-hindi);
+    font-size: var(--fs-md);
+    font-weight: 600;
+    color: var(--c-maroon);
+    padding: 8px 0;
+}
+
+body.night-mode .staircase-top-label,
+body.night-mode .staircase-bottom-label { color: var(--c-gold); }
+
+/* Each step */
+.staircase-step {
+    background: var(--bg-card);
+    border: 1px solid var(--border-card);
+    border-radius: 10px;
+    padding: 0;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    position: relative;
+    box-shadow: var(--shadow-card);
+    overflow: hidden;
+    display: flex;
+    align-items: stretch;
+    min-height: var(--tap-target);
+}
+
+.staircase-step:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-elev);
+    border-color: var(--c-gold);
+}
+
+.staircase-step.staircase-step-open {
+    border-color: var(--c-saffron);
+    box-shadow: var(--shadow-elev);
+}
+
+/* Color-coded left bar */
+.staircase-step-bar {
+    width: 6px;
+    flex-shrink: 0;
+    align-self: stretch;
+}
+
+.staircase-step-body {
+    flex: 1;
+    padding: 12px 14px;
+    min-width: 0;
+}
+
+.staircase-step-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.staircase-step-num {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: var(--fs-md);
+    flex-shrink: 0;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+}
+
+.staircase-step-name-block {
+    flex: 1;
+    min-width: 0;
+}
+
+.staircase-step-name {
+    font-family: var(--font-hindi);
+    font-size: var(--fs-md);
+    font-weight: 700;
+    color: var(--text-primary);
+    line-height: 1.3;
+}
+
+.staircase-step-en {
+    font-size: var(--fs-xs);
+    color: var(--text-muted);
+    margin-top: 2px;
+}
+
+.staircase-step-marker {
+    font-size: 22px;
+    flex-shrink: 0;
+}
+
+.staircase-step-note {
+    font-family: var(--font-hindi);
+    font-size: var(--fs-sm);
+    color: var(--text-secondary);
+    margin-top: 6px;
+    padding-left: 50px;
+    line-height: 1.5;
+}
+
+/* Special step variants */
+.staircase-step.is-warning {
+    border-left: 4px solid #DC2626;
+}
+
+.staircase-step.is-warning .staircase-step-marker {
+    animation: warningPulse 2s ease-in-out infinite;
+}
+
+@keyframes warningPulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.15); }
+}
+
+.staircase-step.is-final {
+    border: 2px solid var(--c-gold);
+    background: linear-gradient(135deg, #FFF4E6 0%, #FFE4C7 100%);
+}
+
+body.night-mode .staircase-step.is-final {
+    background: linear-gradient(135deg, #2d2d5e 0%, #353570 100%);
+}
+
+.staircase-step.is-kevali .staircase-step-name {
+    background: linear-gradient(135deg, var(--c-saffron), var(--c-gold));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+/* Expanded detail */
+.staircase-step-detail {
+    margin-top: 14px;
+    padding: 14px 12px 4px;
+    border-top: 1px dashed var(--border-strong);
+    animation: expandStep 0.3s ease;
+}
+
+@keyframes expandStep {
+    from { opacity: 0; transform: translateY(-6px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.staircase-step-desc {
+    font-family: var(--font-hindi);
+    font-size: var(--fs-base);
+    color: var(--text-primary);
+    line-height: 1.7;
+    padding: 10px 12px;
+    background: var(--bg-soft);
+    border-left: 3px solid var(--c-gold);
+    border-radius: 4px;
+    margin-bottom: 12px;
+}
+
+.staircase-step-actions {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.staircase-action-btn {
+    background: var(--bg-card);
+    color: var(--c-maroon);
+    border: 1.5px solid var(--c-saffron);
+    padding: 8px 14px;
+    border-radius: 999px;
+    font-size: var(--fs-sm);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    min-height: var(--tap-target);
+    font-family: var(--font-hindi);
+}
+
+.staircase-action-btn:hover {
+    background: var(--c-saffron);
+    color: white;
+    transform: translateY(-1px);
+}
+
+body.night-mode .staircase-action-btn {
+    color: var(--c-gold);
+    border-color: var(--c-gold);
+}
+
+body.night-mode .staircase-action-btn:hover {
+    background: var(--c-gold);
+    color: var(--c-ink-brown);
+}
+
+/* Fork marker (between G10 and G11) */
+.staircase-fork-marker {
+    background: linear-gradient(135deg, #FFF8EC 0%, #FFE4C7 100%);
+    border: 2px dashed var(--c-saffron);
+    border-radius: 10px;
+    padding: 12px 14px;
+    margin: 8px 0;
+    text-align: center;
+}
+
+body.night-mode .staircase-fork-marker {
+    background: linear-gradient(135deg, #2d2d5e 0%, #353570 100%);
+    border-color: var(--c-gold);
+}
+
+.staircase-fork-text {
+    font-family: var(--font-hindi);
+    font-size: var(--fs-sm);
+    color: var(--text-primary);
+    line-height: 1.7;
+}
+
+/* ---------- मुझे समझाओ matrix mode ---------- */
+.matrix-mode-toggle {
+    display: inline-flex;
+    background: var(--bg-card);
+    border: 2px solid var(--border-card);
+    border-radius: 999px;
+    padding: 3px;
+    gap: 2px;
+    box-shadow: var(--shadow-card);
+}
+
+.matrix-mode-btn {
+    background: transparent;
+    color: var(--text-muted);
+    border: none;
+    padding: 8px 16px;
+    border-radius: 999px;
+    font-size: var(--fs-sm);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-family: var(--font-hindi);
+    min-height: var(--tap-target);
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.matrix-mode-btn.active {
+    background: linear-gradient(135deg, var(--c-saffron), var(--c-maroon));
+    color: white;
+    box-shadow: 0 2px 6px rgba(139, 26, 26, 0.25);
+}
+
+.matrix-mode-btn:not(.active):hover {
+    background: var(--bg-soft);
+    color: var(--text-primary);
+}
+
+/* In समझाओ mode, the matrix tooltip enriches with prose */
+.tooltip-explain-block {
+    margin-top: 14px;
+    padding: 14px 16px;
+    background: var(--bg-soft);
+    border-left: 4px solid var(--c-gold);
+    border-radius: 6px;
+}
+
+.tooltip-explain-title {
+    font-family: var(--font-hindi);
+    font-size: var(--fs-md);
+    font-weight: 700;
+    color: var(--c-maroon);
+    margin-bottom: 8px;
+}
+
+body.night-mode .tooltip-explain-title { color: var(--c-gold); }
+
+.tooltip-explain-prose {
+    font-family: var(--font-hindi);
+    font-size: var(--fs-base);
+    color: var(--text-primary);
+    line-height: 1.75;
+}
+
+.tooltip-explain-prose p { margin-bottom: 8px; }
+.tooltip-explain-prose .yes { color: var(--c-deep-green); font-weight: 600; }
+.tooltip-explain-prose .no { color: var(--c-temple-red); font-weight: 600; }
+
+/* ---------- Audio button ---------- */
+.speak-btn {
+    background: var(--bg-card);
+    color: var(--c-deep-green);
+    border: 1.5px solid var(--c-deep-green);
+    padding: 6px 12px;
+    border-radius: 999px;
+    font-size: var(--fs-sm);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    min-height: 36px;
+    font-family: var(--font-hindi);
+}
+
+.speak-btn:hover {
+    background: var(--c-deep-green);
+    color: white;
+}
+
+.speak-btn.speaking-active {
+    background: var(--c-temple-red);
+    color: white;
+    border-color: var(--c-temple-red);
+    animation: speakPulse 1.5s ease-in-out infinite;
+}
+
+@keyframes speakPulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(198, 40, 40, 0.4); }
+    50% { box-shadow: 0 0 0 8px rgba(198, 40, 40, 0); }
+}
+
+body.night-mode .speak-btn {
+    color: #6BB888;
+    border-color: #6BB888;
+}
+
+/* ---------- Guided Tour ---------- */
+.tour-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(26, 26, 46, 0.85);
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    backdrop-filter: blur(4px);
+    animation: fadeIn 0.3s ease;
+}
+
+.tour-card {
+    background: var(--bg-card);
+    border: 3px solid var(--c-gold);
+    border-radius: 16px;
+    padding: 24px 22px;
+    max-width: 380px;
+    width: 100%;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+    text-align: center;
+    position: relative;
+}
+
+.tour-step-num {
+    position: absolute;
+    top: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: linear-gradient(135deg, var(--c-saffron), var(--c-maroon));
+    color: white;
+    padding: 4px 14px;
+    border-radius: 999px;
+    font-size: var(--fs-xs);
+    font-weight: 700;
+    letter-spacing: 0.05em;
+}
+
+.tour-icon {
+    font-size: 56px;
+    margin: 12px 0 10px;
+    line-height: 1;
+}
+
+.tour-title {
+    font-family: var(--font-hindi);
+    font-size: var(--fs-xl);
+    font-weight: 700;
+    color: var(--c-maroon);
+    margin-bottom: 8px;
+}
+
+body.night-mode .tour-title { color: var(--c-gold); }
+
+.tour-text {
+    font-family: var(--font-hindi);
+    font-size: var(--fs-base);
+    color: var(--text-secondary);
+    line-height: 1.7;
+    margin-bottom: 20px;
+}
+
+.tour-actions {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    margin-top: 14px;
+}
+
+.tour-btn {
+    flex: 1;
+    padding: 12px 16px;
+    border-radius: 999px;
+    font-size: var(--fs-sm);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: none;
+    font-family: var(--font-hindi);
+    min-height: var(--tap-target);
+}
+
+.tour-btn-primary {
+    background: linear-gradient(135deg, var(--c-saffron), var(--c-maroon));
+    color: white;
+    box-shadow: 0 2px 6px rgba(139, 26, 26, 0.25);
+}
+
+.tour-btn-primary:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 10px rgba(139, 26, 26, 0.35);
+}
+
+.tour-btn-skip {
+    background: transparent;
+    color: var(--text-muted);
+    border: 1.5px solid var(--border-card);
+}
+
+.tour-btn-skip:hover {
+    background: var(--bg-soft);
+    color: var(--text-primary);
+}
+
+.tour-dots {
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+    margin-top: 16px;
+}
+
+.tour-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--border-card);
+    transition: all 0.2s ease;
+}
+
+.tour-dot.active {
+    background: var(--c-saffron);
+    width: 22px;
+    border-radius: 999px;
+}
